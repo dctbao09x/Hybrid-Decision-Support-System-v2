@@ -1,0 +1,60 @@
+{
+  "hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "rows": 215,
+  "columns": 5,
+  "schema": {
+    "math_score": "float64",
+    "physics_score": "float64",
+    "interest_it": "float64",
+    "logic_score": "float64",
+    "target_career": "str"
+  },
+  "null_ratio": {
+    "math_score": 0.0,
+    "physics_score": 0.0,
+    "interest_it": 0.0,
+    "logic_score": 0.0,
+    "target_career": 0.0
+  },
+  "feature_stats": {
+    "math_score": {
+      "min": 40.2,
+      "max": 100.0,
+      "mean": 76.268837,
+      "std": 14.193588,
+      "median": 78.7
+    },
+    "physics_score": {
+      "min": 14.9,
+      "max": 100.0,
+      "mean": 65.194884,
+      "std": 21.861363,
+      "median": 65.8
+    },
+    "interest_it": {
+      "min": 4.8,
+      "max": 100.0,
+      "mean": 54.232093,
+      "std": 31.675142,
+      "median": 43.7
+    },
+    "logic_score": {
+      "min": 38.5,
+      "max": 100.0,
+      "mean": 71.363256,
+      "std": 14.629882,
+      "median": 70.6
+    }
+  },
+  "label_distribution": {
+    "Software Engineer": 45,
+    "Data Analyst": 35,
+    "Accountant": 30,
+    "Mechanical Engineer": 30,
+    "Civil Engineer": 25,
+    "Cybersecurity Analyst": 25,
+    "Business Administration": 25
+  },
+  "created_at": "2026-02-28T03:36:28.459697+00:00",
+  "source_path": "F:\\Hybrid Decision Support System\\data\\training.csv"
+}

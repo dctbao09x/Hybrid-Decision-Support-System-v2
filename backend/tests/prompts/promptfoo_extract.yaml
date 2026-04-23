@@ -1,0 +1,23 @@
+description: "Prompt eval - extraction"
+providers:
+  - id: "ollama:chat:llama3.2:1b"
+    config:
+      temperature: 0.1
+      format: json
+prompts:
+  - "file://templates/extract_v1.prompt.txt"
+tests:
+  - description: "IT interest"
+    vars:
+      user_input: "I like programming and math."
+    assert:
+      - type: "is-json"
+      - type: "javascript"
+        value: "JSON.parse(output).inferred_interests.includes('INFORMATION_TECHNOLOGY')"
+  - description: "Ambiguous input"
+    vars:
+      user_input: "Not sure what to do."
+    assert:
+      - type: "is-json"
+      - type: "javascript"
+        value: "JSON.parse(output).missing_info_flags.length > 0"

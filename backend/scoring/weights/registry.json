@@ -1,0 +1,40 @@
+{
+  "$schema": "weight-registry/v1",
+  "description": "SIMGR Weight Version Registry - Single source of truth",
+  "governance_phase": "GD1-PHAN_D",
+  "created_at": "2026-02-17T10:30:00Z",
+  
+  "active": "v1",
+  
+  "versions": {
+    "v1": {
+      "path": "models/weights/active/weights.json",
+      "checksum": "5d096c920ce5ed5978dd2c91203caaf05c3527a536e7a44c634bdb4a85aba6a3",
+      "trained_at": "2026-02-16T12:00:00Z",
+      "dataset_hash": "baseline-50-synthetic",
+      "model_type": "SIMGR-v1",
+      "status": "active",
+      "notes": "Baseline weights from GD0 freeze"
+    }
+  },
+  
+  "allowed_versions": ["v1"],
+  
+  "rules": {
+    "require_checksum": true,
+    "require_trained_at": true,
+    "require_dataset_hash": true,
+    "allow_fallback": false,
+    "allow_env_override": []
+  },
+  
+  "audit_log": [
+    {
+      "timestamp": "2026-02-17T10:30:00Z",
+      "action": "REGISTRY_CREATED",
+      "version": "v1",
+      "operator": "GD1-governance-audit",
+      "details": "Initial registry creation for weight governance"
+    }
+  ]
+}

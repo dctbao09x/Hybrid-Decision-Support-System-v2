@@ -1,0 +1,99 @@
+{
+  "contract_name": "one_button_consumer_contract_v1",
+  "consumer": "ui-vite/src/services/decisionApi.ts",
+  "provider": "backend/api/routers/one_button_router.py",
+  "canonical_endpoint": "/api/v1/one-button/run",
+  "health_endpoint": "/api/v1/one-button/health",
+  "contract_version": "2026-04-02.v1",
+  "request_schema_version": "one_button.request.v1",
+  "response_schema_version": "one_button.response.v1",
+  "required_stage_manifest": [
+    "taxonomy_normalize",
+    "taxonomy_validate",
+    "rule_engine",
+    "ml_predict",
+    "scoring",
+    "explain",
+    "diagnostics",
+    "stage_trace"
+  ],
+  "required_response_fields": [
+    "trace_id",
+    "timestamp",
+    "status",
+    "contract_version",
+    "response_schema_version",
+    "request_endpoint",
+    "canonical_endpoint",
+    "stage_manifest",
+    "stages",
+    "stage_trace",
+    "diagnostics",
+    "entrypoint",
+    "entrypoint_enforced",
+    "meta"
+  ],
+  "startup_parity_required_routes": [
+    "/api/v1/one-button/run",
+    "/api/v1/one-button/health",
+    "/api/v1/health/live"
+  ],
+  "error_semantics": {
+    "contract_version_mismatch": {
+      "status_code": 400,
+      "error": "ONE_BUTTON_CONTRACT_VERSION_MISMATCH",
+      "retryable": false
+    },
+    "taxonomy_validation_failed": {
+      "status_code": 400,
+      "error": "TAXONOMY_VALIDATION_FAILED",
+      "retryable": false
+    },
+    "pipeline_error": {
+      "status_code": 500,
+      "error": "ONE_BUTTON_PIPELINE_ERROR",
+      "retryable": true
+    }
+  },
+  "frontend_request_sample": {
+    "contract_version": "2026-04-02.v1",
+    "request_schema_version": "one_button.request.v1",
+    "user_id": "consumer_test_user",
+    "scoring_input": {
+      "personal_profile": {
+        "ability_score": 0.72,
+        "confidence_score": 0.68,
+        "interests": [
+          "technology",
+          "science"
+        ]
+      },
+      "experience": {
+        "years": 3,
+        "domains": [
+          "software engineering"
+        ]
+      },
+      "goals": {
+        "career_aspirations": [
+          "software engineer"
+        ],
+        "timeline_years": 4
+      },
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "education": {
+        "level": "Bachelor",
+        "field_of_study": "Computer Science"
+      },
+      "preferences": {
+        "preferred_domains": [
+          "technology"
+        ],
+        "work_style": "hybrid"
+      }
+    }
+  }
+}

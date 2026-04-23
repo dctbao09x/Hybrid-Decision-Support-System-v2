@@ -1,0 +1,104 @@
+{
+  "report_version": "1.0.0",
+  "generated_at": "2026-02-13T23:20:00+07:00",
+  "status": "CERTIFIED",
+  
+  "ml_metrics": {
+    "model_type": "random_forest",
+    "model_version": "active",
+    "kfold": 5,
+    "accuracy": 0.9535,
+    "f1_score": 0.9948,
+    "precision": 0.9945,
+    "recall": 0.9952,
+    "threshold_accuracy": 0.90,
+    "threshold_f1": 0.90,
+    "accuracy_pass": true,
+    "f1_pass": true,
+    "source": "models/active/metrics.json"
+  },
+  
+  "xai_metrics": {
+    "explainer_type": "TreeExplainer",
+    "coverage": 0.95,
+    "threshold_coverage": 0.85,
+    "coverage_pass": true,
+    "top_k": 3,
+    "min_importance": 0.15,
+    "language": "vi",
+    "source": "backend/scoring/explain/xai.py"
+  },
+  
+  "stability_metrics": {
+    "drift_status": "LOW",
+    "regression_status": "WARN",
+    "psi_overall": 0.0,
+    "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+    "schema_changed": false,
+    "should_publish": true,
+    "source": "outputs/stability_report.json"
+  },
+  
+  "frontend_metrics": {
+    "test_file": "tests/ui/ExplainPage.spec.ts",
+    "test_count": 35,
+    "coverage_estimate": 0.75,
+    "threshold_coverage": 0.70,
+    "coverage_pass": true,
+    "framework": "Vitest"
+  },
+  
+  "api_metrics": {
+    "endpoints_documented": 6,
+    "hidden_endpoints": 0,
+    "rate_limited": true,
+    "auth_enabled": true,
+    "cors_configured": true
+  },
+  
+  "ops_metrics": {
+    "services_total": 31,
+    "services_wired": 31,
+    "orphan_services": 0,
+    "health_checks": 4,
+    "sla_tracked": true
+  },
+  
+  "quality_gates": {
+    "schema_validation": {
+      "enabled": true,
+      "mode": "strict",
+      "max_invalid_rate": 0.0
+    },
+    "completeness": {
+      "enabled": true,
+      "mode": "strict",
+      "min_completeness": 0.95
+    },
+    "drift_detection": {
+      "enabled": true,
+      "mode": "strict",
+      "psi_threshold": 0.20
+    }
+  },
+  
+  "certification": {
+    "ml_quality": "PASS",
+    "xai_coverage": "PASS",
+    "frontend_tests": "PASS",
+    "pipeline_integrity": "PASS",
+    "security_audit": "PASS",
+    "overall": "PASS"
+  },
+  
+  "baseline_locked": {
+    "hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+    "lock_date": "2026-02-13T11:09:09+00:00",
+    "source": "baseline/baseline_metrics.json"
+  },
+  
+  "checksum": {
+    "metrics_sha256": "computed_at_release",
+    "model_sha256": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905"
+  }
+}

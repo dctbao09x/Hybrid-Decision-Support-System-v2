@@ -1,0 +1,239 @@
+{
+  "timestamp": "2026-02-16T18:55:17.201584",
+  "git": {
+    "commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+    "branch": "master",
+    "tag": "scoring_baseline_fail",
+    "dirty_count": 325,
+    "raw": "================================================================================\nBASELINE GIT STATE - SCORING_BASELINE_FAIL\n================================================================================\nCaptured: 2026-02-16\n\nCOMMIT INFORMATION\n------------------\nCommit Hash: 156b70eeb9a116a1d7efe7edb23cecf31abf4bcd\nBranch: master\nTag: scoring_baseline_fail\n\nDIRTY STATUS\n------------\nDirty: YES\nDirty Files Count: 325\n\nVERIFICATION COMMAND\n--------------------\ngit show scoring_baseline_fail --on"
+  },
+  "weights": {
+    "version": "v1",
+    "created_at": "2026-02-16T12:00:00Z",
+    "weights": {
+      "study_score": 0.25,
+      "interest_score": 0.25,
+      "market_score": 0.25,
+      "growth_score": 0.15,
+      "risk_score": 0.1
+    },
+    "metrics": {
+      "train_loss": 0.0,
+      "correlation": 1.0,
+      "n_samples": 50,
+      "method": "default",
+      "note": "Active weights - symlinked to latest version"
+    },
+    "config": {
+      "method": "default",
+      "regularization": 0.01,
+      "random_seed": 42
+    }
+  },
+  "config": {
+    "active_weights": {
+      "version": "v1",
+      "created_at": "2026-02-16T12:00:00Z",
+      "weights": {
+        "study_score": 0.25,
+        "interest_score": 0.25,
+        "market_score": 0.25,
+        "growth_score": 0.15,
+        "risk_score": 0.1
+      },
+      "metrics": {
+        "train_loss": 0.0,
+        "correlation": 1.0,
+        "n_samples": 50,
+        "method": "default",
+        "note": "Active weights - symlinked to latest version"
+      },
+      "config": {
+        "method": "default",
+        "regularization": 0.01,
+        "random_seed": 42
+      }
+    },
+    "scoring_yaml": {
+      "version": "1.0",
+      "simgr_weights": {
+        "study_score": 0.25,
+        "interest_score": 0.25,
+        "market_score": 0.25,
+        "growth_score": 0.15,
+        "risk_score": 0.1
+      },
+      "study_factors": {
+        "ability_weight": 0.4,
+        "background_weight": 0.3,
+        "confidence_weight": 0.3,
+        "required_skill_match": 0.7,
+        "preferred_skill_match": 0.3
+      },
+      "interest_factors": {
+        "nlp_weight": 0.4,
+        "survey_weight": 0.3,
+        "stability_weight": 0.3
+      },
+      "market_factors": {
+        "ai_relevance_weight": 0.3,
+        "growth_rate_weight": 0.3,
+        "salary_weight": 0.2,
+        "inverse_competition_weight": 0.2
+      },
+      "growth_factors": {
+        "lifecycle_weight": 0.4,
+        "demand_weight": 0.3,
+        "salary_growth_weight": 0.3
+      },
+      "risk_factors": {
+        "saturation_weight": 0.25,
+        "obsolescence_weight": 0.2,
+        "competition_weight": 0.15,
+        "dropout_weight": 0.15,
+        "unemployment_weight": 0.15,
+        "cost_weight": 0.1
+      },
+      "thresholds": {
+        "min_score": 0.0,
+        "max_score": 1.0,
+        "relevance_threshold": 0.3
+      },
+      "data_freshness": {
+        "max_age_days": 90,
+        "auto_refresh": true,
+        "refresh_interval_hours": 24
+      },
+      "features": {
+        "debug_mode": false,
+        "personalization": true,
+        "deterministic": true,
+        "cache_enabled": true,
+        "drift_detection": true
+      },
+      "validation": {
+        "weight_sum_tolerance": 0.001,
+        "score_precision": 4
+      }
+    },
+    "env_variables": {},
+    "overrides": "NOT FOUND (no overrides)",
+    "runtime_resolved": {
+      "version": "1.0",
+      "simgr_weights": {
+        "study_score": 0.25,
+        "interest_score": 0.25,
+        "market_score": 0.25,
+        "growth_score": 0.15,
+        "risk_score": 0.1
+      },
+      "study_factors": {
+        "ability_weight": 0.4,
+        "background_weight": 0.3,
+        "confidence_weight": 0.3,
+        "required_skill_match": 0.7,
+        "preferred_skill_match": 0.3
+      },
+      "interest_factors": {
+        "nlp_weight": 0.4,
+        "survey_weight": 0.3,
+        "stability_weight": 0.3
+      },
+      "market_factors": {
+        "ai_relevance_weight": 0.3,
+        "growth_rate_weight": 0.3,
+        "salary_weight": 0.2,
+        "inverse_competition_weight": 0.2
+      },
+      "growth_factors": {
+        "lifecycle_weight": 0.4,
+        "demand_weight": 0.3,
+        "salary_growth_weight": 0.3
+      },
+      "risk_factors": {
+        "saturation_weight": 0.25,
+        "obsolescence_weight": 0.2,
+        "competition_weight": 0.15,
+        "dropout_weight": 0.15,
+        "unemployment_weight": 0.15,
+        "cost_weight": 0.1
+      },
+      "thresholds": {
+        "min_score": 0.0,
+        "max_score": 1.0,
+        "relevance_threshold": 0.3
+      },
+      "data_freshness": {
+        "max_age_days": 90,
+        "auto_refresh": true,
+        "refresh_interval_hours": 24
+      },
+      "features": {
+        "debug_mode": false,
+        "personalization": true,
+        "deterministic": true,
+        "cache_enabled": true,
+        "drift_detection": true
+      },
+      "source": "config\\scoring.yaml"
+    }
+  },
+  "runtime": {
+    "total_lines": 75,
+    "scoring_results": [
+      "2026-02-16 18:46:29,743 | INFO | backend.scoring.engine | Ranking complete | req=a7d3afd3-7743-4d4e-bb50-946b78e87434 | returned=5"
+    ],
+    "errors": [
+      "2026-02-16 18:46:29,697 | ERROR | root | Failed to init scorer: No module named 'backend.scoring.scorer'",
+      "2026-02-16 18:46:29,715 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,715 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,715 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,716 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,717 | ERROR | backend.risk.data_loader | Failed to load cost dataset: could not convert string to float: 'variable'",
+      "2026-02-16 18:46:29,719 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,719 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,720 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,720 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,721 | ERROR | backend.risk.data_loader | Failed to load cost dataset: could not convert string to float: 'variable'",
+      "2026-02-16 18:46:29,722 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,723 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,723 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,723 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,724 | ERROR | backend.risk.data_loader | Failed to load cost dataset: could not convert string to float: 'variable'",
+      "2026-02-16 18:46:29,727 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,727 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,728 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,728 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,729 | ERROR | backend.risk.data_loader | Failed to load cost dataset: could not convert string to float: 'variable'",
+      "2026-02-16 18:46:29,729 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,730 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,731 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,736 | ERROR | backend.risk.data_loader | Unemployment dataset not found: data/risk/unemployment/rates.csv",
+      "2026-02-16 18:46:29,740 | ERROR | backend.risk.data_loader | Failed to load cost dataset: could not convert string to float: 'variable'"
+    ],
+    "summary": "2026-02-16 18:46:29,195 | INFO | root | ================================================================================\n2026-02-16 18:46:29,196 | INFO | root | BASELINE RUNTIME LOG CAPTURE\n2026-02-16 18:46:29,196 | INFO | root | Timestamp: 2026-02-16T18:46:29.196144\n2026-02-16 18:46:29,196 | INFO | root | ================================================================================\n2026-02-16 18:46:29,196 | INFO | root | PHASE 1: Loading scoring modules...\n2026-02-16 18:46:29,468 | INFO | backend.scoring.config | Loaded weights from models/weights/active/weights.json (version: v1)\n2026-02-16 18:46:29,685 | INFO | root | Loaded SIMGRWeights from backend.scoring.config\n2026-02-16 18:46:29,690 | INFO | root | Loaded ScoringConfigLoader\n2026-02-16 18:46:29,696 | INFO | backend.scoring.config_loader | Loaded scoring config from config\\scoring.yaml\n2026-02-16 18:46:29,696 | INFO | root | Config loaded from: config\\scoring.yaml\n2026-02-16 18:46:29,696 | INFO | root | SIMGR Weights: S=0.25, I=0.25, M=0.25, G=0.15, R=0.1\n2026-02-16 18:46:29,696 | INFO | root | PHASE 2: Loading weights...\n2026-02-16 18:46:29,697 | INFO | backend.scoring.config | Loaded weights from models/weights/active/weights.json (version: v1)\n2026-02-16 18:46:29,697 | INFO | root | Weights loaded: source=file:models/weights/active/weights.json, version=v1\n2026-02-16 18:46:29,697 | INFO | root | PHASE 3: Loading scorer...\n2026-02-16 18:46:29,697 | ERROR | root | Failed to init scorer: No module named 'backend.scoring.scorer'\n2026-02-16 18:46:29,697 | INFO | root | PHASE 4: Loading ranking engine...\n2026-02-16 18:46:29,697 | INFO | root | RankingEngine initialized\n2026-02-16 18:46:29,697 | INFO | root | PHASE 5: Running test scoring...\n2026-02-16 18:46:29,698 | INFO | root | Test input: {\"user_id\": \"baseline_test_001\", \"skills\": [\"Python\", \"Machine Learning\", \"Data Science\"], \"interests\": [\"AI\", \"Software Development\"], \"experience_years\": 3, \"education_level\": \"Bachelor\"}\n2026-02-16 18:46:29,702 | INFO"
+  },
+  "coverage": {
+    "total_percent": 40.31,
+    "passed": 99,
+    "failed": 3,
+    "failed_tests": [
+      "test_rank_careers_baseline_compatibility",
+      "test_score_direct_components_valid",
+      "test_score_direct_components_custom_config"
+    ],
+    "raw_summary": "i\u0000n\u0000g\u0000\\\u0000s\u0000t\u0000r\u0000a\u0000t\u0000e\u0000g\u0000i\u0000e\u0000s\u0000.\u0000p\u0000y\u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u00001\u00000\u00004\u0000 \u0000 \u0000 \u0000 \u0000 \u00002\u00002\u0000 \u0000 \u00007\u00008\u0000.\u00008\u0000%\u0000 \u0000 \u0000 \u00004\u00008\u0000,\u0000 \u00009\u00007\u0000-\u00001\u00000\u00001\u0000,\u0000 \u00001\u00002\u00003\u0000-\u00001\u00003\u00002\u0000,\u0000 \u00001\u00004\u00009\u0000-\u00001\u00005\u00000\u0000,\u0000 \u00002\u00005\u00009\u0000-\u00002\u00006\u00001\u0000,\u0000 \u00002\u00006\u00005\u0000-\u00002\u00006\u00007\u0000,\u0000 \u00003\u00003\u00007\u0000-\u00003\u00004\u00001\u0000,\u0000 \u00003\u00006\u00004\u0000-\u00003\u00006\u00005\u0000,\u0000 \u00003\u00007\u00008\u0000\n\u0000\n\u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000\\\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000\\\u0000t\u0000a\u0000x\u0000o\u0000n\u0000o\u0000m\u0000y\u0000_\u0000a\u0000d\u0000a\u0000p\u0000t\u0000e\u0000r\u0000.\u0000p\u0000y\u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u00003\u00005\u0000 \u0000 \u0000 \u0000 \u0000 \u00002\u00000\u0000 \u0000 \u00004\u00002\u0000.\u00009\u0000%\u0000 \u0000 \u0000 \u00001\u00003\u0000-\u00006\u00000\u0000\n\u0000\n\u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000\\\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000\\\u0000v\u0000e\u0000r\u0000s\u0000i\u0000o\u0000n\u0000_\u0000m\u0000a\u0000n\u0000a\u0000g\u0000e\u0000r\u0000.\u0000p\u0000y\u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u00001\u00002\u00002\u0000 \u0000 \u0000 \u0000 \u00001\u00002\u00002\u0000 \u0000 \u0000 \u00000\u0000.\u00000\u0000%\u0000 \u0000 \u0000 \u00001\u00003\u0000-\u00002\u00003\u00001\u0000\n\u0000\n\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000\n\u0000\n\u0000T\u0000O\u0000T\u0000A\u0000L\u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u0000 \u00002\u00007\u00006\u00001\u0000 \u0000 \u0000 \u00001\u00006\u00004\u00008\u0000 \u0000 \u00004\u00000\u0000.\u00003\u0000%\u0000\n\u0000\n\u0000F\u0000A\u0000I\u0000L\u0000 \u0000R\u0000e\u0000q\u0000u\u0000i\u0000r\u0000e\u0000d\u0000 \u0000t\u0000e\u0000s\u0000t\u0000 \u0000c\u0000o\u0000v\u0000e\u0000r\u0000a\u0000g\u0000e\u0000 \u0000o\u0000f\u0000 \u00008\u00000\u0000.\u00000\u0000%\u0000 \u0000n\u0000o\u0000t\u0000 \u0000r\u0000e\u0000a\u0000c\u0000h\u0000e\u0000d\u0000.\u0000 \u0000T\u0000o\u0000t\u0000a\u0000l\u0000 \u0000c\u0000o\u0000v\u0000e\u0000r\u0000a\u0000g\u0000e\u0000:\u0000 \u00004\u00000\u0000.\u00003\u00001\u0000%\u0000\n\u0000\n\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000 \u0000s\u0000h\u0000o\u0000r\u0000t\u0000 \u0000t\u0000e\u0000s\u0000t\u0000 \u0000s\u0000u\u0000m\u0000m\u0000a\u0000r\u0000y\u0000 \u0000i\u0000n\u0000f\u0000o\u0000 \u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000\n\u0000\n\u0000F\u0000A\u0000I\u0000L\u0000E\u0000D\u0000 \u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000/\u0000t\u0000e\u0000s\u0000t\u0000s\u0000/\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000/\u0000t\u0000e\u0000s\u0000t\u0000_\u0000i\u0000n\u0000t\u0000e\u0000g\u0000r\u0000a\u0000t\u0000i\u0000o\u0000n\u0000.\u0000p\u0000y\u0000:\u0000:\u0000T\u0000e\u0000s\u0000t\u0000B\u0000a\u0000s\u0000e\u0000l\u0000i\u0000n\u0000e\u0000V\u0000a\u0000l\u0000i\u0000d\u0000a\u0000t\u0000i\u0000o\u0000n\u0000:\u0000:\u0000t\u0000e\u0000s\u0000t\u0000_\u0000r\u0000a\u0000n\u0000k\u0000_\u0000c\u0000a\u0000r\u0000e\u0000e\u0000r\u0000s\u0000_\u0000b\u0000a\u0000s\u0000e\u0000l\u0000i\u0000n\u0000e\u0000_\u0000c\u0000o\u0000m\u0000p\u0000a\u0000t\u0000i\u0000b\u0000i\u0000l\u0000i\u0000t\u0000y\u0000\n\u0000\n\u0000F\u0000A\u0000I\u0000L\u0000E\u0000D\u0000 \u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000/\u0000t\u0000e\u0000s\u0000t\u0000s\u0000/\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000/\u0000t\u0000e\u0000s\u0000t\u0000_\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000_\u0000u\u0000n\u0000i\u0000t\u0000.\u0000p\u0000y\u0000:\u0000:\u0000T\u0000e\u0000s\u0000t\u0000S\u0000I\u0000M\u0000G\u0000R\u0000S\u0000c\u0000o\u0000r\u0000e\u0000r\u0000:\u0000:\u0000t\u0000e\u0000s\u0000t\u0000_\u0000s\u0000c\u0000o\u0000r\u0000e\u0000_\u0000d\u0000i\u0000r\u0000e\u0000c\u0000t\u0000_\u0000c\u0000o\u0000m\u0000p\u0000o\u0000n\u0000e\u0000n\u0000t\u0000s\u0000_\u0000v\u0000a\u0000l\u0000i\u0000d\u0000\n\u0000\n\u0000F\u0000A\u0000I\u0000L\u0000E\u0000D\u0000 \u0000b\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000/\u0000t\u0000e\u0000s\u0000t\u0000s\u0000/\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000/\u0000t\u0000e\u0000s\u0000t\u0000_\u0000s\u0000c\u0000o\u0000r\u0000i\u0000n\u0000g\u0000_\u0000u\u0000n\u0000i\u0000t\u0000.\u0000p\u0000y\u0000:\u0000:\u0000T\u0000e\u0000s\u0000t\u0000S\u0000I\u0000M\u0000G\u0000R\u0000S\u0000c\u0000o\u0000r\u0000e\u0000r\u0000:\u0000:\u0000t\u0000e\u0000s\u0000t\u0000_\u0000s\u0000c\u0000o\u0000r\u0000e\u0000_\u0000d\u0000i\u0000r\u0000e\u0000c\u0000t\u0000_\u0000c\u0000o\u0000m\u0000p\u0000o\u0000n\u0000e\u0000n\u0000t\u0000s\u0000_\u0000c\u0000u\u0000s\u0000t\u0000o\u0000m\u0000_\u0000c\u0000o\u0000n\u0000f\u0000i\u0000g\u0000\n\u0000\n\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000 \u00003\u0000 \u0000f\u0000a\u0000i\u0000l\u0000e\u0000d\u0000,\u0000 \u00009\u00009\u0000 \u0000p\u0000a\u0000s\u0000s\u0000e\u0000d\u0000 \u0000i\u0000n\u0000 \u00002\u0000.\u00001\u00003\u0000s\u0000 \u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000=\u0000\n\u0000\n\u0000"
+  },
+  "environment": {
+    "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "win32",
+    "cwd": "F:\\Hybrid Decision Support System"
+  },
+  "hashes": {
+    "git_state": "2e8deb52a55ddfe8b0bd3b522716d7c660a2532f16c4a58c60dbe94012774158",
+    "weights": "b3a510f1e76e22b7d1a12e67b4e2b099e862b4e46d01a263aadeb3b6c44799ba",
+    "config": "19446c3ff95cf55a3f69228edecb8fc0ef43e87279673abb86f7b0a1134d5ced",
+    "runtime": "15937a0ad920c9373768d1234518f0622c2d5db6ed212d929ac06d95d115aff9",
+    "coverage": "77984debf1f27b008d50783018c0a90a5cee71e8333d1bd6af06887a373ff4a1"
+  }
+}

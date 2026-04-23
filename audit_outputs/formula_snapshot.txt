@@ -1,0 +1,7 @@
+FORMULA SNAPSHOT
+================
+Timestamp: 2026-02-17T10:46:40.255503+00:00
+Version: v1.0
+Spec: Score = wS*S + wI*I + wM*M + wG*G - wR*R
+Components: study, interest, market, growth, risk
+Signs: study=+1, interest=+1, market=+1, growth=+1, risk=-1

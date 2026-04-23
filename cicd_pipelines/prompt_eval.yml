@@ -1,0 +1,73 @@
+name: Prompt Evaluation Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "backend/tests/prompts/**"
+      - "backend/models/llm_schemas.py"
+      - "backend/services/llm_extractor.py"
+
+jobs:
+  prompt-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pydantic
+
+      - name: Run Evaluations (local Ollama)
+        env:
+          OLLAMA_HOST: ${{ secrets.OLLAMA_HOST }}
+          PROMPT_EVAL_MODEL: ${{ secrets.PROMPT_EVAL_MODEL }}
+          PROMPT_EVAL_COST_PER_1K_TOKENS_USD: ${{ secrets.PROMPT_EVAL_COST_PER_1K_TOKENS_USD }}
+        run: |
+          if [ -z "$OLLAMA_HOST" ]; then
+            echo "OLLAMA_HOST not set; failing prompt eval gate.";
+            exit 1;
+          fi
+          python backend/tests/prompts/evaluators/eval_extraction.py \
+            --dataset backend/tests/prompts/datasets/extraction_gold.jsonl \
+            --template backend/tests/prompts/templates/extract_v1.prompt.txt \
+            --edge backend/tests/prompts/datasets/edge_cases.jsonl \
+            --consistency-runs 3 \
+            --out backend/tests/prompts/reports/extraction_report.json
+          python backend/tests/prompts/evaluators/eval_explanation.py \
+            --dataset backend/tests/prompts/datasets/explanation_gold.jsonl \
+            --template backend/tests/prompts/templates/explain_v1.prompt.txt \
+            --consistency-runs 3 \
+            --out backend/tests/prompts/reports/explanation_report.json
+          python backend/tests/prompts/evaluators/eval_fallback.py \
+            --dataset backend/tests/prompts/datasets/fallback_gold.jsonl \
+            --template backend/tests/prompts/templates/fallback_v1.prompt.txt \
+            --edge backend/tests/prompts/datasets/edge_cases.jsonl \
+            --consistency-runs 3 \
+            --out backend/tests/prompts/reports/fallback_report.json
+          python backend/tests/prompts/evaluators/eval_injection.py \
+            --dataset backend/tests/prompts/datasets/injection_redteam.jsonl \
+            --template backend/tests/prompts/templates/extract_v1.prompt.txt \
+            --out backend/tests/prompts/reports/injection_report.json
+          python backend/tests/prompts/evaluators/gate.py \
+            --thresholds backend/tests/prompts/thresholds.json \
+            --extraction backend/tests/prompts/reports/extraction_report.json \
+            --explanation backend/tests/prompts/reports/explanation_report.json \
+            --fallback backend/tests/prompts/reports/fallback_report.json \
+            --injection backend/tests/prompts/reports/injection_report.json \
+            --baseline-dir backend/tests/prompts/baselines
+
+      - name: Upload prompt eval reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-eval-reports
+          path: backend/tests/prompts/reports/*.json

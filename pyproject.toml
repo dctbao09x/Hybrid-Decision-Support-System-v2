@@ -1,0 +1,72 @@
+[tool.pytest.ini_options]
+required_plugins = ["pytest-asyncio"]
+asyncio_mode = "auto"
+testpaths = ["backend/tests", "backend/ops/tests", "tests"]
+markers = [
+    "e2e: end-to-end tests (slow, may need network)",
+    "integration: integration tests",
+    "regression: regression tests for scoring and explanation",
+    "asyncio: mark test as async",
+]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["backend"]
+omit = [
+    "backend/tests/*",
+    "backend/ops/tests/*",
+    "backend/__pycache__/*",
+    "backend/scripts/*",
+    "backend/data/*",
+    "backend/output/*",
+    # Legacy / deprecated
+    "backend/api_legacy.py",
+    "backend/taxonomy.py",
+    "backend/test_analyze.py",
+    # CLI entry points
+    "backend/ops/scripts/__main__.py",
+    # Browser-dependent (need Playwright runtime)
+    "backend/crawlers/playwright_crawler.py",
+    "backend/crawlers/topcv_playwright.py",
+    "backend/crawlers/vietnamworks_playwright.py",
+    "backend/crawlers/base_crawler.py",
+    "backend/crawlers/crawler_service.py",
+    "backend/crawler_manager.py",
+    "backend/ops/resource/browser_monitor.py",
+    # Database-dependent (need live DB connection)
+    "backend/kb/database.py",
+    "backend/kb/repository.py",
+    "backend/kb/service.py",
+    # External ML service
+    "backend/embedding_engine.py",
+    # Integration-heavy controllers
+    "backend/main_controller.py",
+    "backend/data_pipeline/pipeline_manager.py",
+    "backend/ops/quality/quality_gate.py",
+    "backend/ops/orchestration/rollback.py",
+    "backend/ops/resource/leak_detector.py",
+]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+precision = 1
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.",
+    "raise NotImplementedError",
+    "pass",
+    "\\.\\.\\.",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"

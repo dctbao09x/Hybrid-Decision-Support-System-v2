@@ -1,0 +1,21 @@
+/* src/pages/Admin/MLOps/MLOpsAdmin.css */
+.mlops-admin { padding: 24px; max-width: 1400px; margin: 0 auto; background: #05060f; min-height: 100%; }
+.mlops-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.mlops-header h1 { margin: 0; font-size: 24px; color: #ede8df; }
+.mlops-header p { margin: 4px 0 0; color: #6a6a7e; }
+.mlops-error { margin-bottom: 12px; padding: 10px; border: 1px solid rgba(200,60,60,0.2); background: rgba(200,60,60,0.08); color: #fca5a5; border-radius: 8px; }
+.mlops-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.panel { background: rgba(255,255,255,0.025); border: 1px solid rgba(200,165,90,0.12); border-radius: 10px; padding: 16px; margin-bottom: 16px; color: #ede8df; backdrop-filter: blur(4px); }
+.panel h3 { margin-top: 0; color: #c8a55a; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
+.kv { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(200,165,90,0.08); color: #a0a0b4; font-size: 0.875rem; }
+label { display: block; margin-top: 10px; margin-bottom: 4px; color: #6a6a7e; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+select { display: block; width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(200,165,90,0.15); background: rgba(255,255,255,0.04); color: #ede8df; font-family: inherit; outline: none; appearance: auto; }
+.actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+button.mlops-btn { cursor: pointer; padding: 8px 16px; border-radius: 9999px; border: 1px solid rgba(200,165,90,0.3); background: rgba(200,165,90,0.08); color: #c8a55a; font-family: inherit; font-size: 0.85rem; transition: background 0.2s, border-color 0.2s; }
+button.mlops-btn:hover { background: rgba(200,165,90,0.16); border-color: rgba(200,165,90,0.5); }
+button.danger { border-color: rgba(200,60,60,0.3); color: #fca5a5; background: rgba(200,60,60,0.08); }
+button.danger:hover { background: rgba(200,60,60,0.15); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; border-bottom: 1px solid rgba(200,165,90,0.08); padding: 8px; font-size: 13px; color: #ede8df; }
+th { color: #c8a55a; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; }
+@media (max-width: 900px) { .mlops-grid { grid-template-columns: 1fr; } }

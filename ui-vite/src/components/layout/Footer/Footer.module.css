@@ -1,0 +1,68 @@
+/* src/components/layout/Footer/Footer.module.css */
+.footer {
+  background: rgba(5, 6, 15, 0.9);
+  border-top: 1px solid rgba(200, 165, 90, 0.1);
+  margin-top: var(--spacing-3xl);
+  padding: var(--spacing-3xl) 0 var(--spacing-xl);
+  backdrop-filter: blur(8px);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+}
+
+.description {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.links a {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.links a:hover {
+  color: var(--primary);
+}
+
+.bottom {
+  text-align: center;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--border);
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,17 @@
+description: "Prompt eval - explanation"
+providers:
+  - id: "ollama:chat:llama3.2:1b"
+    config:
+      temperature: 0.2
+prompts:
+  - "file://templates/explain_v1.prompt.txt"
+tests:
+  - description: "Explain with required anchors"
+    vars:
+      user_input: "I like programming and math."
+      top_career: "SOFTWARE_ENGINEER"
+      skills: "programming, math"
+      score_breakdown: "{\"rule_score\":70,\"market_multiplier\":1.1}"
+    assert:
+      - type: "javascript"
+        value: "output.includes('SOFTWARE_ENGINEER')"

@@ -1,0 +1,4 @@
+{
+  "must_include_rate": 0.95,
+  "hallucination_rate": 0.02
+}

@@ -1,0 +1,400 @@
+# ci/audit_gate.yaml
+# ─────────────────────────────────────────────────────────────────
+# GĐ8 Full Governance Audit Gate
+# ─────────────────────────────────────────────────────────────────
+# ALL checks must PASS before merge is allowed.
+# NO manual override. NO environment bypass.
+# ─────────────────────────────────────────────────────────────────
+name: GĐ8 — Audit Gate
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: audit-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================
+  # Full Governance Audit
+  # ============================================================
+  audit:
+    runs-on: ubuntu-latest
+    name: "GĐ8 Governance Audit"
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-audit-${{ runner.os }}-${{ hashFiles('requirements*.txt') }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_data_pipeline.txt
+          pip install pytest pytest-cov ruff
+
+      - name: Run full governance audit
+        run: |
+          python scripts/audit/run_audit.py
+        env:
+          PYTHONPATH: .
+
+      - name: Verify audit bundle created
+        run: |
+          if [ -f "audit_bundle.zip" ]; then
+            echo "✓ Audit bundle created"
+            unzip -l audit_bundle.zip
+          else
+            echo "❌ Audit bundle not created"
+            exit 1
+          fi
+
+      - name: Verify compliance report
+        run: |
+          if [ -f "audit_outputs/scoring_compliance.md" ]; then
+            echo "✓ Compliance report exists"
+            cat audit_outputs/scoring_compliance.md
+            
+            # Check for PASS in final status
+            if grep -q "## FINAL" audit_outputs/scoring_compliance.md && \
+               grep -A1 "## FINAL" audit_outputs/scoring_compliance.md | grep -q "PASS"; then
+              echo "✓ Audit PASSED"
+            else
+              echo "❌ Audit FAILED"
+              exit 1
+            fi
+          else
+            echo "❌ Compliance report not found"
+            exit 1
+          fi
+
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit-bundle
+          path: |
+            audit_bundle.zip
+            audit_outputs/
+
+  # ============================================================
+  # Weight Verification
+  # ============================================================
+  weight_check:
+    runs-on: ubuntu-latest
+    name: "Weight Verification"
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Verify weights exist
+        run: |
+          if [ -f "models/weights/active/weights.json" ]; then
+            echo "✓ Weights file exists"
+          else
+            echo "❌ Weights file missing"
+            exit 1
+          fi
+
+      - name: Verify weight integrity
+        run: |
+          python -c "
+          import json
+          import hashlib
+          from datetime import datetime, timezone, timedelta
+          
+          with open('models/weights/active/weights.json') as f:
+              data = json.load(f)
+          
+          # Check required fields
+          required = ['version', 'trained_at', 'weights', 'checksum']
+          missing = [k for k in required if k not in data]
+          if missing:
+              print(f'❌ Missing fields: {missing}')
+              exit(1)
+          
+          # Check freshness (90 days)
+          trained = datetime.fromisoformat(data['trained_at'].replace('Z', '+00:00'))
+          age = (datetime.now(timezone.utc) - trained).days
+          if age > 90:
+              print(f'❌ Weights too old: {age} days')
+              exit(1)
+          
+          # Check not fallback
+          if data['version'].lower() in ('fallback', 'default'):
+              print('❌ Fallback weights detected')
+              exit(1)
+          
+          print(f'✓ Weights valid (version={data[\"version\"]}, age={age}d)')
+          "
+        env:
+          PYTHONPATH: .
+
+  # ============================================================
+  # Coverage Gate
+  # ============================================================
+  coverage_gate:
+    runs-on: ubuntu-latest
+    name: "Coverage Gate"
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_data_pipeline.txt
+          pip install pytest pytest-cov
+
+      - name: Run coverage
+        run: |
+          python -m pytest tests/ \
+            --cov=backend/scoring \
+            --cov-report=xml \
+            --cov-fail-under=85 \
+            -v --tb=short
+        env:
+          PYTHONPATH: .
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: coverage.xml
+          fail_ci_if_error: false
+
+  # ============================================================
+  # Scoring Determinism Gate (production-hardening-2026-02-21)
+  # ============================================================
+  determinism_gate:
+    runs-on: ubuntu-latest
+    name: "Scoring Determinism Gate"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_data_pipeline.txt
+          pip install pytest
+
+      - name: Run determinism tests
+        # All forbidden ENV vars must be absent — do not add them to env: block.
+        run: |
+          python -m pytest tests/test_scoring_determinism.py \
+            -v --tb=short --no-header \
+            -x
+        env:
+          PYTHONPATH: .
+
+  # ============================================================
+  # ENV Isolation Scan Gate (production-hardening-2026-02-21)
+  # ============================================================
+  env_scan_gate:
+    runs-on: ubuntu-latest
+    name: "ENV Isolation Scan Gate"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run ENV scan tests
+        run: |
+          python -m pytest tests/test_env_scan_gate.py \
+            -v --tb=short --no-header \
+            -x
+        env:
+          PYTHONPATH: .
+
+  # ============================================================
+  # Hash-Chain Integrity Gate (production-hardening-2026-02-21)
+  # ============================================================
+  hash_chain_gate:
+    runs-on: ubuntu-latest
+    name: "Hash-Chain Integrity Gate"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_data_pipeline.txt
+          pip install pytest
+
+      - name: Run hash-chain verification tests
+        run: |
+          python -m pytest tests/test_hash_chain_gate.py \
+            -v --tb=short --no-header \
+            -x
+        env:
+          PYTHONPATH: .
+
+  # ============================================================
+  # Scoring Path ENV Grep Gate (production-hardening-2026-02-21)
+  # ============================================================
+  scoring_env_grep:
+    runs-on: ubuntu-latest
+    name: "Scoring Path — Zero ENV Reads"
+    # Belt-and-suspenders plain grep in addition to the AST scan gate.
+    # ANY match of a forbidden variable name in the scoring code path fails the build.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: grep — SCORING_TEST_MODE
+        run: |
+          count=$(grep -rn "SCORING_TEST_MODE" \
+            backend/scoring backend/api/routers backend/api/controllers backend/api \
+            --include="*.py" | grep -v "^Binary" | wc -l)
+          echo "SCORING_TEST_MODE matches: $count"
+          if [ "$count" -gt 0 ]; then
+            grep -rn "SCORING_TEST_MODE" \
+              backend/scoring backend/api/routers backend/api/controllers backend/api \
+              --include="*.py" | grep -v "^Binary"
+            echo "❌ SCORING_TEST_MODE found in scoring path — ENV isolation violated"
+            exit 1
+          fi
+          echo "✓ SCORING_TEST_MODE: 0 matches"
+
+      - name: grep — SCORING_ENV
+        run: |
+          count=$(grep -rn "SCORING_ENV" \
+            backend/scoring backend/api/routers backend/api/controllers backend/api \
+            --include="*.py" | grep -v "^Binary" | wc -l)
+          echo "SCORING_ENV matches: $count"
+          if [ "$count" -gt 0 ]; then
+            grep -rn "SCORING_ENV" \
+              backend/scoring backend/api/routers backend/api/controllers backend/api \
+              --include="*.py" | grep -v "^Binary"
+            echo "❌ SCORING_ENV found in scoring path — ENV isolation violated"
+            exit 1
+          fi
+          echo "✓ SCORING_ENV: 0 matches"
+
+      - name: grep — SIMGR_ENVIRONMENT
+        run: |
+          count=$(grep -rn "SIMGR_ENVIRONMENT" \
+            backend/scoring backend/api/routers backend/api/controllers backend/api \
+            --include="*.py" | grep -v "^Binary" | wc -l)
+          echo "SIMGR_ENVIRONMENT matches: $count"
+          if [ "$count" -gt 0 ]; then
+            grep -rn "SIMGR_ENVIRONMENT" \
+              backend/scoring backend/api/routers backend/api/controllers backend/api \
+              --include="*.py" | grep -v "^Binary"
+            echo "❌ SIMGR_ENVIRONMENT found in scoring path — ENV isolation violated"
+            exit 1
+          fi
+          echo "✓ SIMGR_ENVIRONMENT: 0 matches"
+
+      - name: grep — SIMGR_WEIGHTS_VERSION
+        run: |
+          count=$(grep -rn "SIMGR_WEIGHTS_VERSION" \
+            backend/scoring backend/api/routers backend/api/controllers backend/api \
+            --include="*.py" | grep -v "^Binary" | wc -l)
+          echo "SIMGR_WEIGHTS_VERSION matches: $count"
+          if [ "$count" -gt 0 ]; then
+            grep -rn "SIMGR_WEIGHTS_VERSION" \
+              backend/scoring backend/api/routers backend/api/controllers backend/api \
+              --include="*.py" | grep -v "^Binary"
+            echo "❌ SIMGR_WEIGHTS_VERSION found in scoring path — ENV isolation violated"
+            exit 1
+          fi
+          echo "✓ SIMGR_WEIGHTS_VERSION: 0 matches"
+
+      - name: grep — SIMGR_WEIGHT_VALIDATION_MODE
+        run: |
+          count=$(grep -rn "SIMGR_WEIGHT_VALIDATION_MODE" \
+            backend/scoring backend/api/routers backend/api/controllers backend/api \
+            --include="*.py" | grep -v "^Binary" | wc -l)
+          echo "SIMGR_WEIGHT_VALIDATION_MODE matches: $count"
+          if [ "$count" -gt 0 ]; then
+            grep -rn "SIMGR_WEIGHT_VALIDATION_MODE" \
+              backend/scoring backend/api/routers backend/api/controllers backend/api \
+              --include="*.py" | grep -v "^Binary"
+            echo "❌ SIMGR_WEIGHT_VALIDATION_MODE found in scoring path — ENV isolation violated"
+            exit 1
+          fi
+          echo "✓ SIMGR_WEIGHT_VALIDATION_MODE: 0 matches"
+
+      - name: Summary
+        run: echo "✓ Zero forbidden ENV variable names in scoring path (grep gate)"
+
+  # ============================================================
+  # Merge Gate Status
+  # ============================================================
+  merge_gate:
+    runs-on: ubuntu-latest
+    needs: [audit, weight_check, coverage_gate, determinism_gate, env_scan_gate, hash_chain_gate, scoring_env_grep]
+    if: always()
+    name: "Merge Gate Status"
+
+    steps:
+      - name: Check all gates
+        run: |
+          if [ "${{ needs.audit.result }}" != "success" ]; then
+            echo "❌ Audit gate FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.weight_check.result }}" != "success" ]; then
+            echo "❌ Weight check FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.coverage_gate.result }}" != "success" ]; then
+            echo "❌ Coverage gate FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.determinism_gate.result }}" != "success" ]; then
+            echo "❌ Determinism gate FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.env_scan_gate.result }}" != "success" ]; then
+            echo "❌ ENV scan gate FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.hash_chain_gate.result }}" != "success" ]; then
+            echo "❌ Hash-chain gate FAILED"
+            exit 1
+          fi
+          if [ "${{ needs.scoring_env_grep.result }}" != "success" ]; then
+            echo "❌ Scoring ENV grep gate FAILED"
+            exit 1
+          fi
+
+          echo "✓ All gates PASSED"
+          echo "Merge is ALLOWED"

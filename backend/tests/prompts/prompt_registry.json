@@ -1,0 +1,23 @@
+{
+  "extract_v1": {
+    "template": "backend/tests/prompts/templates/extract_v1.prompt.txt",
+    "version": "v1.0.0",
+    "dataset_version": "extraction_gold_v1",
+    "owner": "mlops",
+    "status": "stable"
+  },
+  "explain_v1": {
+    "template": "backend/tests/prompts/templates/explain_v1.prompt.txt",
+    "version": "v1.0.0",
+    "dataset_version": "explanation_gold_v1",
+    "owner": "mlops",
+    "status": "stable"
+  },
+  "fallback_v1": {
+    "template": "backend/tests/prompts/templates/fallback_v1.prompt.txt",
+    "version": "v1.0.0",
+    "dataset_version": "fallback_gold_v1",
+    "owner": "mlops",
+    "status": "stable"
+  }
+}

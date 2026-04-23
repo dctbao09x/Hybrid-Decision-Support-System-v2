@@ -1,0 +1,90 @@
+{
+  "run_id": "ml_eval_9954686f93fd",
+  "baseline_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "current_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "overall_severity": "LOW",
+  "overall_psi": 0.0,
+  "feature_drifts": [
+    {
+      "feature_name": "math_score",
+      "mean_shift": 0.0,
+      "std_shift": 0.0,
+      "mean_baseline": 76.268837,
+      "mean_current": 76.268837,
+      "std_baseline": 14.193588,
+      "std_current": 14.193588,
+      "psi": 0.0,
+      "severity": "LOW"
+    },
+    {
+      "feature_name": "physics_score",
+      "mean_shift": 0.0,
+      "std_shift": 0.0,
+      "mean_baseline": 65.194884,
+      "mean_current": 65.194884,
+      "std_baseline": 21.861363,
+      "std_current": 21.861363,
+      "psi": 0.0,
+      "severity": "LOW"
+    },
+    {
+      "feature_name": "interest_it",
+      "mean_shift": 0.0,
+      "std_shift": 0.0,
+      "mean_baseline": 54.232093,
+      "mean_current": 54.232093,
+      "std_baseline": 31.675142,
+      "std_current": 31.675142,
+      "psi": 0.0,
+      "severity": "LOW"
+    },
+    {
+      "feature_name": "logic_score",
+      "mean_shift": 0.0,
+      "std_shift": 0.0,
+      "mean_baseline": 71.363256,
+      "mean_current": 71.363256,
+      "std_baseline": 14.629882,
+      "std_current": 14.629882,
+      "psi": 0.0,
+      "severity": "LOW"
+    }
+  ],
+  "label_drift": {
+    "labels": [
+      "Mechanical Engineer",
+      "Cybersecurity Analyst",
+      "Civil Engineer",
+      "Accountant",
+      "Software Engineer",
+      "Data Analyst",
+      "Business Administration"
+    ],
+    "baseline_distribution": {
+      "Mechanical Engineer": 0.1395,
+      "Cybersecurity Analyst": 0.1163,
+      "Civil Engineer": 0.1163,
+      "Accountant": 0.1395,
+      "Software Engineer": 0.2093,
+      "Data Analyst": 0.1628,
+      "Business Administration": 0.1163
+    },
+    "current_distribution": {
+      "Mechanical Engineer": 0.1395,
+      "Cybersecurity Analyst": 0.1163,
+      "Civil Engineer": 0.1163,
+      "Accountant": 0.1395,
+      "Software Engineer": 0.2093,
+      "Data Analyst": 0.1628,
+      "Business Administration": 0.1163
+    },
+    "psi": 0.0,
+    "severity": "LOW"
+  },
+  "schema_changed": false,
+  "row_count_change": 0,
+  "timestamp": "2026-02-23T03:47:42.861981+00:00",
+  "recommendations": [
+    "No significant drift detected \u2014 continue monitoring"
+  ]
+}

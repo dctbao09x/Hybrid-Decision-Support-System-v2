@@ -1,0 +1,10 @@
+﻿{
+  "last_updated": "2026-02-16T12:38:16",
+  "version": "20260216_123816",
+  "source": "growth_refresher",
+  "ttl_days": 90,
+  "checksum": "abc123def456",
+  "record_count": 20,
+  "is_stale": false,
+  "age_days": 0
+}

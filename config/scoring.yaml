@@ -1,0 +1,121 @@
+# SIMGR Scoring Configuration
+# DO NOT HARDCODE - All values loaded from this file
+# See config/scoring_schema.yaml for validation schema
+
+version: "1.0"
+
+# =============================================================================
+# STAGE 9 SUB-SCORE WEIGHTS  (canonical — single source of truth)
+#
+# These five weights drive assemble_breakdown() in backend/scoring/sub_scorer.py.
+# Invariants enforced at load time by SubScoreWeights.validate():
+#   • Every weight ≥ 0.0
+#   • sum(weights) == 1.0  (± 1e-6)
+#   • All five components are mandatory — no component may be absent or None
+#
+# DO NOT add an environment-variable override for any of these values.
+# Weight changes require a code review + retrain cycle.
+# =============================================================================
+sub_score_weights:
+  skill:          0.30   # breadth and depth of declared skills
+  experience:     0.25   # years of experience × domain spread
+  education:      0.20   # ordinal mapping of highest education level
+  goal_alignment: 0.15   # aspiration count × timeline reasonableness
+  preference:     0.10   # preferred-domain breadth × work-style clarity
+  # ──────────── total = 1.00 (enforced at runtime) ────────────────────────────
+
+# =============================================================================
+# SIMGR COMPONENT WEIGHTS (must sum to 1.0)
+# =============================================================================
+simgr_weights:
+  study_score: 0.25       # S: Study/academic fit
+  interest_score: 0.25    # I: Interest alignment
+  market_score: 0.25      # M: Market attractiveness
+  growth_score: 0.15      # G: Growth potential
+  risk_score: 0.10        # R: Risk penalty (SUBTRACTED)
+
+# =============================================================================
+# STUDY COMPONENT FACTORS
+# Formula: S = A_weight*A + B_weight*B + C_weight*C
+# =============================================================================
+study_factors:
+  ability_weight: 0.4           # A: Academic ability
+  background_weight: 0.3        # B: Skill background
+  confidence_weight: 0.3        # C: Self-confidence
+  
+  # Background sub-weights
+  required_skill_match: 0.7     # Required skill coverage
+  preferred_skill_match: 0.3    # Preferred skill coverage
+
+# =============================================================================
+# INTEREST COMPONENT FACTORS
+# Formula: I = NLP_weight*NLP + Survey_weight*Survey + Stability_weight*Stability
+# =============================================================================
+interest_factors:
+  nlp_weight: 0.4              # NLP semantic matching
+  survey_weight: 0.3           # Self-reported interest alignment
+  stability_weight: 0.3        # Interest consistency
+
+# =============================================================================
+# MARKET COMPONENT FACTORS
+# Formula: M = AI_weight*AI + Growth_weight*Growth + Salary_weight*Salary + InvComp_weight*InvComp
+# =============================================================================
+market_factors:
+  ai_relevance_weight: 0.3     # AI/automation resilience
+  growth_rate_weight: 0.3      # Market growth rate
+  salary_weight: 0.2           # Salary attractiveness
+  inverse_competition_weight: 0.2  # Low competition bonus
+
+# =============================================================================
+# GROWTH COMPONENT FACTORS
+# Formula: G = Lifecycle_weight*Lifecycle + Demand_weight*Demand + Salary_weight*Salary
+# =============================================================================
+growth_factors:
+  lifecycle_weight: 0.4        # Career lifecycle stage
+  demand_weight: 0.3           # Future demand forecast
+  salary_growth_weight: 0.3    # Salary growth potential
+
+# =============================================================================
+# RISK COMPONENT FACTORS
+# Formula: R = sum(factor_weight * factor_value)
+# =============================================================================
+risk_factors:
+  saturation_weight: 0.25      # Market saturation risk
+  obsolescence_weight: 0.20    # Skill obsolescence risk
+  competition_weight: 0.15     # Competition intensity
+  dropout_weight: 0.15         # Career abandonment likelihood
+  unemployment_weight: 0.15    # Sector unemployment risk
+  cost_weight: 0.10            # Entry barrier cost
+
+# =============================================================================
+# SCORING THRESHOLDS
+# =============================================================================
+thresholds:
+  min_score: 0.0               # Minimum final score
+  max_score: 1.0               # Maximum final score
+  relevance_threshold: 0.3     # Min score to show in results
+
+# =============================================================================
+# DATA FRESHNESS (TTL in days)
+# =============================================================================
+data_freshness:
+  max_age_days: 90             # Maximum data age before stale
+  auto_refresh: true           # Enable automatic refresh
+  refresh_interval_hours: 24   # How often to check freshness
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+features:
+  debug_mode: false            # Enable detailed logging
+  personalization: true        # Allow weight personalization
+  deterministic: true          # No randomness in scoring
+  cache_enabled: true          # Enable score caching
+  drift_detection: true        # Enable distribution drift alerts
+
+# =============================================================================
+# VALIDATION CONSTRAINTS
+# =============================================================================
+validation:
+  weight_sum_tolerance: 0.001  # Tolerance for weight sum = 1.0
+  score_precision: 4           # Decimal places for scores

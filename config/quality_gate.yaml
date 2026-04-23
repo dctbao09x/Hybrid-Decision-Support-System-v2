@@ -1,0 +1,133 @@
+# ================================================================
+# Quality Gate Configuration
+# ================================================================
+# Controls the block/allow policy for the data pipeline.
+# Fail → pipeline BLOCKED.  Warn → logged but pipeline continues.
+#
+# Every check has:
+#   enabled   : true/false
+#   mode      : "strict" | "warn"
+#     strict  = fail on violation → PipelineError
+#     warn    = log + alert but continue
+#   threshold : numeric boundary
+# ================================================================
+
+quality_gate:
+  # Global kill-switch: set false to bypass ALL gates (emergency only)
+  enabled: true
+
+  # If true, ANY single strict-mode failure aborts the entire pipeline.
+  # If false, all checks run and a combined verdict is returned.
+  fail_fast: true
+
+  # ── SCHEMA VALIDATION ──────────────────────────────────────────
+  schema:
+    enabled: true
+    mode: "strict"                 # strict = reject on any schema error
+    # Maximum fraction of records allowed to fail schema validation
+    # 0.0 = zero tolerance (production), 0.02 = 2% tolerance (staging)
+    max_invalid_rate: 0.0
+    # Register Pydantic models per stage
+    stages:
+      crawl_output: "backend.data_pipeline.schema.RawJobRecord"
+      validate_output: "backend.data_pipeline.schema.CleanJobRecord"
+
+  # ── MISSING / COMPLETENESS ─────────────────────────────────────
+  missing:
+    enabled: true
+    mode: "strict"
+    # Overall completeness floor (fraction of non-null values)
+    min_completeness: 0.95         # < 5% missing → pass
+    # Critical fields: pipeline BLOCKS if ANY critical field is missing
+    critical_fields:
+      - job_id
+      - job_title
+      - title
+      - company
+      - url
+    # Important fields: warn if completeness drops below threshold
+    important_fields:
+      - salary
+      - location
+      - skills
+      - experience
+      - description
+    important_min_completeness: 0.80
+
+  # ── OUTLIER DETECTION ──────────────────────────────────────────
+  outlier:
+    enabled: true
+    mode: "warn"                   # outliers don't block by default
+    # Which detection method to use: "iqr" | "zscore" | "both"
+    method: "both"
+    # IQR parameters
+    iqr_multiplier: 1.5
+    # Z-score parameters
+    z_threshold: 3.0
+    # Maximum outlier rate before triggering action
+    max_outlier_rate: 0.10         # 10%
+    # Fields to check
+    numeric_fields:
+      - salary_min
+      - salary_max
+      - experience
+    # Score anomaly detection (for scored records)
+    score_check:
+      enabled: true
+      max_anomaly_rate: 0.05       # 5%
+
+  # ── DRIFT DETECTION ────────────────────────────────────────────
+  drift:
+    enabled: true
+    mode: "strict"                 # drift BLOCKS the pipeline
+    # PSI (Population Stability Index) — primary metric
+    psi:
+      enabled: true
+      threshold: 0.20             # PSI > 0.2 = significant drift → BLOCK
+      warning_threshold: 0.10     # PSI 0.1-0.2 = moderate → WARN
+    # JSD (Jensen-Shannon Divergence) — secondary metric
+    jsd:
+      enabled: true
+      threshold: 0.15             # JSD > 0.15 → BLOCK
+      warning_threshold: 0.08
+    # Volume drift — record count change
+    volume:
+      enabled: true
+      max_change_rate: 0.30       # 30% volume swing → WARN
+      critical_change_rate: 0.50  # 50% volume swing → BLOCK
+    # Schema drift — field set changes
+    schema_drift:
+      enabled: true
+      mode: "strict"              # new/removed fields → BLOCK
+    # Numeric fields to monitor for drift
+    numeric_fields:
+      - salary_min
+      - salary_max
+    # Categorical fields to monitor for drift
+    categorical_fields:
+      - location
+      - province_code
+      - job_type
+      - source
+
+  # ── VALIDATION RATE ────────────────────────────────────────────
+  validation_rate:
+    enabled: true
+    mode: "strict"
+    min_rate: 0.50                 # pipeline refuses < 50% valid records
+    warning_rate: 0.80             # warn if < 80%
+
+  # ── DUPLICATE DETECTION ────────────────────────────────────────
+  duplicates:
+    enabled: true
+    mode: "warn"
+    max_duplicate_rate: 0.05       # 5%
+
+# ── AUDIT TRAIL ────────────────────────────────────────────────
+audit:
+  # Every gate verdict is logged to ops.audit
+  log_all_checks: true
+  # Include record-level detail in audit (large; disable in prod)
+  include_record_detail: false
+  # Retention days for quality reports
+  report_retention_days: 90

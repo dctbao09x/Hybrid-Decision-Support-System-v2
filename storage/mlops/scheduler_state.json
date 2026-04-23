@@ -1,0 +1,803 @@
+{
+  "last_retrain_at": "2026-04-02T13:35:42.461510+00:00",
+  "last_trigger": "test",
+  "last_run_id": "mlops_train_20260402_203542",
+  "last_status": "failed",
+  "total_auto_retrains": 0,
+  "total_blocked_by_cooldown": 87,
+  "total_blocked_by_storm": 0,
+  "total_scheduler_checks": 0,
+  "total_scheduler_failures": 0,
+  "consecutive_failures": 2,
+  "run_history": [
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T13:52:59.017745+00:00",
+      "reason": "Remaining: 23.40h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T13:58:12.851464+00:00",
+      "reason": "Remaining: 23.32h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:03:12.862196+00:00",
+      "reason": "Remaining: 23.23h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:08:12.873153+00:00",
+      "reason": "Remaining: 23.15h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:13:18.272962+00:00",
+      "reason": "Remaining: 23.07h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:18:31.795657+00:00",
+      "reason": "Remaining: 22.98h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:23:46.623841+00:00",
+      "reason": "Remaining: 22.89h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:29:00.945442+00:00",
+      "reason": "Remaining: 22.80h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:34:14.519473+00:00",
+      "reason": "Remaining: 22.72h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:39:28.778297+00:00",
+      "reason": "Remaining: 22.63h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:44:44.265939+00:00",
+      "reason": "Remaining: 22.54h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:49:44.284569+00:00",
+      "reason": "Remaining: 22.46h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T14:54:53.319951+00:00",
+      "reason": "Remaining: 22.37h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:00:10.054005+00:00",
+      "reason": "Remaining: 22.28h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:05:25.803067+00:00",
+      "reason": "Remaining: 22.20h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:10:41.249705+00:00",
+      "reason": "Remaining: 22.11h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:15:55.800812+00:00",
+      "reason": "Remaining: 22.02h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:21:10.954689+00:00",
+      "reason": "Remaining: 21.93h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:26:26.031655+00:00",
+      "reason": "Remaining: 21.85h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:31:40.441170+00:00",
+      "reason": "Remaining: 21.76h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:36:55.588911+00:00",
+      "reason": "Remaining: 21.67h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:42:10.056063+00:00",
+      "reason": "Remaining: 21.58h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:47:24.209479+00:00",
+      "reason": "Remaining: 21.50h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:52:38.797003+00:00",
+      "reason": "Remaining: 21.41h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T15:57:53.150718+00:00",
+      "reason": "Remaining: 21.32h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T16:03:07.404600+00:00",
+      "reason": "Remaining: 21.24h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T16:08:22.247572+00:00",
+      "reason": "Remaining: 21.15h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T16:13:40.379730+00:00",
+      "reason": "Remaining: 21.06h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-23T16:18:58.969881+00:00",
+      "reason": "Remaining: 20.97h"
+    },
+    {
+      "run_id": "mlops_train_20260224_122517",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:25:17.026470+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_122829",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:28:29.760525+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_123223",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:32:23.572591+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_123446",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:34:46.463515+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_123708",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:37:08.636465+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_125026",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:50:26.976176+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_125404",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:54:04.858298+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": "mlops_train_20260224_125625",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-02-24T05:56:25.135587+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:26:55.160751+00:00",
+      "reason": "Remaining: 17.49h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:27:10.570443+00:00",
+      "reason": "Remaining: 17.49h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:27:57.797148+00:00",
+      "reason": "Remaining: 17.47h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:32:57.814810+00:00",
+      "reason": "Remaining: 17.39h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:36:15.306859+00:00",
+      "reason": "Remaining: 17.34h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:41:15.322331+00:00",
+      "reason": "Remaining: 17.25h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:46:15.334834+00:00",
+      "reason": "Remaining: 17.17h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:51:15.352487+00:00",
+      "reason": "Remaining: 17.09h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T12:56:15.371301+00:00",
+      "reason": "Remaining: 17.00h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T13:01:15.381616+00:00",
+      "reason": "Remaining: 16.92h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:27:13.946193+00:00",
+      "reason": "Remaining: 14.49h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:32:13.964029+00:00",
+      "reason": "Remaining: 14.40h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:37:13.969937+00:00",
+      "reason": "Remaining: 14.32h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:42:13.973500+00:00",
+      "reason": "Remaining: 14.24h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:47:13.988810+00:00",
+      "reason": "Remaining: 14.15h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:52:14.021218+00:00",
+      "reason": "Remaining: 14.07h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:54:24.941130+00:00",
+      "reason": "Remaining: 14.03h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T15:57:13.702447+00:00",
+      "reason": "Remaining: 13.99h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T16:02:13.716368+00:00",
+      "reason": "Remaining: 13.90h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T16:07:13.727730+00:00",
+      "reason": "Remaining: 13.82h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T16:12:13.735093+00:00",
+      "reason": "Remaining: 13.74h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T16:16:57.571904+00:00",
+      "reason": "Remaining: 13.66h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-24T16:18:34.754570+00:00",
+      "reason": "Remaining: 13.63h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:01:26.238625+00:00",
+      "reason": "Remaining: 0.92h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:06:26.257368+00:00",
+      "reason": "Remaining: 0.83h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:11:26.273196+00:00",
+      "reason": "Remaining: 0.75h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:16:26.298544+00:00",
+      "reason": "Remaining: 0.67h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:21:26.319934+00:00",
+      "reason": "Remaining: 0.58h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:26:26.326308+00:00",
+      "reason": "Remaining: 0.50h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:31:26.351014+00:00",
+      "reason": "Remaining: 0.42h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:36:26.374734+00:00",
+      "reason": "Remaining: 0.33h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:41:26.379603+00:00",
+      "reason": "Remaining: 0.25h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:46:26.388854+00:00",
+      "reason": "Remaining: 0.17h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:51:26.394082+00:00",
+      "reason": "Remaining: 0.08h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-25T05:52:37.381131+00:00",
+      "reason": "Remaining: 0.06h"
+    },
+    {
+      "run_id": "mlops_train_20260228_102320",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:23:20.080935+00:00",
+      "metrics": null,
+      "error": "Governance check failed"
+    },
+    {
+      "run_id": "mlops_train_20260228_102323",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:23:23.019917+00:00",
+      "metrics": null,
+      "error": "Governance check failed"
+    },
+    {
+      "run_id": "mlops_train_20260228_102323",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:23:23.794794+00:00",
+      "metrics": null,
+      "error": "Governance check failed"
+    },
+    {
+      "run_id": "mlops_train_20260228_102324",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:23:24.387173+00:00",
+      "metrics": null,
+      "error": "Governance check failed"
+    },
+    {
+      "run_id": "mlops_train_20260228_103045",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:30:45.019843+00:00",
+      "metrics": null,
+      "error": "name 'logger' is not defined"
+    },
+    {
+      "run_id": "mlops_train_20260228_103159",
+      "trigger": "admin_ui",
+      "status": "failed",
+      "timestamp": "2026-02-28T03:31:59.321250+00:00",
+      "metrics": null,
+      "error": "No eligible training candidates"
+    },
+    {
+      "run_id": "mlops_train_20260228_103533",
+      "trigger": "admin_ui",
+      "status": "success",
+      "timestamp": "2026-02-28T03:35:36.399345+00:00",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "error": null
+    },
+    {
+      "run_id": "mlops_train_20260228_103627",
+      "trigger": "admin_ui",
+      "status": "success",
+      "timestamp": "2026-02-28T03:36:28.651163+00:00",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "error": null
+    },
+    {
+      "run_id": "mlops_train_20260228_103628",
+      "trigger": "admin_ui",
+      "status": "success",
+      "timestamp": "2026-02-28T03:36:30.019561+00:00",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "error": null
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T03:54:39.917264+00:00",
+      "reason": "Remaining: 23.70h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T03:59:39.921804+00:00",
+      "reason": "Remaining: 23.61h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:04:51.076033+00:00",
+      "reason": "Remaining: 23.53h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:09:51.082884+00:00",
+      "reason": "Remaining: 23.44h"
+    },
+    {
+      "run_id": "mlops_train_20260228_111038",
+      "trigger": "admin_ui",
+      "status": "success",
+      "timestamp": "2026-02-28T04:10:39.509739+00:00",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "error": null
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:11:27.892202+00:00",
+      "reason": "Remaining: 23.99h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:14:01.495109+00:00",
+      "reason": "Remaining: 23.94h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:20:40.071744+00:00",
+      "reason": "Remaining: 23.83h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:21:20.302051+00:00",
+      "reason": "Remaining: 23.82h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:21:46.310193+00:00",
+      "reason": "Remaining: 23.81h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:22:35.312500+00:00",
+      "reason": "Remaining: 23.80h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:27:35.329940+00:00",
+      "reason": "Remaining: 23.72h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:42:49.079336+00:00",
+      "reason": "Remaining: 23.46h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:47:49.089538+00:00",
+      "reason": "Remaining: 23.38h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:48:26.423258+00:00",
+      "reason": "Remaining: 23.37h"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-02-28T04:52:03.096328+00:00",
+      "reason": "Remaining: 23.31h"
+    },
+    {
+      "run_id": "mlops_train_20260402_203248",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-04-02T13:32:48.970287+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    },
+    {
+      "run_id": null,
+      "trigger": "blocked",
+      "status": "blocked_cooldown",
+      "timestamp": "2026-04-02T13:33:43.370602+00:00",
+      "reason": "Remaining: 23.98h"
+    },
+    {
+      "run_id": "mlops_train_20260402_203542",
+      "trigger": "test",
+      "status": "failed",
+      "timestamp": "2026-04-02T13:35:42.461510+00:00",
+      "metrics": null,
+      "error": "dataset unavailable"
+    }
+  ],
+  "updated_at": "2026-04-02T13:35:42.461526+00:00"
+}

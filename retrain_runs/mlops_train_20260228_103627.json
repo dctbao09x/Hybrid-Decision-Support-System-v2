@@ -1,0 +1,30 @@
+{
+  "run_id": "mlops_train_20260228_103627",
+  "version": "v3",
+  "result": {
+    "metrics": {
+      "accuracy": {
+        "mean": 0.9488372093023256,
+        "std": 0.009302325581395366
+      },
+      "f1": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 1.0,
+        "std": 0.0
+      }
+    },
+    "quality_passed": true,
+    "model": "random_forest",
+    "stability": {
+      "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905"
+    }
+  },
+  "timestamp": "2026-02-28T03:36:28.466722+00:00"
+}

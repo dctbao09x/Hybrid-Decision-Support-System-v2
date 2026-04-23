@@ -1,0 +1,26 @@
+{
+  "version": "defaults",
+  "trained_at": null,
+  "method": "default",
+  "dataset_hash": null,
+  "model_type": "SIMGR-baseline",
+  "note": "DEFAULT WEIGHTS - FOR DEVELOPMENT/DEBUG ONLY. NOT FOR PRODUCTION USE.",
+  "weights": {
+    "study_score": 0.25,
+    "interest_score": 0.25,
+    "market_score": 0.25,
+    "growth_score": 0.15,
+    "risk_score": 0.10
+  },
+  "metrics": {
+    "train_loss": null,
+    "correlation": null,
+    "n_samples": 0,
+    "method": "default",
+    "note": "These are baseline weights, not ML-trained. DO NOT USE IN PRODUCTION."
+  },
+  "config": {
+    "method": "default",
+    "warning": "GOVERNANCE VIOLATION if used in production"
+  }
+}

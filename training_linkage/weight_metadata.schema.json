@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Weight Metadata Schema",
+  "description": "PHẦN I - Schema for weight artifact metadata (GĐ5)",
+  "type": "object",
+  "required": [
+    "version",
+    "trained_at",
+    "dataset",
+    "dataset_checksum",
+    "features",
+    "weights_checksum",
+    "trainer_commit",
+    "pipeline_version",
+    "metrics"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Weight version identifier (e.g., 'v1', 'v2')",
+      "pattern": "^v[0-9a-zA-Z_-]+$"
+    },
+    "metadata_version": {
+      "type": "string",
+      "default": "1.0",
+      "description": "Schema version for this metadata"
+    },
+    "trained_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of training completion"
+    },
+    "dataset": {
+      "type": "string",
+      "description": "Path to training dataset used"
+    },
+    "dataset_checksum": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA256 checksum of training dataset"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "description": "SIMGR feature names: study, interest, market, growth, risk"
+    },
+    "weights_checksum": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA256 checksum of weight values"
+    },
+    "trainer_commit": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{7,40}$",
+      "description": "Git commit hash of training script"
+    },
+    "pipeline_version": {
+      "type": "string",
+      "description": "Training pipeline version (e.g., 'train_v2.1')"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "archived", "deprecated", "promoted"],
+      "default": "active",
+      "description": "Current status of weight artifact"
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["r2", "mae", "correlation", "n_samples"],
+      "properties": {
+        "train_loss": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Training loss value"
+        },
+        "val_loss": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Validation loss value"
+        },
+        "correlation": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Pearson correlation with outcome"
+        },
+        "r2": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "R-squared (coefficient of determination)"
+        },
+        "mae": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Mean Absolute Error"
+        },
+        "rmse": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Root Mean Squared Error"
+        },
+        "n_samples": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of training samples"
+        },
+        "n_folds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of cross-validation folds"
+        }
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "properties": {
+        "promoted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "promoted_by": {
+          "type": "string"
+        },
+        "promotion_reason": {
+          "type": "string"
+        },
+        "previous_active": {
+          "type": "string"
+        }
+      },
+      "description": "Promotion audit information (if promoted)"
+    }
+  },
+  "additionalProperties": true
+}

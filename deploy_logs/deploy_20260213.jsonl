@@ -1,0 +1,4 @@
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-13T12:04:04.941171+00:00", "details": {"enabled": true}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-13T12:04:04.942035+00:00", "details": {"enabled": false}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-13T12:05:43.610397+00:00", "details": {"enabled": true}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-13T12:05:43.611406+00:00", "details": {"enabled": false}}

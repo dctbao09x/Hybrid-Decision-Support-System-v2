@@ -1,0 +1,200 @@
+{
+  "audit_meta": {
+    "date": "2026-02-16",
+    "auditor": "Principal System Architect",
+    "framework": "SIMGR + Stage 3 Full Governance Audit"
+  },
+  "components": {
+    "study": {
+      "file": "backend/scoring/components/study.py",
+      "function": "score(job, user, config) -> ScoreResult",
+      "output_field": "study_score",
+      "status": "CONDITIONAL_FAIL",
+      "doc_requirement": {
+        "formula": "S = 0.4*A + 0.3*B + 0.3*C",
+        "factors": {
+          "A": "Academic source path",
+          "B": "Test score source",
+          "C": "Skill assessment source"
+        }
+      },
+      "actual_implementation": {
+        "method": "Skill coverage calculation",
+        "required_coverage": "len(user_skills & required_skills) / len(required_skills)",
+        "preferred_coverage": "len(user_skills & preferred_skills) / len(preferred_skills)",
+        "formula": "skill_score = required_coverage * 0.7 + preferred_coverage * 0.3"
+      },
+      "gaps": [
+        "No Academic (A) factor - NOT IMPLEMENTED",
+        "No Test score (B) factor - NOT IMPLEMENTED", 
+        "No Skill assessment (C) factor - NOT IMPLEMENTED",
+        "DOC formula S = 0.4*A + 0.3*B + 0.3*C - NOT FOLLOWED"
+      ],
+      "data_sources": [],
+      "test_cases": "NOT VERIFIED"
+    },
+    "interest": {
+      "file": "backend/scoring/components/interest.py",
+      "function": "score(job, user, config) -> ScoreResult",
+      "output_field": "interest_score",
+      "status": "CONDITIONAL_FAIL",
+      "doc_requirement": {
+        "nlp_analyzer": "Required",
+        "survey_ingestion": "Required",
+        "stability_metric": "Required",
+        "fusion_logic": "Multiple sources required"
+      },
+      "actual_implementation": {
+        "method": "Jaccard similarity",
+        "formula": "intersection / union of interests"
+      },
+      "gaps": [
+        "No NLP analyzer - NOT IMPLEMENTED",
+        "No Survey ingestion - NOT IMPLEMENTED",
+        "No Stability metric - NOT IMPLEMENTED",
+        "Only single source (user interests) - SINGLE SOURCE FAIL"
+      ],
+      "data_sources": [
+        {"type": "user_input", "path": "payload.user.interests"}
+      ],
+      "test_cases": "NOT VERIFIED"
+    },
+    "market": {
+      "file": "backend/scoring/components/market.py",
+      "function": "score(job, user, config) -> ScoreResult",
+      "output_field": "market_score",
+      "status": "CONDITIONAL_PASS",
+      "doc_requirement": {
+        "formula": "M = f(N, G, L)",
+        "factors": {
+          "N": "Job dataset (demand/posting count)",
+          "G": "Market growth source",
+          "L": "Salary dataset"
+        },
+        "f_definition": "MUST be defined in code"
+      },
+      "actual_implementation": {
+        "method": "Weighted combination",
+        "formula": "market_score = ai_relevance * 0.4 + growth_rate * 0.4 + inverse_competition * 0.2",
+        "data_source": "MarketCacheLoader"
+      },
+      "gaps": [
+        "N (job posting count) - uses ai_relevance proxy",
+        "G (market growth) - uses growth_rate field",
+        "L (salary dataset) - NOT IMPLEMENTED",
+        "f() defined but incomplete"
+      ],
+      "data_sources": [
+        {"type": "cache", "path": "backend/market/cache_loader.py", "class": "MarketCacheLoader"}
+      ],
+      "normalization": "DataNormalizer.clamp() - IMPLEMENTED",
+      "test_cases": "NOT VERIFIED"
+    },
+    "growth": {
+      "file": "backend/scoring/components/growth.py",
+      "function": "score(job, user, config) -> ScoreResult",
+      "output_field": "growth_score",
+      "status": "FAIL",
+      "doc_requirement": {
+        "tech_crawler": "Required",
+        "forecast_pipeline": "Required",
+        "lifecycle_model": "Required",
+        "update_frequency": "Must be defined",
+        "cache_ttl": "Must be defined",
+        "refresh_trigger": "Must be defined"
+      },
+      "actual_implementation": {
+        "method": "Static field calculation",
+        "skill_growth": "job.growth_rate",
+        "salary_growth": "(job.ai_relevance + job.growth_rate) / 2.0"
+      },
+      "gaps": [
+        "No tech crawler - NOT IMPLEMENTED",
+        "No forecast pipeline - NOT IMPLEMENTED",
+        "No lifecycle model - NOT IMPLEMENTED",
+        "Data is STATIC (from input fields)",
+        "No update frequency",
+        "No cache TTL",
+        "No refresh trigger"
+      ],
+      "data_staleness": "CANNOT VERIFY - no timestamp tracking",
+      "test_cases": "NOT VERIFIED"
+    },
+    "risk": {
+      "file": "backend/scoring/components/risk.py",
+      "function": "score(job, user, config) -> ScoreResult",
+      "output_field": "risk_score",
+      "status": "PARTIAL_FAIL",
+      "doc_requirement": {
+        "dropout_model": "Required",
+        "cost_formula": "Required",
+        "unemployment_dataset": "Required",
+        "penalty_formula": "Required",
+        "threshold_config": "Required"
+      },
+      "actual_implementation": {
+        "market_saturation_risk": "job.competition",
+        "skill_obsolescence_risk": "1.0 - job.growth_rate",
+        "competition_risk": "1.0 - job.ai_relevance",
+        "inversion": "risk_score = 1.0 - total_risk",
+        "formula": "total_risk = saturation*0.4 + obsolescence*0.3 + competition*0.3"
+      },
+      "gaps": [
+        "No dropout model - NOT IMPLEMENTED",
+        "No cost formula - NOT IMPLEMENTED",
+        "No unemployment dataset - NOT IMPLEMENTED",
+        "Penalty is calculated but NOT configurable",
+        "Threshold not configurable"
+      ],
+      "critical_issue": "Risk is INVERTED then ADDED instead of SUBTRACTED per DOC",
+      "test_cases": "NOT VERIFIED"
+    }
+  },
+  "integration": {
+    "calculator_file": "backend/scoring/calculator.py",
+    "calculator_function": "SIMGRCalculator.calculate(user, career) -> (total_score, breakdown)",
+    "formula_line": "101-107",
+    "formula_violation": {
+      "doc": "Score = wS*S + wI*I + wM*M + wG*G - wR*R",
+      "actual": "Score = wS*S + wI*I + wM*M + wG*G + wR*R",
+      "issue": "Risk is ADDED instead of SUBTRACTED"
+    }
+  },
+  "controller_flow": {
+    "main_controller_file": "backend/main_controller.py",
+    "dispatch_method": "dispatch(service, action, payload, context)",
+    "scoring_handlers": [
+      {"handler": "_handle_scoring_rank", "line": 283},
+      {"handler": "_handle_scoring_score", "line": 349},
+      {"handler": "_handle_scoring_weights", "line": 422},
+      {"handler": "_handle_scoring_reset", "line": 454},
+      {"handler": "_handle_scoring_config", "line": 460}
+    ],
+    "8_step_pipeline": {
+      "step1_validate": "IMPLEMENTED - _dispatch_validate()",
+      "step2_authenticate": "IMPLEMENTED - _dispatch_authenticate()",
+      "step3_authorize": "IMPLEMENTED - _dispatch_authorize()",
+      "step4_load_context": "IMPLEMENTED - _dispatch_load_context()",
+      "step5_dispatch": "IMPLEMENTED - _dispatch_to_service()",
+      "step6_collect": "IMPLEMENTED - duration calculation",
+      "step7_explain": "IMPLEMENTED - _dispatch_explain() for scoring",
+      "step8_log": "IMPLEMENTED - _dispatch_log()"
+    },
+    "scoring_handler_gaps": {
+      "feature_assembly": "PARTIALLY - creates UserProfile/CareerData inline",
+      "none_normalization": "NOT IMPLEMENTED",
+      "rule_adjust": "NOT INTEGRATED in scoring handlers",
+      "risk_filter": "NOT IMPLEMENTED"
+    }
+  },
+  "summary": {
+    "total_components": 5,
+    "pass": 0,
+    "conditional_pass": 1,
+    "conditional_fail": 2,
+    "fail": 2,
+    "formula_compliance": false,
+    "weight_learning": false,
+    "overall_status": "FAIL"
+  }
+}

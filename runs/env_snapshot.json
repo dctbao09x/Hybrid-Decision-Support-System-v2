@@ -1,0 +1,16 @@
+{
+  "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows",
+  "platform_version": "10.0.19045",
+  "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+  "libraries": {
+    "scikit-learn": "1.8.0",
+    "pandas": "3.0.0",
+    "numpy": "2.4.2",
+    "pyyaml": "6.0.1"
+  },
+  "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+  "git_branch": "master",
+  "working_directory": "F:\\Hybrid Decision Support System",
+  "timestamp": "2026-02-23T03:47:42.965715+00:00"
+}

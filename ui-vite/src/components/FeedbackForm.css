@@ -1,0 +1,231 @@
+.feedback-open-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1200;
+  border: 1.5px solid rgba(200, 165, 90, 0.4);
+  border-radius: 999px;
+  padding: 10px 20px;
+  color: #05060f;
+  background: linear-gradient(135deg, #b8914a, #c8a55a, #d4b876);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(200, 165, 90, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feedback-open-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 36px rgba(200, 165, 90, 0.45);
+}
+
+.feedback-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: rgba(5, 6, 15, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.feedback-modal {
+  width: min(560px, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  border-radius: 16px;
+  background: #0c0e1a;
+  border: 1px solid rgba(200, 165, 90, 0.15);
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(200,165,90,0.08);
+}
+
+.feedback-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.feedback-modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: #6a6a7e;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.feedback-modal-header button:hover {
+  color: #ede8df;
+}
+
+.feedback-modal-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.feedback-modal-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6a6a7e;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.feedback-modal-form input,
+.feedback-modal-form textarea,
+.feedback-modal-form select {
+  border: 1px solid rgba(200, 165, 90, 0.15);
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ede8df;
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.feedback-modal-form input:focus,
+.feedback-modal-form textarea:focus,
+.feedback-modal-form select:focus {
+  border-color: rgba(200, 165, 90, 0.45);
+}
+
+.feedback-modal-form select option {
+  background: #0c0e1a;
+}
+
+.feedback-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.feedback-form-actions button {
+  border: 1px solid rgba(200, 165, 90, 0.18);
+  border-radius: 999px;
+  padding: 8px 18px;
+  background: transparent;
+  color: #6a6a7e;
+  font-family: inherit;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.feedback-form-actions button:hover {
+  color: #ede8df;
+  border-color: rgba(200, 165, 90, 0.45);
+}
+
+.feedback-form-actions button[type='submit'] {
+  background: linear-gradient(135deg, #b8914a, #c8a55a);
+  color: #05060f;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.feedback-form-actions button[type='submit']:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 16px rgba(200, 165, 90, 0.3);
+}
+
+.feedback-error {
+  color: #fca5a5;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.feedback-success {
+  color: #6ee7b7;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.feedback-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--text-primary) 40%, transparent);
+}
+
+.feedback-modal {
+  width: min(560px, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  padding: 16px;
+}
+
+.feedback-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feedback-modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+}
+
+.feedback-modal-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.feedback-modal-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.feedback-modal-form input,
+.feedback-modal-form textarea,
+.feedback-modal-form select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.feedback-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.feedback-form-actions button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.feedback-form-actions button[type='submit'] {
+  background: var(--primary);
+  color: var(--bg-primary);
+}
+
+.feedback-error {
+  color: var(--error);
+  margin: 0;
+}
+
+.feedback-success {
+  color: var(--success);
+  margin: 0;
+}

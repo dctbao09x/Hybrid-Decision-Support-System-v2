@@ -1,0 +1,68 @@
+{
+  "formula_spec": {
+    "version": "v1.0",
+    "equation": "Score = wS*S + wI*I + wM*M + wG*G - wR*R",
+    "components": ["study", "interest", "market", "growth", "risk"]
+  },
+  
+  "component_specs": {
+    "study": {
+      "name": "study",
+      "weight_key": "study_score",
+      "sign": 1,
+      "default_fallback": 0.5,
+      "description": "Skill match & education fit score"
+    },
+    "interest": {
+      "name": "interest",
+      "weight_key": "interest_score",
+      "sign": 1,
+      "default_fallback": 0.5,
+      "description": "Interest alignment score"
+    },
+    "market": {
+      "name": "market",
+      "weight_key": "market_score",
+      "sign": 1,
+      "default_fallback": 0.5,
+      "description": "Market attractiveness score"
+    },
+    "growth": {
+      "name": "growth",
+      "weight_key": "growth_score",
+      "sign": 1,
+      "default_fallback": 0.5,
+      "description": "Growth potential score"
+    },
+    "risk": {
+      "name": "risk",
+      "weight_key": "risk_score",
+      "sign": -1,
+      "default_fallback": 0.0,
+      "description": "Risk penalty score (SUBTRACTED)"
+    }
+  },
+  
+  "constraints": {
+    "weight_sum": 1.0,
+    "score_range": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "risk_sign": -1
+  },
+  
+  "compliance": {
+    "single_source": "ScoringFormula.compute()",
+    "forbidden_patterns": [
+      "total_score\\s*=.*\\+.*score.*\\*",
+      "final_score\\s*=.*study.*interest.*market",
+      "score.*\\+=.*weight",
+      "def.*calculate.*score.*\\("
+    ],
+    "required_delegation": [
+      "backend/scoring/calculator.py",
+      "backend/scoring/scoring.py"
+    ]
+  }
+}

@@ -1,0 +1,323 @@
+```yaml
+# Data Pipeline Configuration
+# Vietnamese Recruitment Data Collection & Processing System
+# Version: 1.0.0
+
+# Pipeline settings
+pipeline:
+  version_format: "YYYYMM"
+  
+  # Scheduling (cron format)
+  schedule:
+    scraper: "0 0 * * *"         # Daily at midnight
+    validation: "0 6 * * *"      # 6 AM
+    enrichment: "0 8 * * *"      # 8 AM
+    archival: "0 0 1 * *"        # 1st of month (monthly)
+
+# Data sources
+sources:
+  vietnamworks:
+    enabled: true
+    start_url: "https://vietnamworks.com/search/job"
+    rate_limit: 1000             # requests per day
+    timeout: 30                  # seconds
+    retry_max: 3
+    headers:
+      "Accept-Language": "vi-VN,vi;q=0.9"
+      "Accept-Encoding": "gzip, deflate, br"
+    params:
+      country: "vn"
+      limit: 50
+  
+  topcv:
+    enabled: true
+    start_url: "https://topcv.vn/search/job"
+    rate_limit: 1000
+    timeout: 30
+    retry_max: 3
+    headers:
+      "Accept-Language": "vi-VN,vi;q=0.9"
+    params:
+      country: "vn"
+      limit: 20
+
+# Storage paths
+storage:
+  base_path: "data_storage"
+  raw_path: "data_storage/raw"
+  processed_path: "data_storage/processed"
+  archive_path: "data_storage/archive"
+  backup_path: "data_storage/backups"
+  log_path: "data_storage/logs"
+
+# Data validation rules
+validation:
+  min_completeness: 0.98         # 98% minimum
+  max_duplicates: 0.01           # 1% maximum
+  max_invalid: 0.02              # 2% maximum
+  
+  required_fields:
+    - job_title
+    - company_name
+    - salary_range
+    - skills
+    - experience_level
+    - location
+    - job_description
+  
+  field_constraints:
+    salary_min:
+      type: "integer"
+      min: 0
+      max: 500000000
+      currency: "VND"
+    
+    salary_max:
+      type: "integer"
+      min: 0
+      max: 500000000
+      currency: "VND"
+    
+    experience_level:
+      type: "enum"
+      values: ["entry", "mid", "senior", "lead", "cto"]
+    
+    location:
+      type: "string"
+      required: true
+      allowed_regions: ["Ha Noi", "Ho Chi Minh", "Da Nang", "Hai Phong", "Other"]
+
+# Archive and retention policies
+archive:
+  # Retention period for each tier
+  hot_retention_months: 12       # Keep 12 most recent months
+  warm_retention_years: 3        # Keep 3 years of quarterly data
+  cold_retention_years: 999      # Keep indefinitely (compliance)
+  
+  # Storage format
+  compression_format: "tar.gz"
+  encryption: "gpg"              # Optional: encrypt cold storage
+  
+  # Archive schedule (cron)
+  archive_schedule:
+    hot_archival: "0 0 1 * *"        # Monthly (1st of month)
+    warm_consolidation: "0 0 1 1,4,7,10 *"  # Quarterly
+    cold_archival: "0 0 1 1 *"       # Yearly (Jan 1st)
+    delete_expired: "0 0 1 1 *"      # Yearly (Jan 1st)
+  
+  # Backup configuration
+  backups:
+    daily: true                  # Daily incremental
+    weekly: true                 # Weekly full
+    monthly: true                # Monthly full
+
+# Monitoring and alerting
+monitoring:
+  # Logging
+  log_level: "INFO"              # DEBUG, INFO, WARNING, ERROR
+  log_format: "detailed"         # simple, detailed, json
+  metrics_interval: 300          # seconds
+  
+  # Alert thresholds
+  scraper_success_threshold: 0.99      # 99%
+  validation_pass_threshold: 0.98      # 98%
+  max_pipeline_runtime: 7200           # 2 hours
+  max_duplicate_rate: 0.01             # 1%
+  max_error_rate: 0.001                # 0.1%
+  
+  # Critical alerts (stop pipeline)
+  critical_thresholds:
+    scraper_success: 0.95
+    validation_pass: 0.95
+    data_freshness_hours: 36
+  
+  # Notifications
+  alert_email: "data-team@company.com"
+  slack_webhook: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  alert_on_warning: true
+  alert_on_error: true
+  
+  # Metrics to track
+  track_metrics:
+    - scraper_success_rate
+    - validation_pass_rate
+    - duplicate_detection_rate
+    - pipeline_execution_time
+    - data_volume
+    - storage_usage
+    - api_response_time
+    - enrichment_coverage
+
+# Paths
+log_path: "data_storage/logs"
+data_path: "data_storage"
+
+# Features
+features:
+  enable_deduplication: true
+  enable_versioning: true
+  enable_archival: true
+  enable_scoring_integration: true
+  enable_nlp_enrichment: true
+  
+# Scoring integration
+scoring_integration:
+  enabled: true
+  
+  # Feed settings
+  update_frequency: "daily"      # daily, weekly
+  generation_time: "03:00"       # 3 AM (after all processing)
+  
+  # Features to compute
+  features:
+    - skill_frequency
+    - salary_benchmarks
+    - market_trends
+    - career_paths
+    - industry_demand
+    - location_trends
+  
+  # Caching
+  cache_duration_hours: 24
+  cache_strategy: "lru"          # lru, ttl
+
+# Enrichment configuration
+enrichment:
+  skill_mapping:
+    enabled: true
+    confidence_threshold: 0.7
+    use_nlp: true
+    use_fuzzy_matching: true
+  
+  career_classification:
+    enabled: true
+    model: "taxonomy-v1"
+  
+  market_analysis:
+    enabled: true
+    trend_window_months: 6
+
+# Quality assurance
+quality_assurance:
+  duplicate_detection:
+    algorithm: "fuzzy_matching"  # md5, fuzzy_matching, ml
+    threshold: 0.85
+  
+  schema_validation:
+    strict: true
+    validate_types: true
+  
+  anomaly_detection:
+    enabled: true
+    sensitivity: "medium"        # low, medium, high
+  
+  data_profiling:
+    enabled: true
+    generate_statistics: true
+
+# Performance tuning
+performance:
+  # Parallelization
+  scraper_concurrency: 3         # Max parallel scrapers
+  validation_batch_size: 1000    # Records per batch
+  enrichment_batch_size: 500
+  
+  # Memory
+  max_memory_mb: 4096            # 4GB
+  streaming_enabled: false       # For large datasets
+  
+  # Timeouts
+  scraper_timeout_seconds: 30
+  validation_timeout_minutes: 60
+  enrichment_timeout_minutes: 120
+  total_pipeline_timeout_hours: 2
+
+# Database
+database:
+  type: "sqlite"                 # sqlite, postgresql
+  path: "data_storage/processed/versions.db"
+  
+  # Connection pool
+  pool_size: 10
+  max_overflow: 20
+
+# Error handling
+error_handling:
+  # Behavior on errors
+  fail_on_scraper_error: false   # Continue if one scraper fails
+  fail_on_validation_error: true # Stop if validation fails
+  fail_on_enrichment_error: false
+  
+  # Retry logic
+  max_retries: 3
+  retry_backoff: "exponential"  # exponential, linear
+  
+  # Rollback
+  enable_rollback: true
+  rollback_on_validation_failure: true
+
+# Security
+security:
+  # Data privacy
+  remove_personal_data: true     # Email, phone, etc
+  remove_sensitive_data: true    # SSN, ID numbers
+  
+  # Encryption
+  encrypt_storage: false
+  encrypt_backups: true
+  encryption_key_path: "/etc/data-pipeline/key.gpg"
+  
+  # Access control
+  require_authentication: true
+  require_authorization: true
+  audit_all_access: true
+
+# Notifications
+notifications:
+  # Email
+  email_enabled: true
+  smtp_server: "smtp.company.com"
+  smtp_port: 587
+  smtp_username: "data-pipeline@company.com"
+  smtp_password: "${SMTP_PASSWORD}"
+  from_email: "data-pipeline@company.com"
+  
+  # Slack
+  slack_enabled: true
+  slack_channel: "#data-pipeline"
+  slack_mention_on_error: "@data-team"
+  
+  # Webhooks
+  webhooks:
+    - name: "pipeline_start"
+      url: "https://api.company.com/webhooks/pipeline/start"
+    - name: "pipeline_complete"
+      url: "https://api.company.com/webhooks/pipeline/complete"
+    - name: "pipeline_error"
+      url: "https://api.company.com/webhooks/pipeline/error"
+
+# Development/Production
+environment: "production"        # development, staging, production
+
+# Environment-specific overrides
+environments:
+  development:
+    log_level: "DEBUG"
+    sources:
+      vietnamworks:
+        rate_limit: 100
+      topcv:
+        rate_limit: 100
+    performance:
+      scraper_concurrency: 1
+  
+  staging:
+    log_level: "INFO"
+    monitoring:
+      alert_email: ""
+  
+  production:
+    log_level: "INFO"
+    validation:
+      min_completeness: 0.98
+```

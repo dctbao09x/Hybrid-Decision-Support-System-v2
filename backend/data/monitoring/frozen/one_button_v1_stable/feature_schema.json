@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "features": {
+    "skills": {
+      "type": "list[str]",
+      "max_length": 20
+    },
+    "interests": {
+      "type": "list[str]",
+      "max_length": 10
+    },
+    "education_level": {
+      "type": "str",
+      "enum": [
+        "High School",
+        "Bachelor",
+        "Master",
+        "PhD"
+      ]
+    },
+    "ability_score": {
+      "type": "float",
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    "confidence_score": {
+      "type": "float",
+      "range": [
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "careers": {
+    "required_skills": {
+      "type": "list[str]"
+    },
+    "market_data": {
+      "type": "object"
+    }
+  }
+}

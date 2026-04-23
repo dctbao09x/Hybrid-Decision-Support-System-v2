@@ -1,0 +1,239 @@
+/* src/components/PipelineTimeline/PipelineTimeline.module.css
+ *
+ * Palette: #05060f  #c8a55a  #ede8df
+ */
+
+.wrap {
+  width: 100%;
+  max-width: 740px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(200, 165, 90, 0.12);
+  border-radius: 1rem;
+  padding: 1.4rem 1.5rem;
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c8a55a;
+  opacity: 0.75;
+}
+
+/* ─ Diagnostics bar ─────────────────────────────────────────────── */
+.diagBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.2rem;
+  background: rgba(200, 165, 90, 0.04);
+  border: 1px solid rgba(200, 165, 90, 0.1);
+  border-radius: 0.6rem;
+}
+
+.diagStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.diagVal {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ede8df;
+  font-variant-numeric: tabular-nums;
+}
+
+.diagKey {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ede8df;
+  opacity: 0.4;
+  margin-top: 0.1rem;
+}
+
+/* ─ Timeline ─────────────────────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stageRow {
+  display: flex;
+  gap: 0.9rem;
+}
+
+/* Left gutter: dot + connector line */
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 14px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.line {
+  width: 2px;
+  flex: 1;
+  min-height: 1rem;
+  background: rgba(200, 165, 90, 0.12);
+  margin: 2px 0;
+}
+
+/* Content area */
+.stageContent {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.stageHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.stageName {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #ede8df;
+  opacity: 0.9;
+}
+
+.badge {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* ─ Duration bar ─────────────────────────────────────────────────── */
+.barTrack {
+  height: 3px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.055);
+  border-radius: 2px;
+  position: relative;
+  margin-bottom: 0.35rem;
+}
+
+.barFill {
+  height: 100%;
+  background: #c8a55a;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: width 0.4s ease;
+}
+
+.barLabel {
+  position: absolute;
+  right: 0;
+  top: -14px;
+  font-size: 0.58rem;
+  color: #ede8df;
+  opacity: 0.45;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─ I/O details ─────────────────────────────────────────────────── */
+.ioDetails {
+  margin-top: 0.3rem;
+}
+
+.ioSummary {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c8a55a;
+  opacity: 0.55;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.ioSummary::-webkit-details-marker { display: none; }
+
+.ioSummary::before {
+  content: '▶ ';
+  font-size: 0.5rem;
+}
+
+details[open] > .ioSummary::before {
+  content: '▼ ';
+}
+
+.ioGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 500px) {
+  .ioGrid { grid-template-columns: 1fr; }
+}
+
+.ioBlock {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.ioLabel {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c8a55a;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.ioRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ioRow {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+}
+
+.ioKey {
+  color: #ede8df;
+  opacity: 0.4;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.ioVal {
+  color: #ede8df;
+  opacity: 0.85;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.stageError {
+  font-size: 0.72rem;
+  color: #e05252;
+  margin-top: 0.4rem;
+  opacity: 0.9;
+}

@@ -1,0 +1,424 @@
+# Monitoring & Alerting Configuration
+# ====================================
+#
+# Grafana dashboard definitions and Prometheus alert rules
+# for the HDSS backend resilience monitoring.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PROMETHEUS ALERT RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+groups:
+  - name: hdss_api_alerts
+    interval: 30s
+    rules:
+
+      # ── High Error Rate ───────────────────────────────────────────────────────
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) 
+          / sum(rate(http_requests_total[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          service: hdss-api
+        annotations:
+          summary: "High API error rate (>5%)"
+          description: |
+            Error rate is {{ $value | humanizePercentage }} over the last 5 minutes.
+            Investigate backend logs and check for cascade failures.
+
+      # ── High Latency P95 ──────────────────────────────────────────────────────
+      - alert: HighLatencyP95
+        expr: |
+          histogram_quantile(0.95, 
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, endpoint)
+          ) > 1.5
+        for: 3m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "High P95 latency (>1.5s)"
+          description: |
+            P95 latency for {{ $labels.endpoint }} is {{ $value | humanizeDuration }}.
+            Check for slow database queries or downstream service degradation.
+
+      # ── High Latency P99 ──────────────────────────────────────────────────────
+      - alert: HighLatencyP99
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, endpoint)
+          ) > 3.0
+        for: 2m
+        labels:
+          severity: critical
+          service: hdss-api
+        annotations:
+          summary: "Very high P99 latency (>3s)"
+          description: |
+            P99 latency for {{ $labels.endpoint }} is {{ $value | humanizeDuration }}.
+            This indicates severe performance degradation.
+
+      # ── Circuit Breaker Open ──────────────────────────────────────────────────
+      - alert: CircuitBreakerOpen
+        expr: circuit_breaker_state{state="open"} == 1
+        for: 1m
+        labels:
+          severity: critical
+          service: hdss-api
+        annotations:
+          summary: "Circuit breaker is OPEN"
+          description: |
+            Circuit breaker for {{ $labels.bulkhead }} is open.
+            Downstream service may be unhealthy.
+
+      # ── Bulkhead Saturated ────────────────────────────────────────────────────
+      - alert: BulkheadSaturated
+        expr: |
+          bulkhead_current_concurrent / bulkhead_max_concurrent > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "Bulkhead near capacity"
+          description: |
+            Bulkhead {{ $labels.name }} is at {{ $value | humanizePercentage }} capacity.
+            Consider increasing limits or investigating load source.
+
+      # ── High Request Queue ────────────────────────────────────────────────────
+      - alert: HighRequestQueue
+        expr: pending_request_count > 15
+        for: 1m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "Request queue building up"
+          description: |
+            {{ $value }} pending requests. Service may be overloaded.
+
+      # ── Service Not Ready ─────────────────────────────────────────────────────
+      - alert: ServiceNotReady
+        expr: |
+          up{job="hdss-api"} == 0 
+          or probe_success{job="hdss-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: hdss-api
+        annotations:
+          summary: "HDSS API service not ready"
+          description: |
+            Service health probe failing. Check for container restarts or network issues.
+
+      # ── High Memory Usage ─────────────────────────────────────────────────────
+      - alert: HighMemoryUsage
+        expr: |
+          process_resident_memory_bytes / 1024 / 1024 > 800
+        for: 5m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "High memory usage (>800MB)"
+          description: |
+            Memory usage is {{ $value | humanize1024 }}B. 
+            Check for memory leaks.
+
+      # ── Timeout Rate High ─────────────────────────────────────────────────────
+      - alert: HighTimeoutRate
+        expr: |
+          sum(rate(request_timeouts_total[5m])) 
+          / sum(rate(http_requests_total[5m])) > 0.02
+        for: 3m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "High timeout rate (>2%)"
+          description: |
+            {{ $value | humanizePercentage }} of requests are timing out.
+            Check backend performance and downstream services.
+
+  - name: hdss_sla_alerts
+    interval: 1m
+    rules:
+
+      # ── SLA Breach Warning ────────────────────────────────────────────────────
+      - alert: SLABreachWarning
+        expr: |
+          (
+            1 - (
+              sum(increase(http_requests_total{status!~"5.."}[1h]))
+              / sum(increase(http_requests_total[1h]))
+            )
+          ) > 0.005
+        for: 10m
+        labels:
+          severity: warning
+          service: hdss-api
+        annotations:
+          summary: "SLA breach warning - approaching 99.5% threshold"
+          description: |
+            Error rate in last hour: {{ $value | humanizePercentage }}.
+            Review incidents and prepare mitigation.
+
+      # ── SLA Breach Critical ───────────────────────────────────────────────────
+      - alert: SLABreachCritical
+        expr: |
+          (
+            1 - (
+              sum(increase(http_requests_total{status!~"5.."}[24h]))
+              / sum(increase(http_requests_total[24h]))
+            )
+          ) > 0.005
+        for: 5m
+        labels:
+          severity: critical
+          service: hdss-api
+        annotations:
+          summary: "SLA BREACH - 24h availability below 99.5%"
+          description: |
+            24-hour error rate: {{ $value | humanizePercentage }}.
+            Immediate action required. Create incident report.
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GRAFANA DASHBOARD PANELS (JSON Model)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Export these panels to Grafana or use the dashboard JSON below
+
+dashboard:
+  title: "HDSS API Resilience Dashboard"
+  uid: "hdss-resilience"
+  refresh: "10s"
+  
+  panels:
+    # Row 1: Key Metrics
+    - title: "Request Rate"
+      type: "stat"
+      targets:
+        - expr: "sum(rate(http_requests_total[1m]))"
+          legendFormat: "req/s"
+      fieldConfig:
+        defaults:
+          unit: "reqps"
+          thresholds:
+            steps:
+              - color: "green"
+                value: null
+              - color: "yellow"
+                value: 50
+              - color: "red"
+                value: 100
+
+    - title: "Error Rate"
+      type: "gauge"
+      targets:
+        - expr: |
+            sum(rate(http_requests_total{status=~"5.."}[5m])) 
+            / sum(rate(http_requests_total[5m])) * 100
+          legendFormat: "error %"
+      fieldConfig:
+        defaults:
+          unit: "percent"
+          min: 0
+          max: 10
+          thresholds:
+            steps:
+              - color: "green"
+                value: null
+              - color: "yellow"
+                value: 1
+              - color: "red"
+                value: 5
+
+    - title: "P95 Latency"
+      type: "stat"
+      targets:
+        - expr: |
+            histogram_quantile(0.95, 
+              sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+            ) * 1000
+          legendFormat: "ms"
+      fieldConfig:
+        defaults:
+          unit: "ms"
+          thresholds:
+            steps:
+              - color: "green"
+                value: null
+              - color: "yellow"
+                value: 1000
+              - color: "red"
+                value: 1500
+
+    - title: "Uptime"
+      type: "stat"
+      targets:
+        - expr: |
+            (1 - sum(increase(http_requests_total{status=~"5.."}[24h])) 
+            / sum(increase(http_requests_total[24h]))) * 100
+          legendFormat: "availability"
+      fieldConfig:
+        defaults:
+          unit: "percent"
+          decimals: 2
+          thresholds:
+            steps:
+              - color: "red"
+                value: null
+              - color: "yellow"
+                value: 99
+              - color: "green"
+                value: 99.5
+
+    # Row 2: Latency Distribution
+    - title: "Latency Distribution"
+      type: "heatmap"
+      targets:
+        - expr: "sum(rate(http_request_duration_seconds_bucket[1m])) by (le)"
+          format: "heatmap"
+      
+    - title: "Latency Percentiles"
+      type: "timeseries"
+      targets:
+        - expr: |
+            histogram_quantile(0.50, 
+              sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+            ) * 1000
+          legendFormat: "p50"
+        - expr: |
+            histogram_quantile(0.95, 
+              sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+            ) * 1000
+          legendFormat: "p95"
+        - expr: |
+            histogram_quantile(0.99, 
+              sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+            ) * 1000
+          legendFormat: "p99"
+      fieldConfig:
+        defaults:
+          unit: "ms"
+
+    # Row 3: Resilience Components
+    - title: "Bulkhead Status"
+      type: "table"
+      targets:
+        - expr: "bulkhead_current_concurrent"
+          legendFormat: "{{ name }}"
+      transformations:
+        - id: "organize"
+          options:
+            columns:
+              - name
+              - current
+              - max
+              - state
+
+    - title: "Circuit Breaker States"
+      type: "stat"
+      targets:
+        - expr: "count(circuit_breaker_state{state='open'})"
+          legendFormat: "Open"
+        - expr: "count(circuit_breaker_state{state='half-open'})"
+          legendFormat: "Half-Open"
+        - expr: "count(circuit_breaker_state{state='closed'})"
+          legendFormat: "Closed"
+
+    - title: "Timeout Rate by Layer"
+      type: "timeseries"
+      targets:
+        - expr: |
+            sum(rate(timeout_exceeded_total[5m])) by (layer) 
+            / sum(rate(operation_total[5m])) by (layer) * 100
+          legendFormat: "{{ layer }}"
+      fieldConfig:
+        defaults:
+          unit: "percent"
+
+    # Row 4: Endpoint Performance
+    - title: "Top Slow Endpoints"
+      type: "table"
+      targets:
+        - expr: |
+            topk(10,
+              histogram_quantile(0.95, 
+                sum(rate(http_request_duration_seconds_bucket[5m])) 
+                by (le, endpoint)
+              )
+            ) * 1000
+          legendFormat: "{{ endpoint }}"
+
+    - title: "Error Rate by Endpoint"
+      type: "timeseries"
+      targets:
+        - expr: |
+            sum(rate(http_requests_total{status=~"5.."}[5m])) by (endpoint)
+            / sum(rate(http_requests_total[5m])) by (endpoint) * 100
+          legendFormat: "{{ endpoint }}"
+      fieldConfig:
+        defaults:
+          unit: "percent"
+          max: 10
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LOGGING CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+logging:
+  # Structured logging format for JSON parsing
+  format: "json"
+  
+  # Log levels per component
+  levels:
+    root: "INFO"
+    ops.resilience: "INFO"
+    ops.resilience.bulkhead: "INFO"
+    ops.resilience.timeout: "WARNING"
+    api.gateway: "INFO"
+    uvicorn.access: "INFO"
+    httpx: "WARNING"
+    
+  # Fields to include in every log entry
+  default_fields:
+    service: "hdss-api"
+    environment: "production"
+    
+  # Sensitive fields to redact
+  redact:
+    - password
+    - token
+    - secret
+    - authorization
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HEALTH CHECK ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+health_checks:
+  # Liveness probe - for restart decisions
+  liveness:
+    endpoint: "/api/v1/health/live"
+    interval: "10s"
+    timeout: "2s"
+    failure_threshold: 3
+    
+  # Readiness probe - for traffic routing
+  readiness:
+    endpoint: "/api/v1/health/ready"
+    interval: "15s"
+    timeout: "5s"
+    failure_threshold: 2
+    
+  # Startup probe - for initial warmup
+  startup:
+    endpoint: "/api/v1/health/startup"
+    interval: "5s"
+    timeout: "10s"
+    failure_threshold: 30  # Allow up to 150s for startup

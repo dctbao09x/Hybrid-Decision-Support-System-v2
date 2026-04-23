@@ -1,0 +1,18 @@
+{
+  "run_id": "ml_eval_9954686f93fd",
+  "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "baseline_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "regression_status": "PASS",
+  "drift_status": "LOW",
+  "delta_metrics": {
+    "accuracy_delta": 0.0,
+    "f1_delta": 0.0,
+    "precision_delta": 0.0,
+    "recall_delta": 0.0
+  },
+  "recommendations": [
+    "No significant drift detected \u2014 continue monitoring"
+  ],
+  "should_publish": true,
+  "timestamp": "2026-02-23T03:47:42.862298+00:00"
+}

@@ -1,0 +1,10 @@
+{# backend/explain/stage3/templates/base.j2 #}
+{# Template cố định cho explanation text #}
+{# Không sửa template này trừ khi có approval #}
+
+Bạn phù hợp với {{ career }} vì:
+{% for r in reasons %}
+- {{ r }}
+{% endfor %}
+
+Độ tin cậy mô hình: {{ confidence }}%

@@ -1,0 +1,87 @@
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*.pyc
+*$py.class
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+*.whl
+
+# ===========================
+# Virtual Environments
+# ===========================
+venv/
+.venv/
+env/
+
+# ===========================
+# Environment & Secrets
+# ===========================
+.env
+.env.*
+!.env.example
+
+# ===========================
+# Runtime / Transient Data
+# ===========================
+run/
+logs/
+data/tmp/
+data/sessions/
+data/logs/
+*.log
+
+# ===========================
+# Coverage & Testing
+# ===========================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+pytest_cache/
+coverage.xml
+
+# ===========================
+# IDE / Editor
+# ===========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===========================
+# Node.js (ui-vite)
+# ===========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===========================
+# Build Outputs
+# ===========================
+*.so
+*.dylib
+*.dll
+
+# ===========================
+# Temporary / Audit Artifacts
+# ===========================
+tmp*/
+_audit_*.py
+__pycache__/
+*.pyc

@@ -1,0 +1,18 @@
+description: "Prompt eval - fallback"
+providers:
+  - id: "ollama:chat:llama3.2:1b"
+    config:
+      temperature: 0.1
+      format: json
+prompts:
+  - "file://templates/fallback_v1.prompt.txt"
+tests:
+  - description: "Fallback JSON"
+    vars:
+      user_input: "..."
+    assert:
+      - type: "is-json"
+      - type: "javascript"
+        value: "JSON.parse(output).inferred_interests.includes('UNKNOWN')"
+      - type: "javascript"
+        value: "JSON.parse(output).missing_info_flags.length > 0"

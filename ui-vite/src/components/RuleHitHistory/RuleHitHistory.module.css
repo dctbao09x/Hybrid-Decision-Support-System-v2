@@ -1,0 +1,159 @@
+/* src/components/RuleHitHistory/RuleHitHistory.module.css
+ * Palette: #05060f  #c8a55a  #ede8df
+ */
+
+.wrap {
+  width: 100%;
+  max-width: 740px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(200, 165, 90, 0.12);
+  border-radius: 1rem;
+  padding: 1.4rem 1.5rem;
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c8a55a;
+  opacity: 0.75;
+}
+
+.empty {
+  font-size: 0.85rem;
+  color: #ede8df;
+  opacity: 0.4;
+  margin: 0;
+}
+
+/* ─ Summary bar ─────────────────────────────────────────────────── */
+.summaryBar {
+  display: flex;
+  gap: 1.4rem;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(200, 165, 90, 0.04);
+  border: 1px solid rgba(200, 165, 90, 0.1);
+  border-radius: 0.6rem;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summaryVal {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ede8df;
+}
+
+.summaryKey {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ede8df;
+  opacity: 0.4;
+  margin-top: 0.1rem;
+}
+
+/* ─ Category sections ───────────────────────────────────────────── */
+.catDetails {
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.catSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.catSummary::-webkit-details-marker { display: none; }
+
+.catName {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #ede8df;
+  text-transform: capitalize;
+  opacity: 0.8;
+}
+
+.catCount {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #c8a55a;
+  opacity: 0.7;
+  background: rgba(200, 165, 90, 0.1);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* ─ Rule rows ───────────────────────────────────────────────────── */
+.ruleList {
+  padding: 0.35rem 0;
+}
+
+.ruleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  gap: 0.5rem;
+}
+
+.ruleRow:last-child { border-bottom: none; }
+
+.ruleLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.ruleName {
+  font-size: 0.78rem;
+  color: #ede8df;
+  opacity: 0.75;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rulePriority {
+  font-size: 0.58rem;
+  color: #c8a55a;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ─ Footer note ─────────────────────────────────────────────────── */
+.frozenNote {
+  margin: 0.75rem 0 0;
+  font-size: 0.65rem;
+  color: #c8a55a;
+  opacity: 0.45;
+  letter-spacing: 0.05em;
+}

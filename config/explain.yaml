@@ -1,0 +1,103 @@
+# config/explain.yaml
+#
+# Configuration for Explanation Pipeline (Stage 3 + Stage 4)
+#
+# Stage 3: Rule + Template Engine
+# Stage 4: LLM Enhancement (optional)
+#
+
+stage3:
+  # Enable/disable Stage 3 processing
+  enabled: true
+  
+  # Strict mode: fail on validation errors
+  # false = log warnings and continue
+  strict: true
+  
+  # Log level: "full" | "minimal" | "off"
+  # full = all fields including career and reasons count
+  # minimal = only hashes and trace_id
+  # off = no logging
+  log_level: full
+  
+  # Template selection
+  template_name: base.j2
+  fallback_template: minimal.j2
+  
+  # Log directory (relative to project root)
+  log_dir: logs
+
+stage4:
+  # Enable/disable LLM enhancement (Stage 4)
+  enabled: true
+  
+  # LLM provider: "ollama" | "openai" | "anthropic"
+  # ollama = Local Ollama server (recommended for Stage 4 formatter)
+  provider: ollama
+  
+  # Model to use (depends on provider)
+  # ollama: llama3, llama2, mistral, codellama
+  # openai: gpt-4o-mini, gpt-4
+  model: llama3.2:1b
+  
+  # Temperature (0 = deterministic, 1 = creative)
+  # For Stage 4 formatter, use low temperature (0.3) to minimize hallucination
+  temperature: 0.3
+  
+  # Max tokens for response
+  max_tokens: 500
+  
+  # Timeout in seconds (increased for slow LLM)
+  timeout: 30
+  
+  # Retry count on failure
+  retry: 2
+  
+  # Strict validation mode
+  # true = reject hallucinated output
+  # false = log warnings but accept
+  strict_validate: false
+  
+  # Maximum output length
+  max_output_length: 2000
+  
+  # Fallback to Stage 3 output if LLM fails
+  fallback_to_stage3: true
+  
+  # Log level for Stage 4: "full" | "minimal" | "off"
+  log_level: full
+  
+  # Ollama-specific settings
+  ollama:
+    # Host URL (default: localhost)
+    host: http://127.0.0.1:11434
+    
+    # Circuit breaker settings
+    circuit_breaker:
+      failure_threshold: 3
+      cooldown_seconds: 30
+
+# Quality control
+quality:
+  # Minimum reasons required
+  min_reasons: 1
+  
+  # Maximum reasons to include
+  max_reasons: 5
+  
+  # Require at least one high-confidence reason
+  require_high_confidence: true
+  
+  # Minimum confidence threshold
+  min_confidence: 0.5
+
+# Audit settings
+audit:
+  # Enable audit logging
+  enabled: true
+  
+  # Audit log retention days
+  retention_days: 90
+  
+  # Include full input/output in audit
+  include_full_data: false

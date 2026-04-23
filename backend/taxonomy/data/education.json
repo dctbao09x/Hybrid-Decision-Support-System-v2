@@ -1,0 +1,72 @@
+[
+  {
+    "id": "any",
+    "canonical_label": "Any",
+    "aliases": {
+      "vi": ["không yêu cầu", "khong yeu cau", "bat ky"],
+      "en": ["any", "all"]
+    },
+    "priority": 1,
+    "deprecated": false
+  },
+  {
+    "id": "unknown",
+    "canonical_label": "Unknown",
+    "aliases": {
+      "vi": ["không rõ", "khong ro", "unknown"],
+      "en": ["unknown"]
+    },
+    "priority": 0,
+    "deprecated": false
+  },
+  {
+    "id": "high_school",
+    "canonical_label": "High School",
+    "aliases": {
+      "vi": ["thpt", "trung học phổ thông", "trung hoc pho thong"],
+      "en": ["high school", "highschool"]
+    },
+    "priority": 1,
+    "deprecated": false
+  },
+  {
+    "id": "associate_degree",
+    "canonical_label": "Associate Degree",
+    "aliases": {
+      "vi": ["cao đẳng", "cao dang"],
+      "en": ["associate", "associate degree", "associate's degree"]
+    },
+    "priority": 2,
+    "deprecated": false
+  },
+  {
+    "id": "Bachelor",
+    "canonical_label": "Bachelor",
+    "aliases": {
+      "vi": ["đại học", "dai hoc", "daihoc"],
+      "en": ["Bachelor", "Bachelor's degree"]
+    },
+    "priority": 3,
+    "deprecated": false
+  },
+  {
+    "id": "Master",
+    "canonical_label": "Master",
+    "aliases": {
+      "vi": ["thạc sĩ", "thac si"],
+      "en": ["Master", "Master's degree"]
+    },
+    "priority": 4,
+    "deprecated": false
+  },
+  {
+    "id": "phd",
+    "canonical_label": "PhD",
+    "aliases": {
+      "vi": ["tiến sĩ", "tien si"],
+      "en": ["phd", "doctorate"]
+    },
+    "priority": 5,
+    "deprecated": false
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "lifecycle_data": {
+    "software engineer": 0.85,
+    "data scientist": 0.92,
+    "product manager": 0.78,
+    "ai/ml engineer": 0.95,
+    "devops engineer": 0.88,
+    "frontend developer": 0.72,
+    "backend developer": 0.80,
+    "full stack developer": 0.82,
+    "cybersecurity analyst": 0.90,
+    "cloud architect": 0.91,
+    "data engineer": 0.89,
+    "ux designer": 0.75,
+    "business analyst": 0.70,
+    "project manager": 0.65,
+    "qa engineer": 0.68,
+    "mobile developer": 0.76,
+    "blockchain developer": 0.60,
+    "site reliability engineer": 0.87,
+    "database administrator": 0.55,
+    "network engineer": 0.50
+  },
+  "demand_forecast": {
+    "software engineer": 0.80,
+    "data scientist": 0.88,
+    "product manager": 0.72,
+    "ai/ml engineer": 0.95,
+    "devops engineer": 0.85,
+    "frontend developer": 0.70,
+    "backend developer": 0.78,
+    "full stack developer": 0.82,
+    "cybersecurity analyst": 0.92,
+    "cloud architect": 0.90,
+    "data engineer": 0.87,
+    "ux designer": 0.68,
+    "business analyst": 0.65,
+    "project manager": 0.60,
+    "qa engineer": 0.62,
+    "mobile developer": 0.72,
+    "blockchain developer": 0.45,
+    "site reliability engineer": 0.86,
+    "database administrator": 0.48,
+    "network engineer": 0.42
+  },
+  "salary_data": {
+    "software engineer": {"average": 120000, "count": 1500},
+    "data scientist": {"average": 135000, "count": 800},
+    "ai/ml engineer": {"average": 150000, "count": 600},
+    "devops engineer": {"average": 125000, "count": 700}
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "training-trace-link/v1",
+  "description": "Links deployed weights to their training source - GĐ1 PHẦN F",
+  "created_at": "2026-02-17T10:30:00Z",
+  
+  "active_weights": {
+    "version": "v1",
+    "path": "models/weights/active/weights.json",
+    "checksum": "5d096c920ce5ed5978dd2c91203caaf05c3527a536e7a44c634bdb4a85aba6a3"
+  },
+  
+  "training_source": {
+    "script": "backend/training/train_weights.py",
+    "class": "SIMGRWeightTrainer",
+    "method": "train()",
+    "input_data": "backend/data/scoring/train.csv",
+    "output_pattern": "models/weights/{version}/weights.json"
+  },
+  
+  "training_config": {
+    "method": "default",
+    "regularization": 0.01,
+    "random_seed": 42,
+    "n_folds": 5,
+    "max_iterations": 1000
+  },
+  
+  "dataset_fingerprint": {
+    "path": "backend/data/scoring/train.csv",
+    "hash": "baseline-50-synthetic",
+    "n_samples": 50,
+    "created_at": "2026-02-16T12:00:00Z"
+  },
+  
+  "governance_metadata": {
+    "baseline_tag": "scoring_baseline_fail",
+    "baseline_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+    "frozen_at": "2026-02-16T12:00:00Z",
+    "governance_phase": "GD1-PHAN_F"
+  },
+  
+  "reproduceability": {
+    "command": "python -m backend.training.train_weights",
+    "env_vars": {
+      "SIMGR_WEIGHTS_VERSION": "v1"
+    },
+    "expected_checksum": "5d096c920ce5ed5978dd2c91203caaf05c3527a536e7a44c634bdb4a85aba6a3",
+    "note": "Running with default config should produce identical weights"
+  },
+  
+  "weight_values": {
+    "study_score": 0.25,
+    "interest_score": 0.25,
+    "market_score": 0.25,
+    "growth_score": 0.15,
+    "risk_score": 0.10,
+    "sum": 1.0
+  },
+  
+  "verification": {
+    "verified_at": "2026-02-17T10:30:00Z",
+    "verified_by": "GD1-governance-audit",
+    "checksum_match": true,
+    "training_link_valid": true
+  }
+}

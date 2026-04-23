@@ -1,0 +1,9 @@
+{
+  "crawlers": true,
+  "ops": true,
+  "mlops": true,
+  "governance": true,
+  "knowledgebase": true,
+  "feedback": true,
+  "settings": true
+}

@@ -1,0 +1,93 @@
+version: 1
+owner: platform
+alerts:
+  - id: LLM_SCHEMA_ERROR_RATE
+    severity: P1
+    trigger: llm_schema_error_rate > 0.05 for 5m
+    action: rollback_prompt
+    escalation: [oncall, lead, incident]
+  - id: LATENCY_P90_BREACH
+    severity: P1
+    trigger: latency_p90_ms > 2000 for 5m
+    action: scale_or_degrade
+    escalation: [oncall, lead]
+  - id: SHADOW_SCORE_DRIFT
+    severity: P2
+    trigger: scoring_drift_percent > 15 for 10m
+    action: freeze_rollout
+    escalation: [oncall, lead]
+  - id: COST_SPIKE
+    severity: P2
+    trigger: cost_per_decision > 2x_baseline for 10m
+    action: throttle_llm
+    escalation: [oncall]
+  - id: COST_BURN_RATE_1H
+    severity: P1
+    trigger: cost_burn_rate_1h > 1.25 for 15m
+    action: enable_budget_guard
+    escalation: [oncall, lead, incident]
+  - id: COST_BUDGET_DAILY_EXHAUSTED
+    severity: P1
+    trigger: cost_budget_daily_utilization >= 1.0 for 5m
+    action: enforce_hard_budget
+    escalation: [oncall, lead, incident]
+  - id: COST_BUDGET_MONTHLY_EXHAUSTED
+    severity: P1
+    trigger: cost_budget_monthly_utilization >= 1.0 for 10m
+    action: release_freeze
+    escalation: [oncall, lead, finance]
+  - id: COST_ANOMALY_SPIKE
+    severity: P2
+    trigger: cost_per_request_usd z_score > 3.0 for 10m
+    action: investigate_model_and_prompt
+    escalation: [oncall, lead]
+  - id: SLO_BURN_RATE
+    severity: P1
+    trigger: slo_burn_rate > 2.0 for 30m
+    action: release_freeze
+    escalation: [oncall, lead, incident]
+  - id: STREAMING_TIMEOUT
+    severity: P2
+    trigger: streaming_timeout_rate > 0.02 for 10m
+    action: fallback_to_static_explain
+    escalation: [oncall]
+  - id: RETRY_STORM
+    severity: P2
+    trigger: retry_rate > 0.2 for 5m
+    action: enable_circuit_breaker
+    escalation: [oncall, lead]
+  - id: QUEUE_BACKLOG
+    severity: P2
+    trigger: hitl_queue_size > 500 for 15m
+    action: scale_workers
+    escalation: [oncall]
+  - id: MARKET_DATA_STALE
+    severity: P2
+    trigger: market_data_freshness_days > 90 for 60m
+    action: trigger_crawl
+    escalation: [oncall]
+  - id: INPUT_DRIFT_ALERT
+    severity: P2
+    trigger: input_drift_score > 0.25 for 30m
+    action: trigger_retrain
+    escalation: [oncall, mlops]
+  - id: OUTPUT_DRIFT_ALERT
+    severity: P2
+    trigger: output_drift_score > 0.20 for 30m
+    action: trigger_retrain
+    escalation: [oncall, mlops]
+  - id: CONFIDENCE_DRIFT_ALERT
+    severity: P2
+    trigger: confidence_drift_score > 0.20 for 30m
+    action: trigger_retrain
+    escalation: [oncall, mlops]
+  - id: MARKET_DATA_DRIFT_ALERT
+    severity: P2
+    trigger: market_data_drift_score > 0.35 for 30m
+    action: trigger_recrawl
+    escalation: [oncall, data]
+  - id: LOCAL_MODEL_ROLLBACK
+    severity: P1
+    trigger: rollback_event_total > 0 for 5m
+    action: notify_incident
+    escalation: [oncall, lead, incident]

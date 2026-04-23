@@ -1,0 +1,441 @@
+/* src/components/features/ChatFlow/ChatFlow.module.css
+ *
+ * Palette — matches OneButtonPage:
+ *   #05060f  — near-black bg
+ *   #c8a55a  — bronze gold
+ *   #d4a24c  — bright gold (active)
+ *   #ede8df  — warm off-white text
+ *   rgba(200,165,90,0.08) — glass tint
+ */
+
+/* ─────────────────────────────────────────────────────────────────
+   FULL-SCREEN OVERLAY
+   ───────────────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #05060f;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+
+  /* Subtle radial glow centre */
+  background-image: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(200, 165, 90, 0.055) 0%,
+    transparent 60%
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────────────────────────── */
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(200, 165, 90, 0.12);
+  background: rgba(5, 6, 15, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.radialIndicator {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  color: #c8a55a;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.headerTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ede8df;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+.headerSub {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: #c8a55a;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 165, 90, 0.18);
+  color: rgba(237, 232, 223, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(200, 165, 90, 0.1);
+  color: #c8a55a;
+  border-color: rgba(200, 165, 90, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   MESSAGES AREA
+   ───────────────────────────────────────────────────────────────── */
+
+.messagesArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  scroll-behavior: smooth;
+
+  /* Thin gold scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 165, 90, 0.2) transparent;
+}
+
+.messagesArea::-webkit-scrollbar {
+  width: 4px;
+}
+
+.messagesArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messagesArea::-webkit-scrollbar-thumb {
+  background: rgba(200, 165, 90, 0.2);
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   MESSAGE ROWS
+   ───────────────────────────────────────────────────────────────── */
+
+.msgRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  max-width: min(78%, 580px);
+  animation: fadeUp 0.25s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.msgRowAI {
+  align-self: flex-start;
+}
+
+.msgRowUser {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  max-width: min(72%, 520px);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   AI AVATAR
+   ───────────────────────────────────────────────────────────────── */
+
+.aiAvatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(200, 165, 90, 0.08);
+  border: 1px solid rgba(200, 165, 90, 0.22);
+  color: #c8a55a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s;
+}
+
+.aiAvatarTyping {
+  box-shadow: 0 0 0 3px rgba(200, 165, 90, 0.12), 0 0 14px rgba(200, 165, 90, 0.2);
+  animation: avatarPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(200, 165, 90, 0.12), 0 0 14px rgba(200, 165, 90, 0.2); }
+  50%       { box-shadow: 0 0 0 5px rgba(200, 165, 90, 0.2), 0 0 24px rgba(200, 165, 90, 0.35); }
+}
+
+.aiAvatarSvg {
+  width: 18px;
+  height: 18px;
+  color: #c8a55a;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   CHAT BUBBLES — glass effect
+   ───────────────────────────────────────────────────────────────── */
+
+.bubble {
+  padding: 0.65rem 0.9rem;
+  border-radius: 14px;
+  font-size: 0.83rem;
+  line-height: 1.6;
+  word-break: break-word;
+  position: relative;
+}
+
+.bubbleAI {
+  background: rgba(200, 165, 90, 0.06);
+  border: 1px solid rgba(200, 165, 90, 0.16);
+  border-bottom-left-radius: 4px;
+  color: #ede8df;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bubbleAI strong {
+  color: #d4a24c;
+  font-weight: 600;
+}
+
+.bubbleUser {
+  background: rgba(212, 162, 76, 0.14);
+  border: 1px solid rgba(212, 162, 76, 0.28);
+  border-bottom-right-radius: 4px;
+  color: #ede8df;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(212, 162, 76, 0.08), 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TYPING INDICATOR
+   ───────────────────────────────────────────────────────────────── */
+
+.typingBubble {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.65rem 0.85rem;
+  min-width: 52px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(200, 165, 90, 0.6);
+  border-radius: 50%;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { transform: scale(0.75); opacity: 0.4; }
+  40%            { transform: scale(1);    opacity: 1;   }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   INPUT AREA
+   ───────────────────────────────────────────────────────────────── */
+
+.inputArea {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid rgba(200, 165, 90, 0.1);
+  background: rgba(5, 6, 15, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.inputRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.chatInput {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 165, 90, 0.22);
+  border-radius: 10px;
+  color: #ede8df;
+  font-size: 0.84rem;
+  padding: 0.6rem 0.85rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.chatInput::placeholder {
+  color: rgba(237, 232, 223, 0.3);
+  font-size: 0.78rem;
+}
+
+.chatInput:focus {
+  border-color: rgba(200, 165, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(200, 165, 90, 0.08);
+}
+
+.chatInput:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sendBtn {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(200, 165, 90, 0.14);
+  border: 1px solid rgba(200, 165, 90, 0.3);
+  color: #c8a55a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.sendBtn:hover:not(:disabled) {
+  background: rgba(200, 165, 90, 0.24);
+  box-shadow: 0 0 12px rgba(200, 165, 90, 0.22);
+}
+
+.sendBtn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.sendBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   NEXT STEP BUTTON
+   ───────────────────────────────────────────────────────────────── */
+
+.nextBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(135deg, rgba(212, 162, 76, 0.18) 0%, rgba(200, 165, 90, 0.1) 100%);
+  border: 1px solid rgba(200, 165, 90, 0.35);
+  border-radius: 10px;
+  color: #d4a24c;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.22s, box-shadow 0.22s, transform 0.12s;
+  font-family: inherit;
+}
+
+.nextBtn:hover {
+  background: linear-gradient(135deg, rgba(212, 162, 76, 0.28) 0%, rgba(200, 165, 90, 0.18) 100%);
+  box-shadow: 0 2px 18px rgba(200, 165, 90, 0.18);
+}
+
+.nextBtn:active {
+  transform: scale(0.98);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ALL-COMPLETE OVERLAY
+   ───────────────────────────────────────────────────────────────── */
+
+.completeOverlay {
+  flex-shrink: 0;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(5, 6, 15, 0.95);
+  border-top: 1px solid rgba(200, 165, 90, 0.1);
+}
+
+.completePulse {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c8a55a;
+  animation: completePulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes completePulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(200, 165, 90, 0.4); }
+  50%       { transform: scale(1.1); opacity: 1;   box-shadow: 0 0 0 6px rgba(200, 165, 90, 0); }
+}
+
+.completeText {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(237, 232, 223, 0.7);
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RESPONSIVE — larger screens centre the chat
+   ───────────────────────────────────────────────────────────────── */
+
+@media (min-width: 640px) {
+  .overlay {
+    background-image:
+      radial-gradient(ellipse at 50% 25%, rgba(200, 165, 90, 0.06) 0%, transparent 55%);
+  }
+
+  .messagesArea {
+    padding: 1.5rem 1.5rem 0.75rem;
+  }
+
+  .inputArea {
+    padding: 0.85rem 1.5rem 1.25rem;
+  }
+
+  .header {
+    padding: 0.85rem 1.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .overlay {
+    /* Centre the chat column on wide screens */
+    padding: 0 max(0px, calc(50% - 400px));
+  }
+}

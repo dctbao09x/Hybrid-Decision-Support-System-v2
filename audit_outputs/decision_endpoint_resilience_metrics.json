@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-04-02T14:56:18.111708+00:00",
+  "suite": "decision_endpoint_resilience_mandatory",
+  "scenarios": [
+    {
+      "name": "concurrent_load_on_one_button_and_decision_alias",
+      "passed": true,
+      "detail": "requests=120 p95=6.37ms error_rate=0.0000"
+    },
+    {
+      "name": "soak_stability_for_decision_endpoints",
+      "passed": true,
+      "detail": "windows=6 overall_p95=7.67ms drift_ratio=0.974"
+    },
+    {
+      "name": "failure_injection_redis_unavailable_fail_closed",
+      "passed": true,
+      "detail": "status=503 code=RATE_LIMIT_BACKEND_UNAVAILABLE"
+    },
+    {
+      "name": "failure_injection_redis_unavailable_fail_open_fallback",
+      "passed": true,
+      "detail": "status=200 with fail_open fallback"
+    },
+    {
+      "name": "failure_injection_auth_provider_failure",
+      "passed": true,
+      "detail": "status=500 code=CONFIG_ERROR"
+    },
+    {
+      "name": "failure_injection_market_timeout_error_visibility",
+      "passed": true,
+      "detail": "status=500 retryable=true code=ONE_BUTTON_PIPELINE_ERROR"
+    },
+    {
+      "name": "failure_injection_llm_timeout_fallback_visibility",
+      "passed": true,
+      "detail": "status=200 with fallback_reason=provider_timeout"
+    },
+    {
+      "name": "failure_injection_scheduler_delay",
+      "passed": true,
+      "detail": "delay_injected=0.080s observed=0.082s"
+    },
+    {
+      "name": "market_timeout_fallback_taxonomy_probe",
+      "passed": true,
+      "detail": "fallback_delta=1 missing_signal_delta=1"
+    }
+  ],
+  "metrics": {
+    "p95_latency_under_load": 7.67170000472106,
+    "error_rate_under_load": 0.0,
+    "retry_rate": 0.6666666666666666,
+    "fallback_rate": 0.5,
+    "dead_letter_rate": 0.0
+  },
+  "thresholds": {
+    "p95_latency_under_load_max_ms": 400.0,
+    "error_rate_under_load_max": 0.05,
+    "retry_rate_min": 0.2,
+    "fallback_rate_min": 0.4,
+    "dead_letter_rate_max": 0.05
+  },
+  "tooling_recommendation": {
+    "runner": "pytest + pytest-asyncio",
+    "load_driver": "httpx.AsyncClient with ASGITransport",
+    "fault_injection": "pytest monkeypatch plus deterministic controller stubs",
+    "artifacts": [
+      "audit_outputs/decision_endpoint_resilience_metrics.json",
+      "audit_outputs/decision_endpoint_resilience_report.md"
+    ]
+  },
+  "ci_cd_integration": {
+    "workflow": ".github/workflows/ci.yml",
+    "mandatory_command": "python -m pytest backend/tests/test_decision_endpoint_resilience.py -v --tb=short",
+    "artifact_upload": "decision-resilience-metrics-py${{ matrix.python-version }}"
+  }
+}

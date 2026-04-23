@@ -1,0 +1,709 @@
+# config/ops.yaml
+# Live Ops API Specification - OpenAPI 3.0
+
+openapi: 3.0.3
+info:
+  title: Live Ops API
+  description: |
+    Live Operations Integration Layer for Hybrid Decision Support System.
+    Provides realtime monitoring, command execution, and operational control.
+  version: 1.0.0
+  contact:
+    name: Ops Team
+
+servers:
+  - url: /api/v1/live
+    description: Live Ops API
+
+tags:
+  - name: realtime
+    description: Realtime data channels
+  - name: commands
+    description: Command execution
+  - name: widgets
+    description: Dashboard widget data
+  - name: simulation
+    description: Testing and simulation
+
+paths:
+  /health:
+    get:
+      tags: [realtime]
+      summary: LiveOps health
+      description: Health status of LiveOps router and command engine
+      operationId: liveOpsHealth
+      responses:
+        '200':
+          description: LiveOps health payload
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /ws:
+    get:
+      tags: [realtime]
+      summary: WebSocket connection
+      description: |
+        Establish WebSocket connection for realtime updates.
+        Send JSON messages to subscribe/unsubscribe to modules.
+      operationId: websocketConnect
+      responses:
+        '101':
+          description: Switching Protocols to WebSocket
+
+  /sse:
+    get:
+      tags: [realtime]
+      summary: Server-Sent Events stream
+      description: Receive realtime updates via SSE
+      operationId: sseConnect
+      parameters:
+        - name: modules
+          in: query
+          schema:
+            type: string
+          description: Comma-separated module names to subscribe
+      responses:
+        '200':
+          description: SSE stream
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  /poll:
+    get:
+      tags: [realtime]
+      summary: Polling fallback
+      description: Get latest events via polling
+      operationId: pollEvents
+      parameters:
+        - name: since
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Get events since this timestamp
+        - name: modules
+          in: query
+          schema:
+            type: string
+          description: Comma-separated module names
+      responses:
+        '200':
+          description: Recent events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollResponse'
+
+  /crawler/kill:
+    post:
+      tags: [commands]
+      summary: Kill crawler
+      description: Terminate a running crawler process
+      operationId: killCrawler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrawlerKillRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /job/pause:
+    post:
+      tags: [commands]
+      summary: Pause job
+      description: Pause a running job
+      operationId: pauseJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobControlRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /job/resume:
+    post:
+      tags: [commands]
+      summary: Resume job
+      description: Resume a paused job
+      operationId: resumeJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobControlRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /kb/rollback:
+    post:
+      tags: [commands]
+      summary: Rollback knowledge base
+      description: Rollback KB to a previous version
+      operationId: rollbackKB
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KBRollbackRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /mlops/freeze:
+    post:
+      tags: [commands]
+      summary: Freeze model
+      description: Freeze ML model to prevent changes
+      operationId: freezeModel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelFreezeRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /mlops/retrain:
+    post:
+      tags: [commands]
+      summary: Retrain model
+      description: Trigger model retraining
+      operationId: retrainModel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelRetrainRequest'
+      responses:
+        '200':
+          description: Command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /simulate:
+    post:
+      tags: [simulation]
+      summary: Simulate command
+      description: Dry-run command execution
+      operationId: simulateCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulateRequest'
+      responses:
+        '200':
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResult'
+
+  /commands/{command_id}:
+    get:
+      tags: [commands]
+      summary: Get command status
+      description: Get status of a command by ID
+      operationId: getCommand
+      parameters:
+        - name: command_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Command status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /commands/{command_id}/cancel:
+    post:
+      tags: [commands]
+      summary: Cancel command
+      description: Cancel a pending or running command
+      operationId: cancelCommand
+      parameters:
+        - name: command_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Command cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /commands:
+    get:
+      tags: [commands]
+      summary: List commands
+      description: List all commands with optional filters
+      operationId: listCommands
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, running, done, failed]
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Command list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandList'
+
+  /commands/{command_id}/approve:
+    post:
+      tags: [commands]
+      summary: Approve command
+      description: Approve a command awaiting approval
+      operationId: approveCommand
+      parameters:
+        - name: command_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalRequest'
+      responses:
+        '200':
+          description: Command approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
+
+  /widget/{type}:
+    get:
+      tags: [widgets]
+      summary: Get widget data
+      description: Get data for dashboard widget
+      operationId: getWidgetData
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [health, jobs, drift, cost, sla, errors]
+      responses:
+        '200':
+          description: Widget data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemHealthData'
+                  - $ref: '#/components/schemas/JobQueueData'
+                  - $ref: '#/components/schemas/DriftData'
+                  - $ref: '#/components/schemas/CostData'
+                  - $ref: '#/components/schemas/SLAData'
+                  - $ref: '#/components/schemas/ErrorRateData'
+
+components:
+  schemas:
+    CommandResponse:
+      type: object
+      properties:
+        command_id:
+          type: string
+        status:
+          type: string
+          enum: [pending, validating, queued, running, done, failed]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    CommandStatus:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        target:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        result:
+          type: object
+        error:
+          type: string
+
+    CommandList:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandStatus'
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+
+    CrawlerKillRequest:
+      type: object
+      required:
+        - site_name
+      properties:
+        site_name:
+          type: string
+          description: Name of crawler site to kill
+        force:
+          type: boolean
+          default: false
+        reason:
+          type: string
+        dry_run:
+          type: boolean
+          default: false
+
+    JobControlRequest:
+      type: object
+      required:
+        - job_id
+      properties:
+        job_id:
+          type: string
+        reason:
+          type: string
+        dry_run:
+          type: boolean
+          default: false
+
+    KBRollbackRequest:
+      type: object
+      required:
+        - version
+      properties:
+        version:
+          type: string
+          description: Version to rollback to
+        backup_current:
+          type: boolean
+          default: true
+        reason:
+          type: string
+        dry_run:
+          type: boolean
+          default: false
+
+    ModelFreezeRequest:
+      type: object
+      required:
+        - model_id
+      properties:
+        model_id:
+          type: string
+        duration_hours:
+          type: integer
+          description: Duration to freeze (0 = indefinite)
+        reason:
+          type: string
+        dry_run:
+          type: boolean
+          default: false
+
+    ModelRetrainRequest:
+      type: object
+      required:
+        - model_id
+      properties:
+        model_id:
+          type: string
+        dataset_version:
+          type: string
+        config_override:
+          type: object
+        priority:
+          type: string
+          enum: [low, normal, high]
+          default: normal
+        dry_run:
+          type: boolean
+          default: false
+
+    SimulateRequest:
+      type: object
+      required:
+        - command_type
+        - target
+      properties:
+        command_type:
+          type: string
+        target:
+          type: string
+        params:
+          type: object
+
+    SimulationResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        steps:
+          type: array
+          items:
+            type: object
+            properties:
+              order:
+                type: integer
+              action:
+                type: string
+              expected_result:
+                type: string
+        estimated_duration_ms:
+          type: integer
+        impact:
+          type: object
+          properties:
+            affected_resources:
+              type: array
+              items:
+                type: string
+            risk_level:
+              type: string
+            warnings:
+              type: array
+              items:
+                type: string
+        validation_errors:
+          type: array
+          items:
+            type: string
+
+    ApprovalRequest:
+      type: object
+      required:
+        - approver_id
+        - approved
+      properties:
+        approver_id:
+          type: string
+        approved:
+          type: boolean
+        comment:
+          type: string
+
+    PollResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            type: object
+        last_event_time:
+          type: string
+          format: date-time
+
+    SystemHealthData:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, critical]
+        uptime_percent:
+          type: number
+        active_services:
+          type: integer
+        total_services:
+          type: integer
+        alerts:
+          type: integer
+
+    JobQueueData:
+      type: object
+      properties:
+        running:
+          type: integer
+        queued:
+          type: integer
+        completed_today:
+          type: integer
+        failed_today:
+          type: integer
+        avg_wait_time_ms:
+          type: integer
+
+    DriftData:
+      type: object
+      properties:
+        data_drift_score:
+          type: number
+        concept_drift_score:
+          type: number
+        model_drift_detected:
+          type: boolean
+        last_check:
+          type: string
+          format: date-time
+
+    CostData:
+      type: object
+      properties:
+        today:
+          type: number
+        mtd:
+          type: number
+        budget:
+          type: number
+        forecast:
+          type: number
+
+    SLAData:
+      type: object
+      properties:
+        current:
+          type: number
+        target:
+          type: number
+        trend:
+          type: string
+          enum: [up, down, stable]
+        violations_today:
+          type: integer
+
+    ErrorRateData:
+      type: object
+      properties:
+        current_rate:
+          type: number
+        threshold:
+          type: number
+        errors_today:
+          type: integer
+        top_errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              count:
+                type: integer
+
+  responses:
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+              errors:
+                type: array
+                items:
+                  type: object
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

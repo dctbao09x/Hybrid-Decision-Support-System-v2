@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SIMGR Formula Schema",
+  "description": "JSON Schema for SIMGR scoring formula compliance (GĐ4 Extended)",
+  "type": "object",
+  
+  "properties": {
+    "formula_spec": {
+      "type": "object",
+      "description": "Canonical formula specification",
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "v1.0",
+          "description": "Formula version"
+        },
+        "equation": {
+          "type": "string",
+          "const": "Score = wS*S + wI*I + wM*M + wG*G - wR*R",
+          "description": "Canonical formula string"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["study", "interest", "market", "growth", "risk"]
+          },
+          "minItems": 5,
+          "maxItems": 5,
+          "description": "SIMGR components in canonical order"
+        }
+      },
+      "required": ["version", "equation", "components"]
+    },
+    
+    "component_specs": {
+      "type": "object",
+      "description": "Specification for each component",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "weight_key": { "type": "string" },
+          "sign": { 
+            "type": "integer", 
+            "enum": [-1, 1],
+            "description": "+1 for additive, -1 for subtractive"
+          },
+          "default_fallback": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "description": { "type": "string" }
+        },
+        "required": ["name", "weight_key", "sign", "default_fallback"]
+      },
+      "propertyNames": {
+        "enum": ["study", "interest", "market", "growth", "risk"]
+      }
+    },
+    
+    "constraints": {
+      "type": "object",
+      "description": "Formula constraints",
+      "properties": {
+        "weight_sum": {
+          "type": "number",
+          "const": 1.0,
+          "description": "All weights must sum to this value"
+        },
+        "score_range": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "number", "const": 0.0 },
+            "max": { "type": "number", "const": 1.0 }
+          },
+          "description": "Valid range for input scores and output"
+        },
+        "risk_sign": {
+          "type": "integer",
+          "const": -1,
+          "description": "Risk MUST be subtracted (sign=-1)"
+        }
+      }
+    },
+    
+    "compliance": {
+      "type": "object",
+      "description": "Compliance requirements",
+      "properties": {
+        "single_source": {
+          "type": "string",
+          "const": "ScoringFormula.compute()",
+          "description": "The ONLY method that computes the formula"
+        },
+        "forbidden_patterns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Patterns that indicate shadow formula violations"
+        },
+        "required_delegation": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Files that must delegate to ScoringFormula"
+        }
+      }
+    }
+  },
+  
+  "required": ["formula_spec", "component_specs", "constraints", "compliance"]
+}

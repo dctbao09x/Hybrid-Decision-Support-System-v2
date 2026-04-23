@@ -1,0 +1,6 @@
+{# backend/explain/stage3/templates/minimal.j2 #}
+{# Minimal template - chỉ career và reasons #}
+
+{{ career }}:
+{% for r in reasons %}- {{ r }}
+{% endfor %}

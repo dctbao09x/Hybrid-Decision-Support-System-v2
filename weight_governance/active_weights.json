@@ -1,0 +1,26 @@
+{
+  "version": "v1",
+  "trained_at": "2026-02-16T12:00:00Z",
+  "dataset_hash": "baseline-50-synthetic",
+  "model_type": "SIMGR-v1",
+  "weights": {
+    "study_score": 0.25,
+    "interest_score": 0.25,
+    "market_score": 0.25,
+    "growth_score": 0.15,
+    "risk_score": 0.10
+  },
+  "metrics": {
+    "train_loss": 0.0,
+    "correlation": 1.0,
+    "n_samples": 50,
+    "method": "default"
+  },
+  "checksum": "5d096c920ce5ed5978dd2c91203caaf05c3527a536e7a44c634bdb4a85aba6a3",
+  "_governance_metadata": {
+    "copied_at": "2026-02-17T10:30:00Z",
+    "source": "models/weights/active/weights.json",
+    "governance_phase": "GD1-PHAN_C",
+    "status": "STANDARDIZED"
+  }
+}

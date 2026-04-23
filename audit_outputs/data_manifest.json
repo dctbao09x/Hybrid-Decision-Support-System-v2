@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-02-17T10:46:40.257071+00:00",
+  "components": {
+    "study": {
+      "required": [
+        "data/training.csv"
+      ],
+      "found": [
+        "data/training.csv"
+      ]
+    },
+    "interest": {
+      "required": [
+        "data/sessions"
+      ],
+      "found": [
+        "data/sessions"
+      ]
+    },
+    "market": {
+      "required": [
+        "data/market/raw",
+        "data/market/state"
+      ],
+      "found": [
+        "data/market/raw",
+        "data/market/state"
+      ]
+    },
+    "growth": {
+      "required": [
+        "data/market"
+      ],
+      "found": [
+        "data/market"
+      ]
+    },
+    "risk": {
+      "required": [
+        "data/risk/costs",
+        "data/risk/sectors",
+        "data/risk/unemployment"
+      ],
+      "found": [
+        "data/risk/costs",
+        "data/risk/sectors",
+        "data/risk/unemployment"
+      ]
+    }
+  },
+  "missing": []
+}

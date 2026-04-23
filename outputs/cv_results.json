@@ -1,0 +1,35 @@
+{
+  "run_id": "ml_eval_9954686f93fd",
+  "timestamp": "2026-02-23T03:47:39.180262+00:00",
+  "model": "random_forest",
+  "kfold": 5,
+  "metrics": {
+    "accuracy": {
+      "mean": 0.953488,
+      "std": 0.014708
+    },
+    "precision": {
+      "mean": 0.945771,
+      "std": 0.023789
+    },
+    "recall": {
+      "mean": 0.950124,
+      "std": 0.019134
+    },
+    "f1": {
+      "mean": 0.939514,
+      "std": 0.020869
+    }
+  },
+  "quality_passed": true,
+  "meta": {
+    "cv_time_s": 3.5877,
+    "num_samples": 215,
+    "num_classes": 7
+  },
+  "stability": {
+    "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+    "regression_status": "PASS",
+    "drift_status": "LOW"
+  }
+}

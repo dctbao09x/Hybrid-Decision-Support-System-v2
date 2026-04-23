@@ -1,0 +1,24 @@
+version: 1
+policy:
+  pii_fields:
+    - full_name
+    - email
+    - phone
+    - address
+    - school_name
+    - uploaded_documents
+    - free_text_input
+  redact_patterns:
+    - email
+    - phone
+    - id_number
+    - address
+    - school
+    - name
+  log_body_default: false
+  max_body_bytes: 512
+  allowlist_paths:
+    - /health
+  blocklist_paths:
+    - /api/v1/chat
+    - /api/v1/decision

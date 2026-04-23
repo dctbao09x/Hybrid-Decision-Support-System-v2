@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "explain_request.json",
+  "title": "Explain API Request Schema",
+  "description": "Schema for career explanation API requests",
+  "type": "object",
+  "required": ["user_id", "request_id", "features"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Unique user identifier"
+    },
+    "request_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique request UUID for tracing"
+    },
+    "features": {
+      "type": "object",
+      "required": ["math_score", "logic_score"],
+      "properties": {
+        "math_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Math aptitude score (0-100)"
+        },
+        "physics_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Physics aptitude score (0-100)"
+        },
+        "interest_it": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "IT interest level (0-100)"
+        },
+        "logic_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Logical reasoning score (0-100)"
+        },
+        "language_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Language aptitude score (0-100)"
+        },
+        "creativity_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Creativity score (0-100)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "use_llm": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to use LLM formatting (Stage 4)"
+        },
+        "include_meta": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include metadata in response"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

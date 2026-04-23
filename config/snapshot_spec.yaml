@@ -1,0 +1,210 @@
+# ══════════════════════════════════════════════════════════════
+#  Snapshot & Reproducibility Spec
+# ══════════════════════════════════════════════════════════════
+# Defines what is captured, how it's verified, and retention
+# policies for the reproducibility system.
+#
+# Used by:
+#   - backend/ops/reproducibility/version_manager.py
+#   - backend/ops/reproducibility/snapshot_manager.py
+#   - backend/ops/reproducibility/seed_control.py
+# ══════════════════════════════════════════════════════════════
+
+# ── Run artifact directory structure ──────────────────────────
+artifact_tree:
+  root: "backend/data/runs"
+  structure:
+    - "{run_id}/"
+    - "{run_id}/raw/"           # crawled data snapshots
+    - "{run_id}/clean/"         # validated + processed records
+    - "{run_id}/feature/"       # feature-engineered data
+    - "{run_id}/score/"         # scored output + explanations
+    - "{run_id}/config.json"    # frozen pipeline config
+    - "{run_id}/manifest.json"  # content-addressed artifact index
+    - "{run_id}/seed.json"      # seed state for replay
+    - "{run_id}/snapshot.json"  # full environment snapshot
+
+# ── Hashing ───────────────────────────────────────────────────
+hashing:
+  algorithm: "sha256"
+  chunk_size: 8192              # bytes per read for streaming hash
+
+  # What gets hashed
+  targets:
+    config:
+      method: "deterministic_json"
+      description: >
+        JSON serialization with sort_keys=True, indent=2.
+        Guarantees identical configs produce identical hashes
+        regardless of dict insertion order.
+    data_files:
+      method: "streaming_sha256"
+      description: >
+        Chunked SHA-256 of file contents.
+        Memory-safe for arbitrarily large files.
+    in_memory_records:
+      method: "sorted_csv_bytes"
+      description: >
+        Convert List[dict] to CSV with alphabetically sorted
+        columns, then SHA-256 the resulting bytes.
+        Column order does not affect the hash.
+
+  # Verification
+  verification:
+    on_finalize: true           # re-verify all hashes when run completes
+    on_load: false              # skip verification on manifest load (perf)
+    mismatch_action: "warn"     # warn | error | block
+
+# ── Seed control ──────────────────────────────────────────────
+seed_control:
+  enabled: true
+  derivation: "sha256_truncated_32bit"
+  description: >
+    Seed = int(SHA-256(run_id)[:8], 16) % 2^32.
+    Deterministic: same run_id → same seed → same random sequence.
+
+  # RNG sources seeded
+  sources:
+    python_random: true         # random.seed(seed)
+    pythonhashseed: true        # os.environ["PYTHONHASHSEED"] = str(seed)
+    numpy: true                 # np.random.seed(seed)  (optional)
+    torch: true                 # torch.manual_seed(seed)  (optional)
+
+  # When to set seeds
+  set_at: "pre_flight"         # before any pipeline stage runs
+
+# ── Environment snapshot ──────────────────────────────────────
+snapshot:
+  # What to capture
+  capture:
+    git:
+      commit: true
+      branch: true
+      dirty_check: true
+    python:
+      version: true
+      executable: true
+      packages: true            # pip list --format=json
+    system:
+      os: true
+      hostname: true
+      cpu_count: true
+    pipeline:
+      config_hash: true
+      seed: true
+      llm_params: true          # model, temperature, top_p, etc.
+    artifacts:
+      count: true
+      hashes: true              # {stage/filename: sha256}
+
+  # When to snapshot
+  create_at: "pre_flight"       # after config freeze, before stage 1
+  update_at: "post_flight"      # re-capture with final artifact hashes
+
+  # What to store
+  format: "json"
+  filename: "snapshot.json"
+  path: "{run_id}/snapshot.json"
+
+# ── Manifest ──────────────────────────────────────────────────
+manifest:
+  filename: "manifest.json"
+  path: "{run_id}/manifest.json"
+
+  # Per-artifact fields
+  artifact_fields:
+    - stage                     # raw | clean | feature | score
+    - filename
+    - sha256                    # content hash
+    - size_bytes
+    - record_count              # rows if CSV, else null
+    - created_at                # ISO-8601
+    - metadata                  # extra info (optional)
+
+  # Run-level fields
+  run_fields:
+    - run_id
+    - config_hash
+    - seed
+    - status                    # running | completed | failed
+    - created_at
+    - finalized_at
+    - duration_seconds
+    - artifact_count
+    - total_size_bytes
+
+# ── Verification / Reproducibility ────────────────────────────
+reproducibility:
+  target: 0.95                  # ≥95% artifact hash match = reproduced
+  comparison_method: "artifact_sha256"
+
+  # Verify steps (on `verify_run`)
+  checks:
+    - name: "config_hash"
+      description: "Re-hash config.json, compare to manifest"
+      required: true
+    - name: "artifact_hashes"
+      description: "Re-hash every artifact, compare to manifest"
+      required: true
+    - name: "artifact_count"
+      description: "Same number of artifacts in both runs"
+      required: false
+
+  # Compare steps (on `compare_runs`)
+  compare:
+    - name: "config_match"
+      description: "Same config hash"
+      weight: 0.2
+    - name: "seed_match"
+      description: "Same random seed"
+      weight: 0.1
+    - name: "artifact_match"
+      description: "Same artifact hashes per stage/filename"
+      weight: 0.7
+
+# ── LLM parameter tracking ───────────────────────────────────
+llm_params:
+  tracked_fields:
+    - model                     # e.g. "gpt-4", "claude-3"
+    - temperature               # 0.0–2.0
+    - top_p                     # 0.0–1.0
+    - max_tokens
+    - seed                      # API-level seed (if supported)
+    - system_prompt_hash        # SHA-256 of system prompt text
+  description: >
+    LLM parameters are captured in the snapshot so that
+    non-deterministic API calls can be tracked.
+    If temperature=0.0 and seed is set, output should be
+    deterministic for models that support it.
+
+# ── Retention ─────────────────────────────────────────────────
+retention:
+  max_runs: 100                 # keep last N run directories
+  max_age_days: 90              # delete runs older than this
+  protected_statuses:
+    - "completed"               # don't auto-delete completed runs
+  cleanup_on: "post_flight"     # when to enforce retention
+
+# ── Integration points ────────────────────────────────────────
+integration:
+  main_controller:
+    pre_flight:
+      - "version_manager.init_run(run_id, config, seed)"
+      - "seed_controller.set_seeds(seed)"
+      - "snapshot_manager.capture(...)"
+      - "snapshot_manager.save(run_id, snapshot)"
+    stage_crawl:
+      - "version_manager.save_artifact(run_id, 'raw', crawl_data)"
+    stage_validate:
+      - "version_manager.save_artifact(run_id, 'clean', valid_records)"
+    stage_score:
+      - "version_manager.save_artifact(run_id, 'feature', features)"
+      - "version_manager.save_artifact(run_id, 'score', scored)"
+    stage_explain:
+      - "version_manager.save_artifact(run_id, 'score', explanations)"
+    post_flight:
+      - "version_manager.finalize_run(run_id)"
+      - "snapshot_manager.capture(...)  # final with artifact hashes"
+      - "snapshot_manager.save(run_id, final_snapshot)"
+    on_failure:
+      - "version_manager.finalize_run(run_id, status='failed')"

@@ -1,0 +1,20 @@
+/* src/components/common/Card/Card.module.css */
+.card {
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: all var(--transition-base);
+  backdrop-filter: blur(4px);
+}
+
+.hover:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(200, 165, 90, 0.3);
+  transform: translateY(-3px);
+}
+
+.clickable {
+  cursor: pointer;
+}

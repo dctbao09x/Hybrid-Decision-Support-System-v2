@@ -1,0 +1,11 @@
+[
+  {
+    "rolled_back_to": "v2_linear_regression_20260219_145802",
+    "rolled_back_from": "v2_linear_regression_20260219_151434",
+    "rolled_back_at": "2026-02-19T15:29:16.975766Z",
+    "rolled_back_by": "phase4_test",
+    "reason": "Testing rollback",
+    "r2_score": 0.9160777589281592,
+    "source_file": "models\\weights\\archive\\v2_linear_regression_20260219_145802.json"
+  }
+]

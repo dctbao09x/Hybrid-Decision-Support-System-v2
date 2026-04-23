@@ -1,0 +1,60 @@
+{
+  "version": "v2_linear_regression_20260224_150733",
+  "method": "linear_regression",
+  "trained_at": "2026-02-24T15:07:33.493220Z",
+  "dataset_hash": "ae7dd4e74089b92e",
+  "r2_score": 0.9933700895849514,
+  "weights": {
+    "study_score": 0.12175543446743649,
+    "interest_score": 0.24333909790621622,
+    "market_score": 0.15270225582546554,
+    "growth_score": 0.22523145075224751,
+    "risk_score": 0.2569717610486344
+  },
+  "metrics": {
+    "method": "linear_regression",
+    "r2_score": 0.9933700895849514,
+    "mae": 0.013694857181077866,
+    "samples": 50,
+    "train_loss": 0.00030403814456313215,
+    "correlation": 0.996695034706759,
+    "formula_version": "v2.0_full_SIMGR",
+    "cv_results": {
+      "linear": {
+        "model_type": "linear",
+        "cv_scores": [
+          0.9974409754526409,
+          0.9904772496585631,
+          0.986378892342529,
+          0.9862513309328617,
+          0.992895055458985
+        ],
+        "cv_mean": 0.9906887007691159,
+        "cv_std": 0.004213564422885041,
+        "train_r2": 0.9933700895849514,
+        "overfit_gap": 0.0026813888158355725
+      },
+      "ridge": {
+        "model_type": "ridge",
+        "cv_scores": [
+          0.978466650336393,
+          0.9612325102610784,
+          0.9544814982296954,
+          0.9485271332883405,
+          0.9554847613901926
+        ],
+        "cv_mean": 0.95963851070114,
+        "cv_std": 0.010240613220898169,
+        "train_r2": 0.9698043097941973,
+        "overfit_gap": 0.01016579909305726
+      },
+      "selected": "linear",
+      "selection_reason": "Linear CV mean (0.9907) > Ridge (0.9596) by 0.0311"
+    },
+    "selected_model": "linear",
+    "cv_mean": 0.9906887007691159,
+    "cv_std": 0.004213564422885041,
+    "overfit_gap": 0.0026813888158355725
+  },
+  "checksum": "171fd7e44a3f8b20a34c6ec3dcdab4c6838c1ba38e4c2bbc555830b47687c12d"
+}

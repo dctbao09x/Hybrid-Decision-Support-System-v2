@@ -1,0 +1,34 @@
+browser:
+  headless: true
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  session_dir: "data/sessions"
+
+delays:
+  random_min: 2.0
+  random_max: 5.0
+  scroll_pause: 1.5
+
+timeouts:
+  page_load: 60000
+  element_wait: 15000
+
+performance:
+  max_retries: 3
+  max_memory_mb: 1500
+
+output:
+  base_dir: "data/market/raw"
+  log_dir: "data/logs"
+  error_log: "crawler_errors.log"
+
+resume:
+  resume_state_file: "data/market/state/crawler_state.json"
+
+sites:
+  topcv:
+    url: "https://www.topcv.vn/viec-lam-it"
+    base_url: "https://www.topcv.vn"
+  vietnamworks:
+    url: "https://www.vietnamworks.com/viec-lam-it-phan-mem"
+    base_url: "https://www.vietnamworks.com"

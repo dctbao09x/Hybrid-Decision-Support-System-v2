@@ -1,0 +1,57 @@
+version: 1
+owner: platform
+rollback_triggers:
+  - id: LOCAL_MODEL_SCHEMA_FAIL
+    severity: P1
+    trigger: local_schema_valid_rate < 0.99 for 10m
+    action: rollback_to_api
+    auto_action: true
+    metadata_required: [model_id, model_version, previous_model_version, request_id]
+  - id: LOCAL_MODEL_ERROR_SPIKE
+    severity: P1
+    trigger: local_error_rate > 0.03 for 10m
+    action: rollback_to_api
+    auto_action: true
+    metadata_required: [model_id, model_version, previous_model_version]
+  - id: LOCAL_MODEL_DRIFT
+    severity: P1
+    trigger: local_vs_api_parity < 0.95 for 15m
+    action: freeze_local_and_alert
+    auto_action: true
+    metadata_required: [model_id, model_version, baseline_version]
+  - id: LOCAL_MODEL_LATENCY
+    severity: P2
+    trigger: local_latency_p90_ms > 1500 for 10m
+    action: shift_traffic_to_api
+    auto_action: true
+    metadata_required: [model_id, model_version]
+rollback_actions:
+  - id: rollback_to_api
+    steps: [freeze_local, shift_traffic_api, validate_api_health, notify_oncall]
+  - id: freeze_local_and_alert
+    steps: [freeze_local, notify_oncall, create_incident]
+  - id: shift_traffic_to_api
+    steps: [shift_traffic_api, notify_oncall]
+workflow:
+  steps:
+    - detect_trigger
+    - snapshot_metrics
+    - freeze_local
+    - rollback_or_shift
+    - validate_health
+    - notify
+    - audit_log
+    - postmortem_ticket
+audit_logging:
+  required_fields:
+    - rollback_id
+    - trigger_id
+    - model_id
+    - model_version
+    - previous_model_version
+    - action
+    - timestamp
+    - initiated_by
+    - metrics_snapshot
+    - affected_traffic_percent
+    - status

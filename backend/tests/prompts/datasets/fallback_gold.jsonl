@@ -1,0 +1,3 @@
+{"id":"fb_001","input":"I do not know what I want.","expected":{"interest":"UNKNOWN","min_missing_flags":1}}
+{"id":"fb_002","input":"...","expected":{"interest":"UNKNOWN","min_missing_flags":1}}
+{"id":"fb_003","input":"help","expected":{"interest":"UNKNOWN","min_missing_flags":1}}

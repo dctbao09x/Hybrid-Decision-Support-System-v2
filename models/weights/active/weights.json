@@ -1,0 +1,25 @@
+{
+  "version": "v2_full_SIMGR_20260224_150947",
+  "weights": {
+    "study_score": 0.12175543446743649,
+    "interest_score": 0.24333909790621622,
+    "market_score": 0.15270225582546554,
+    "growth_score": 0.22523145075224751,
+    "risk_score": 0.2569717610486344
+  },
+  "checksum": "sha256:440608b402fbdcfc7ee1b436ba3bc7647f0194d3be0ef9c99906bce8f5166152",
+  "method": "linear_regression",
+  "model_type": "linear",
+  "trained_at": "2026-02-24T15:09:47.051786+00:00",
+  "dataset_hash": "440608b40",
+  "r2_score": 0.9933700895849514,
+  "metrics": {
+    "method": "linear_regression",
+    "r2_score": 0.9933700895849514,
+    "mae": 0.013694857181077866,
+    "samples": 50,
+    "train_loss": 0.00030403814456313215,
+    "correlation": 0.996695034706759,
+    "formula_version": "v2.0_full_SIMGR"
+  }
+}

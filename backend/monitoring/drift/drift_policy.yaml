@@ -1,0 +1,41 @@
+version: 1
+owner: mlops
+metrics:
+  input_drift:
+    methods: [psi, ks]
+    threshold_warn: 0.15
+    threshold_alert: 0.25
+    window: 24h
+  output_drift:
+    methods: [js_divergence, ks]
+    threshold_warn: 0.10
+    threshold_alert: 0.20
+    window: 24h
+  confidence_drift:
+    methods: [psi, mean_shift]
+    threshold_warn: 0.10
+    threshold_alert: 0.20
+    window: 24h
+  scoring_drift:
+    methods: [delta_mean, delta_p90]
+    threshold_warn: 0.10
+    threshold_alert: 0.15
+    window: 24h
+  market_data_drift:
+    methods: [freshness_delta, source_conflict]
+    threshold_warn: 0.20
+    threshold_alert: 0.35
+    window: 7d
+retrain_triggers:
+  - id: INPUT_DRIFT_ALERT
+    trigger: input_drift >= 0.25
+    action: trigger_retrain
+  - id: OUTPUT_DRIFT_ALERT
+    trigger: output_drift >= 0.20
+    action: trigger_retrain
+  - id: CONFIDENCE_DRIFT_ALERT
+    trigger: confidence_drift >= 0.20
+    action: trigger_retrain
+  - id: MARKET_STALE_ALERT
+    trigger: market_data_drift >= 0.35
+    action: trigger_recrawl

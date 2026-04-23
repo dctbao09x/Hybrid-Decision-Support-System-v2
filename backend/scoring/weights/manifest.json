@@ -1,0 +1,10 @@
+{
+  "active_version": "v2_linear_regression_20260219_145802",
+  "weights_path": "models/weights/active/weights.json",
+  "sha256": "6a39d02dab30860da76b5c1aa0d909e3f6d45dc2c0ce87cbfc6957443d9332e1",
+  "internal_checksum": "d15f6dcb6692eb71361cca523835ea0d609d607046cb3724a90a70035f9481a4",
+  "locked": true,
+  "created_at": "2026-02-21T14:05:05.937796+00:00",
+  "_comment": "IMMUTABLE MANIFEST - DO NOT MODIFY AT RUNTIME",
+  "checksum_manifest_file": "8c9b1023dd533715d4e9dc1187075fe7006fb85d8357d50f6b4a3d6446e6838e"
+}

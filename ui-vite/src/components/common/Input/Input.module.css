@@ -1,0 +1,64 @@
+/* src/components/common/Input/Input.module.css */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(200, 165, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(200, 165, 90, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.input.error {
+  border-color: var(--error);
+}
+
+.withIcon {
+  padding-left: var(--spacing-3xl);
+}
+
+.icon {
+  position: absolute;
+  left: var(--spacing-md);
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+}
+
+.errorText {
+  font-size: var(--font-size-sm);
+  color: var(--error);
+}
+
+.helperText {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}

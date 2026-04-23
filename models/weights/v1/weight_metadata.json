@@ -1,0 +1,30 @@
+{
+  "version": "v2_linear_regression_20260219_145802",
+  "trained_at": "2026-02-19T14:58:02.818780Z",
+  "dataset": "training_data/synthetic_50_samples",
+  "dataset_hash": "bb0cd921446aa064c2b76a490fe6535981d7e9fc2306a3126e80c6158403eb60",
+  "features": [
+    "study_score",
+    "interest_score",
+    "market_score",
+    "growth_score",
+    "risk_score"
+  ],
+  "checksum": "sha256:d900eab690aa1a012f42676786c9b40d13ac1f059a762fcde910d115c0ca2f21",
+  "trainer_commit": "g5-restoration-20260222",
+  "pipeline_version": "train_v2.1",
+  "metrics": {
+    "r2": 0.9160777589281592,
+    "mae": 0.04907196073796549,
+    "rmse": 0.0,
+    "train_loss": 0.003848553127527472,
+    "val_loss": 0.0,
+    "correlation": 0.9900878880707,
+    "n_samples": 50,
+    "n_folds": 0
+  },
+  "approved_by": "g5-restoration-protocol",
+  "approved_at": "2026-02-22T00:00:00Z",
+  "promotion_reason": "G5 Training Metadata Restoration Protocol - 2026-02-22",
+  "metadata_version": "1.0"
+}

@@ -1,0 +1,197 @@
+# config/observability.yaml
+# ──────────────────────────────────────────────────
+# HDSS Runtime Observability Configuration
+# ──────────────────────────────────────────────────
+
+# ── Health Probes ─────────────────────────────────
+health:
+  live:
+    path: /health/live
+    interval_seconds: 5
+    timeout_seconds: 1
+    # k8s: livenessProbe
+  full:
+    path: /health/full
+    interval_seconds: 30
+    timeout_seconds: 15
+    # k8s: readinessProbe
+  component_timeout_seconds: 10
+
+# ── Metrics ───────────────────────────────────────
+metrics:
+  path: /metrics
+  format: prometheus          # prometheus | json
+  collection_interval_seconds: 15
+  history_size: 720           # ~3 hours at 15s
+
+  # Process-level
+  process:
+    cpu: true
+    rss: true
+    threads: true
+    open_fds: true
+
+  # System-level
+  system:
+    cpu: true
+    memory: true
+
+  # Application-level
+  application:
+    http_requests: true
+    http_errors: true
+    http_latency_histogram: true
+    scoring_latency: true
+    pipeline_stage_latency: true
+    error_rate_window_seconds: 300
+
+# ── Alerting ──────────────────────────────────────
+alerts:
+  cooldown_seconds: 300       # Alert dedup window (5 min)
+  max_history: 1000
+
+  channels:
+    log:
+      enabled: true           # Always on
+
+    file:
+      enabled: true
+      path: backend/data/logs/alerts.jsonl
+
+    slack:
+      enabled: false
+      # Set SLACK_WEBHOOK_URL env var to enable
+      # webhook_url: https://hooks.slack.com/services/...
+      min_severity: warning   # Only warning+ to Slack
+
+    email:
+      enabled: false
+      # Set env vars: ALERT_SMTP_HOST, ALERT_SMTP_PORT,
+      #   ALERT_SMTP_USER, ALERT_SMTP_PASS,
+      #   ALERT_EMAIL_FROM, ALERT_EMAIL_TO
+      min_severity: critical  # Only critical+ to email
+
+    webhook:
+      enabled: false
+      # Generic webhooks (PagerDuty, Opsgenie, etc.)
+      # url: https://your-endpoint.example.com/alerts
+      min_severity: warning
+
+  # ── Auto-alert rules ────────────────────────────
+  rules:
+    - name: high_error_rate
+      metric: error_rate
+      condition: "> 0.05"     # > 5% errors
+      severity: critical
+      message: "HTTP error rate exceeded 5%"
+
+    - name: high_cpu
+      metric: system_cpu_percent
+      condition: "> 90"
+      severity: warning
+      message: "System CPU usage above 90%"
+
+    - name: high_memory
+      metric: system_memory_percent
+      condition: "> 90"
+      severity: warning
+      message: "System memory usage above 90%"
+
+    - name: critical_memory
+      metric: system_memory_percent
+      condition: "> 95"
+      severity: critical
+      message: "System memory critically high (>95%)"
+
+    - name: browser_leak
+      metric: browser_memory_leak
+      condition: "== 1"
+      severity: warning
+      message: "Browser memory leak detected"
+
+    - name: browser_leak_critical
+      metric: browser_leak_severity
+      condition: ">= 3"
+      severity: critical
+      message: "Browser memory leak severity HIGH or CRITICAL"
+
+    - name: data_drift
+      metric: data_drift_detected
+      condition: "== 1"
+      severity: warning
+      message: "Data drift detected in pipeline output"
+
+    - name: health_degraded
+      metric: health_status
+      condition: "< 1"
+      severity: warning
+      message: "Health status degraded or unhealthy"
+
+    - name: process_rss_high
+      metric: process_rss_mb
+      condition: "> 1024"
+      severity: warning
+      message: "Process RSS exceeds 1 GB"
+
+# ── Dashboard ─────────────────────────────────────
+dashboard:
+  title: "HDSS Observability Dashboard"
+  refresh_interval_seconds: 15
+
+  panels:
+    - id: system_overview
+      title: "System Overview"
+      type: stat
+      metrics:
+        - system_cpu_percent
+        - system_memory_percent
+        - process_rss_mb
+        - process_uptime_seconds
+
+    - id: http_traffic
+      title: "HTTP Traffic"
+      type: timeseries
+      metrics:
+        - http_requests_total
+        - http_errors_total
+      computed:
+        - name: error_rate
+          formula: "http_errors_total / http_requests_total"
+
+    - id: latency
+      title: "Request Latency"
+      type: histogram
+      metrics:
+        - http_request_duration_seconds
+
+    - id: scoring
+      title: "Scoring Engine"
+      type: timeseries
+      metrics:
+        - scoring_duration_seconds
+
+    - id: pipeline
+      title: "Pipeline Stages"
+      type: timeseries
+      metrics:
+        - pipeline_stage_duration_seconds
+
+    - id: data_quality
+      title: "Data Quality"
+      type: stat
+      metrics:
+        - data_drift_score
+        - data_drift_detected
+        - health_status
+
+    - id: browser_resources
+      title: "Browser Resources"
+      type: timeseries
+      metrics:
+        - browser_memory_leak
+        - browser_leak_severity
+
+    - id: alerts_panel
+      title: "Recent Alerts"
+      type: table
+      source: /ops/alerts?hours=24

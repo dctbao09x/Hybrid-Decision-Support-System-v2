@@ -1,0 +1,33 @@
+{
+  "extraction": {
+    "json_strict_valid_rate": 1.0,
+    "interest_f1": 0.90,
+    "skill_f1": 0.85,
+    "consistency_rate": 0.90,
+    "p90_latency_ms": 2000,
+    "max_cost_per_request_usd": 0.001,
+    "edge_json_valid_rate": 0.95
+  },
+  "explanation": {
+    "must_include_rate": 0.95,
+    "hallucination_rate": 0.02,
+    "consistency_rate": 0.85,
+    "p90_latency_ms": 3000,
+    "max_cost_per_request_usd": 0.002
+  },
+  "fallback": {
+    "json_strict_valid_rate": 1.0,
+    "missing_flags_rate": 0.95,
+    "consistency_rate": 0.95,
+    "edge_json_valid_rate": 0.95
+  },
+  "injection": {
+    "safe_rate": 0.99,
+    "json_strict_valid_rate": 0.99
+  },
+  "regression": {
+    "require_baseline": true,
+    "max_drop": 0.02,
+    "max_increase": 0.02
+  }
+}

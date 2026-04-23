@@ -1,0 +1,194 @@
+{
+  "audit_date": "2026-02-16",
+  "auditor": "Independent AI Auditor",
+  "method": "Code-only tracing",
+  "components": {
+    "study": {
+      "entry_function": "backend/scoring/components/study.py::score()",
+      "line": 140,
+      "formula": "S = 0.4*A + 0.3*B + 0.3*C",
+      "factors": {
+        "A_ability": {
+          "source": "_compute_ability_factor()",
+          "data_origin": "user.ability_score OR inferred from education_level",
+          "fallback": 0.5
+        },
+        "B_background": {
+          "source": "_compute_background_factor()",
+          "data_origin": "user.skills vs job.required_skills/job.preferred_skills",
+          "fallback": "Jaccard-like coverage"
+        },
+        "C_confidence": {
+          "source": "_compute_confidence_factor()",
+          "data_origin": "user.confidence_score",
+          "fallback": 0.6
+        }
+      },
+      "weights": {
+        "WEIGHT_ABILITY": 0.4,
+        "WEIGHT_BACKGROUND": 0.3,
+        "WEIGHT_CONFIDENCE": 0.3
+      },
+      "validation": "Returns ScoreResult with value clamped [0,1]",
+      "error_handling": "Clamped via normalizer.clamp()"
+    },
+    "interest": {
+      "entry_function": "backend/scoring/components/interest.py::score()",
+      "line": 152,
+      "formula": "I = 0.4*NLP + 0.3*Survey + 0.3*Stability",
+      "factors": {
+        "NLP": {
+          "source": "_compute_nlp_factor()",
+          "data_origin": "Semantic matching via DOMAIN_KEYWORDS expansion",
+          "fallback": 0.5
+        },
+        "Survey": {
+          "source": "_compute_survey_factor()",
+          "data_origin": "Jaccard similarity: user.interests vs job.domain_interests",
+          "fallback": 0.0
+        },
+        "Stability": {
+          "source": "_compute_stability_factor()",
+          "data_origin": "user.interest_stability OR inferred from interest count",
+          "fallback": 0.6
+        }
+      },
+      "weights": {
+        "WEIGHT_NLP": 0.4,
+        "WEIGHT_SURVEY": 0.3,
+        "WEIGHT_STABILITY": 0.3
+      },
+      "validation": "Returns ScoreResult with value clamped [0,1]",
+      "error_handling": "Clamped via normalizer.clamp()"
+    },
+    "market": {
+      "entry_function": "backend/scoring/components/market.py::score()",
+      "line": 119,
+      "formula": "M = 0.3*AI + 0.3*Growth + 0.2*Salary + 0.2*InvComp",
+      "factors": {
+        "AI": {
+          "source": "job.ai_relevance OR market_cache",
+          "data_origin": "Cache: backend/market/cache_loader.py, fallback: career input"
+        },
+        "Growth": {
+          "source": "job.growth_rate OR market_cache",
+          "data_origin": "Cache or career input"
+        },
+        "Salary": {
+          "source": "_get_salary_score()",
+          "data_origin": "HARDCODED SALARY_DATASET dict (lines 45-89)",
+          "fallback": 0.60
+        },
+        "InvComp": {
+          "source": "1.0 - job.competition",
+          "data_origin": "Inverse of competition"
+        }
+      },
+      "weights": {
+        "WEIGHT_AI_RELEVANCE": 0.3,
+        "WEIGHT_GROWTH_RATE": 0.3,
+        "WEIGHT_SALARY": 0.2,
+        "WEIGHT_INVERSE_COMP": 0.2
+      },
+      "data_source": "MarketCacheLoader OR career input fields",
+      "validation": "Returns ScoreResult with value clamped [0,1]",
+      "error_handling": "Fallback to career input if cache miss"
+    },
+    "growth": {
+      "entry_function": "backend/scoring/components/growth.py::score()",
+      "line": 194,
+      "formula": "G = 0.35*Demand + 0.35*Salary + 0.30*Lifecycle",
+      "factors": {
+        "Demand": {
+          "source": "_compute_demand_growth()",
+          "data_origin": "HARDCODED DEMAND_FORECAST dict + job.growth_rate",
+          "fallback": 0.50
+        },
+        "Salary_growth": {
+          "source": "_compute_salary_growth()",
+          "data_origin": "HARDCODED SALARY_GROWTH_DATA dict + job.ai_relevance",
+          "fallback": 0.55
+        },
+        "Lifecycle": {
+          "source": "_compute_lifecycle_factor()",
+          "data_origin": "HARDCODED LIFECYCLE_DATASET dict",
+          "fallback": 0.50
+        }
+      },
+      "weights": {
+        "WEIGHT_DEMAND_GROWTH": 0.35,
+        "WEIGHT_SALARY_GROWTH": 0.35,
+        "WEIGHT_LIFECYCLE": 0.30
+      },
+      "validation": "Returns ScoreResult with value clamped [0,1]",
+      "error_handling": "Fallback to dataset default"
+    },
+    "risk": {
+      "entry_function": "backend/scoring/components/risk.py::score()",
+      "line": 227,
+      "formula": "R = 0.25*Saturation + 0.20*Obsolescence + 0.15*Competition + 0.15*Dropout + 0.15*Unemployment + 0.10*Cost",
+      "factors": {
+        "Saturation": {
+          "source": "_compute_saturation_risk()",
+          "data_origin": "job.competition"
+        },
+        "Obsolescence": {
+          "source": "_compute_obsolescence_risk()",
+          "data_origin": "1 - job.growth_rate, 1 - job.ai_relevance"
+        },
+        "Dropout": {
+          "source": "_compute_dropout_risk()",
+          "data_origin": "HARDCODED DROPOUT_RISK_DATASET + user.confidence_score",
+          "fallback": 0.35
+        },
+        "Unemployment": {
+          "source": "_compute_unemployment_risk()",
+          "data_origin": "HARDCODED UNEMPLOYMENT_RISK_DATASET + job.competition",
+          "fallback": 0.30
+        },
+        "Cost": {
+          "source": "_compute_cost_risk()",
+          "data_origin": "HARDCODED COST_RISK_DATASET",
+          "fallback": 0.40
+        }
+      },
+      "weights": {
+        "WEIGHT_SATURATION": 0.25,
+        "WEIGHT_OBSOLESCENCE": 0.20,
+        "WEIGHT_COMPETITION": 0.15,
+        "WEIGHT_DROPOUT": 0.15,
+        "WEIGHT_UNEMPLOYMENT": 0.15,
+        "WEIGHT_COST": 0.10
+      },
+      "note": "Risk is RAW [0,1] where 1.0 = HIGH risk. SUBTRACTED in final formula.",
+      "validation": "Returns ScoreResult with value clamped [0,1]",
+      "error_handling": "Delegates to backend.risk module, fallbacks defined"
+    }
+  },
+  "pipeline_flow": {
+    "1_entry": "SIMGRScorer.score() OR RankingEngine.rank()",
+    "2_strategy": "ScoringStrategy.score_one()",
+    "3_calculator": "SIMGRCalculator.calculate()",
+    "4_components": "config.component_map[name](career, user, config)",
+    "5_normalize": "DataNormalizer.clamp()",
+    "6_aggregate": "weighted sum with risk subtraction",
+    "7_output": "ScoreResult(value, meta)"
+  },
+  "hardcoded_datasets": {
+    "SALARY_DATASET": "market.py:45-89 (~30 careers)",
+    "LIFECYCLE_DATASET": "growth.py:37-70 (~25 careers)",
+    "DEMAND_FORECAST": "growth.py:76-95 (~15 careers)",
+    "SALARY_GROWTH_DATA": "growth.py:101-118 (~15 careers)",
+    "DROPOUT_RISK_DATASET": "risk.py:57-83 (~20 careers)",
+    "COST_RISK_DATASET": "risk.py:89-113 (~15 careers)",
+    "UNEMPLOYMENT_RISK_DATASET": "risk.py:119-141 (~15 careers)"
+  },
+  "findings": {
+    "hardcoded_defaults": true,
+    "external_data_missing": [
+      "data/risk/unemployment/rates.csv (file not found)",
+      "cost dataset parsing failed"
+    ],
+    "fallback_behavior": "Silent fallback to hardcoded datasets when external data missing"
+  }
+}

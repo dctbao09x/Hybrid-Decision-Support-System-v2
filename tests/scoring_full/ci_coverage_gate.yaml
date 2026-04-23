@@ -1,0 +1,82 @@
+# CI Coverage Gate Configuration
+# GĐ6: Coverage Recovery
+# 
+# This configuration enforces minimum coverage thresholds for CI builds.
+# Build will FAIL if coverage falls below specified thresholds.
+
+name: Coverage Gate
+
+# Triggers
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend/scoring/**'
+      - 'tests/scoring_full/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/scoring/**'
+      - 'tests/scoring_full/**'
+
+jobs:
+  coverage-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install -r requirements.txt
+      
+      - name: Run coverage tests
+        run: |
+          pytest tests/scoring_full/ \
+            --cov=backend/scoring \
+            --cov-branch \
+            --cov-report=html:coverage_report.html \
+            --cov-report=xml:coverage.xml \
+            --cov-report=term \
+            --cov-fail-under=85
+      
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage_report.html
+      
+      - name: Coverage comment
+        uses: py-cov-action/python-coverage-comment-action@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Coverage Thresholds (GĐ6 Requirements)
+# 
+# Module-specific targets:
+#   calculator.py: ≥90%
+#   strategies.py: ≥85%
+#   scoring.py: ≥85%
+#   engine.py: ≥85%
+#   components/risk.py: ≥85%
+#   components/interest.py: ≥85%
+#   components/market.py: ≥85%
+#
+# Global target: ≥85%
+#
+# Build FAILS if:
+#   - Total coverage < 85%
+#   - Any priority module < 85%
+#   - Fault injection tests < 20 cases
+#   - Any skipped tests
+
+# Pytest Coverage Configuration (also in pyproject.toml)
+# [tool.pytest.ini_options]
+# addopts = "--cov=backend/scoring --cov-fail-under=85"

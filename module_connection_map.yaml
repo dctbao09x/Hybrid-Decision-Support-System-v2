@@ -1,0 +1,598 @@
+# Module Connection Map
+# DOC: MODULE_REGISTRY.md compliance
+# Generated: 2026-02-16
+# Status: NORMALIZED
+
+version: "1.0.0"
+architecture: "Hybrid Semi-API Decision System"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Connection Flow (per DOC CONTROLLER_SPEC.md)
+# ═══════════════════════════════════════════════════════════════════════════
+#
+#   Client
+#     ↓
+#   Router
+#     ↓
+#   router_registry.py
+#     ↓
+#   main_controller.py
+#     ↓
+#   Service Layer
+#     ↓
+#   Decision Engine (Local)
+#     ↓
+#   LLM/API (Explain only)
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+modules:
+  # ─────────────────────────────────────────────────────────────────────────
+  # SCORING MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  scoring:
+    location: "backend/scoring/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/scoring_router.py"
+      prefix: "/api/v1/scoring"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      dispatch_method: "dispatch('scoring', action, payload)"
+      injection: "set_main_controller()"
+    service:
+      name: "ScoringService"
+      files:
+        - "backend/scoring/scoring.py"          # SIMGRScorer
+        - "backend/scoring/engine.py"           # RankingEngine
+        - "backend/scoring/calculator.py"       # SIMGRCalculator
+    components:
+      - name: "study"
+        file: "backend/scoring/components/study.py"
+        status: ACTIVE
+      - name: "interest"
+        file: "backend/scoring/components/interest.py"
+        status: ACTIVE
+      - name: "market"
+        file: "backend/scoring/components/market.py"
+        status: ACTIVE
+      - name: "growth"
+        file: "backend/scoring/components/growth.py"
+        status: ACTIVE
+      - name: "risk"
+        file: "backend/scoring/components/risk.py"
+        status: ACTIVE
+    interface:
+      - method: "POST /api/v1/scoring/rank"
+        handler: "rank_careers_for_user"
+        auth: USER
+      - method: "POST /api/v1/scoring/score"
+        handler: "score_careers"
+        auth: USER
+      - method: "GET /api/v1/scoring/weights"
+        handler: "get_weights"
+        auth: USER
+      - method: "PUT /api/v1/scoring/weights"
+        handler: "update_weights"
+        auth: ADMIN
+      - method: "GET /api/v1/scoring/health"
+        handler: "scoring_health"
+        auth: PUBLIC
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # FEEDBACK MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  feedback:
+    location: "backend/feedback/"
+    status: REGISTERED
+    router:
+      file: "backend/feedback/router.py"
+      prefix: "/api/v1/infer/feedback"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      dispatch_method: "dispatch('feedback', action, payload)"
+      note: "Currently bypasses - needs refactor"
+    service:
+      name: "FeedbackService"
+      files:
+        - "backend/feedback/storage.py"
+        - "backend/feedback/analytics.py"
+        - "backend/feedback/governance.py"
+    interface:
+      - method: "POST /api/v1/infer/feedback/review"
+        handler: "submit_feedback"
+        auth: USER
+      - method: "GET /api/v1/infer/feedback/link/{trace_id}"
+        handler: "get_trace_feedback"
+        auth: USER
+      - method: "GET /api/v1/infer/feedback/stats"
+        handler: "get_feedback_stats"
+        auth: ADMIN
+      - method: "GET /api/v1/infer/feedback/export"
+        handler: "export_feedback"
+        auth: ADMIN
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # MARKET MODULE (NEW - Just registered)
+  # ─────────────────────────────────────────────────────────────────────────
+  market:
+    location: "backend/market/"
+    status: REGISTERED  # Was DEAD, now registered
+    router:
+      file: "backend/market/router.py"
+      prefix: "/api/v1/market"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      dispatch_method: "dispatch('market', action, payload)"
+    service:
+      name: "MarketService"
+      files:
+        - "backend/market/signal/collector.py"
+        - "backend/market/taxonomy/engine.py"
+        - "backend/market/trends/detector.py"
+        - "backend/market/forecast/engine.py"
+        - "backend/market/gap/analyzer.py"
+        - "backend/market/scoring/adapter.py"
+        - "backend/market/evolution/orchestrator.py"
+        - "backend/market/governance/engine.py"
+    components:
+      - name: "signal"
+        file: "backend/market/signal/"
+        status: ACTIVE
+      - name: "taxonomy"
+        file: "backend/market/taxonomy/"
+        status: ACTIVE
+      - name: "trends"
+        file: "backend/market/trends/"
+        status: ACTIVE
+      - name: "forecast"
+        file: "backend/market/forecast/"
+        status: ACTIVE
+      - name: "gap"
+        file: "backend/market/gap/"
+        status: ACTIVE
+      - name: "evolution"
+        file: "backend/market/evolution/"
+        status: ACTIVE
+      - name: "governance"
+        file: "backend/market/governance/"
+        status: ACTIVE
+    interface:
+      - method: "GET /api/v1/market/health"
+        handler: "health_check"
+        auth: PUBLIC
+      - method: "POST /api/v1/market/signal/crawl"
+        handler: "trigger_crawl"
+        auth: ADMIN
+      - method: "POST /api/v1/market/trends/analyze"
+        handler: "analyze_trends"
+        auth: USER
+      - method: "POST /api/v1/market/forecast/demand"
+        handler: "forecast_demand"
+        auth: USER
+      - method: "POST /api/v1/market/gap/analyze"
+        handler: "analyze_gap"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # ADMIN MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  admin:
+    location: "backend/modules/admin_auth/"
+    status: REGISTERED
+    router:
+      file: "backend/modules/admin_auth/routes.py"
+      prefix: "/api/admin"
+      registered_in: "router_registry.py"
+    controller:
+      name: "AdminController"
+      note: "Uses dedicated AdminController, not MainController"
+    service:
+      name: "AdminAuthService"
+      files:
+        - "backend/modules/admin_auth/service.py"
+    interface:
+      - method: "POST /api/admin/login"
+        handler: "admin_login"
+        auth: PUBLIC
+      - method: "POST /api/admin/refresh"
+        handler: "admin_refresh"
+        auth: PUBLIC
+      - method: "POST /api/admin/logout"
+        handler: "admin_logout"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # ADMIN GATEWAY MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  admin_gateway:
+    location: "backend/modules/admin_gateway/"
+    status: REGISTERED
+    router:
+      file: "backend/modules/admin_gateway/routes.py"
+      prefix: "/api/admin"
+      registered_in: "router_registry.py"
+    controller:
+      name: "AdminController"
+    service:
+      name: "AdminGatewayService"
+      files:
+        - "backend/modules/admin_gateway/system_routes.py"
+    interface:
+      - method: "GET /api/admin/feedback"
+        handler: "get_all_feedback"
+        auth: ADMIN
+      - method: "PATCH /api/admin/feedback/{id}/status"
+        handler: "update_status"
+        auth: ADMIN
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # LIVEOPS MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  liveops:
+    location: "backend/api/routers/liveops/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/liveops_router.py"
+      prefix: "/api/v1/live"
+      registered_in: "router_registry.py"
+    controller:
+      name: "LiveOpsController"
+      note: "Dedicated controller for real-time operations"
+    service:
+      name: "CommandEngine"
+      files:
+        - "backend/ops/command_engine/engine.py"
+        - "backend/ops/command_engine/executor.py"
+    interface:
+      - method: "GET /api/v1/live/health"
+        handler: "liveops_health"
+        auth: ADMIN
+      - method: "GET /api/v1/live/stream"
+        handler: "event_stream"
+        auth: ADMIN
+      - method: "WS /ws/live"
+        handler: "websocket_handler"
+        auth: ADMIN
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # EXPLAIN MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  explain:
+    location: "backend/explain/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/explain_router.py"
+      prefix: "/api/v1"
+      registered_in: "router_registry.py"
+    controller:
+      name: "ExplainController"
+      file: "backend/api/controllers/explain_controller.py"
+    service:
+      name: "XAIService"
+      files:
+        - "backend/scoring/explain/xai.py"
+        - "backend/explain/stage3/engine.py"
+        - "backend/explain/stage4/adapter.py"
+        - "backend/explain/storage.py"
+    components:
+      - name: "Stage2_XAI"
+        file: "backend/scoring/explain/xai.py"
+        status: ACTIVE
+      - name: "Stage3_Rules"
+        file: "backend/explain/stage3/"
+        status: ACTIVE
+      - name: "Stage4_LLM"
+        file: "backend/explain/stage4/"
+        status: ACTIVE
+    interface:
+      - method: "POST /api/v1/explain"
+        handler: "run_explanation"
+        auth: USER
+      - method: "GET /api/v1/explain/{trace_id}"
+        handler: "get_explanation"
+        auth: USER
+      - method: "GET /api/v1/explain/history"
+        handler: "get_history"
+        auth: USER
+      - method: "GET /api/v1/explain/health"
+        handler: "health_check"
+        auth: PUBLIC
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # CRAWLER MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  crawler:
+    location: "backend/crawlers/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/crawler_router.py"
+      prefix: "/api/v1/crawlers"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      dispatch_method: "dispatch('crawlers', action, payload)"
+    service:
+      name: "CrawlerService"
+      files:
+        - "backend/crawler_manager.py"
+        - "backend/crawlers/base.py"
+        - "backend/crawlers/topcv.py"
+        - "backend/crawlers/vietnamworks.py"
+    interface:
+      - method: "POST /api/v1/crawlers/run"
+        handler: "run_crawler"
+        auth: ADMIN
+      - method: "GET /api/v1/crawlers/status"
+        handler: "get_status"
+        auth: ADMIN
+      - method: "POST /api/v1/crawlers/{site}/stop"
+        handler: "stop_crawler"
+        auth: ADMIN
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # ML MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  ml:
+    location: "backend/evaluation/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/ml_router.py"
+      prefix: "/api/v1/ml"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      dispatch_method: "dispatch('ml', action, payload)"
+    service:
+      name: "MLService"
+      files:
+        - "backend/evaluation/service.py"
+        - "backend/evaluation/stability_service.py"
+        - "backend/evaluation/drift_monitor.py"
+    interface:
+      - method: "POST /api/v1/ml/evaluate"
+        handler: "run_evaluation"
+        auth: ADMIN
+      - method: "GET /api/v1/ml/status"
+        handler: "get_status"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # MLOPS MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  mlops:
+    location: "backend/mlops/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/mlops_router.py"
+      prefix: "/api/v1/mlops"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "MLOpsService"
+      files:
+        - "backend/retrain/trainer.py"
+        - "backend/retrain/model_registry.py"
+    interface:
+      - method: "POST /api/v1/mlops/train"
+        handler: "trigger_train"
+        auth: ADMIN
+      - method: "POST /api/v1/mlops/deploy"
+        handler: "deploy_model"
+        auth: ADMIN
+      - method: "POST /api/v1/mlops/rollback"
+        handler: "rollback_model"
+        auth: ADMIN
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # EVALUATION MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  eval:
+    location: "backend/evaluation/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/eval_router.py"
+      prefix: "/api/v1/eval"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+      injection: "set_main_controller()"
+    service:
+      name: "EvalService"
+    interface:
+      - method: "GET /api/v1/eval/health"
+        handler: "eval_health"
+        auth: PUBLIC
+      - method: "GET /api/v1/eval/baselines"
+        handler: "get_baselines"
+        auth: USER
+      - method: "GET /api/v1/eval/{run_id}"
+        handler: "get_run"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # RULES MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  rules:
+    location: "backend/rule_engine/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/rules_router.py"
+      prefix: "/api/v1/rules"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "RuleEngineService"
+      files:
+        - "backend/rule_engine/rule_engine.py"
+        - "backend/rule_engine/job_database.py"
+    interface:
+      - method: "GET /api/v1/rules/health"
+        handler: "rules_health"
+        auth: PUBLIC
+      - method: "GET /api/v1/rules/categories"
+        handler: "get_categories"
+        auth: USER
+      - method: "POST /api/v1/rules/evaluate"
+        handler: "evaluate_rules"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # TAXONOMY MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  taxonomy:
+    location: "backend/taxonomy/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/taxonomy_router.py"
+      prefix: "/api/v1/taxonomy"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "TaxonomyService"
+      files:
+        - "backend/taxonomy.py"
+    interface:
+      - method: "GET /api/v1/taxonomy/health"
+        handler: "taxonomy_health"
+        auth: PUBLIC
+      - method: "GET /api/v1/taxonomy/coverage"
+        handler: "get_coverage"
+        auth: USER
+      - method: "POST /api/v1/taxonomy/resolve"
+        handler: "resolve_taxonomy"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # KB MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  kb:
+    location: "backend/kb/"
+    status: REGISTERED
+    router:
+      file: "backend/api/kb_routes.py"
+      prefix: "/api/v1"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "KBService"
+      files:
+        - "backend/kb/documents.py"
+        - "backend/kb/search.py"
+    interface:
+      - method: "GET /api/v1/kb/documents"
+        handler: "list_documents"
+        auth: USER
+      - method: "GET /api/v1/kb/search"
+        handler: "search_kb"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # CHAT MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  chat:
+    location: "backend/llm/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/chat_router.py"
+      prefix: "/api/v1/chat"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "ChatService"
+      files:
+        - "backend/llm_client.py"
+        - "backend/llm_adapter.py"
+    interface:
+      - method: "POST /api/v1/chat/message"
+        handler: "send_message"
+        auth: USER
+      - method: "GET /api/v1/chat/history"
+        handler: "get_history"
+        auth: USER
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # GOVERNANCE MODULE
+  # ─────────────────────────────────────────────────────────────────────────
+  governance:
+    location: "backend/ops/governance/"
+    status: REGISTERED
+    router:
+      file: "backend/api/routers/governance_router.py"
+      prefix: "/api/v1/governance"
+      registered_in: "router_registry.py"
+    controller:
+      name: "MainController"
+    service:
+      name: "GovernanceService"
+      files:
+        - "backend/ops/governance/engine.py"
+    interface:
+      - method: "GET /api/v1/governance/status"
+        handler: "get_status"
+        auth: ADMIN
+      - method: "POST /api/v1/governance/approve"
+        handler: "approve_request"
+        auth: ADMIN
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Registry Summary
+# ═══════════════════════════════════════════════════════════════════════════
+
+summary:
+  total_modules: 17
+  registered: 17
+  unregistered: 0
+  status: "ALL_CONNECTED"
+  
+  controller_mapping:
+    MainController:
+      - scoring
+      - feedback
+      - market
+      - crawler
+      - ml
+      - mlops
+      - eval
+      - rules
+      - taxonomy
+      - kb
+      - chat
+      - governance
+    ExplainController:
+      - explain
+    AdminController:
+      - admin
+      - admin_gateway
+    LiveOpsController:
+      - liveops
+
+  dependency_injection_points:
+    - "router_registry.setup_dependencies()"
+    - "router_registry.setup_explain_controller()"
+    - "router_registry.setup_liveops_command_engine()"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Compliance Status
+# ═══════════════════════════════════════════════════════════════════════════
+
+compliance:
+  doc_reference: "MODULE_REGISTRY.md"
+  rules:
+    - rule: "All modules must register in router_registry"
+      status: PASS
+    - rule: "All modules must map to a controller"
+      status: PASS
+    - rule: "All modules must have standard interface"
+      status: PASS
+    - rule: "No direct service calls from routers"
+      status: "PARTIAL - scoring, feedback need refactor"
+  overall_status: "COMPLIANT_WITH_NOTES"

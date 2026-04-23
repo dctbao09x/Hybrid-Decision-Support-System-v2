@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "report_id": "e65e01e7c0b9",
+    "report_type": "weekly_sla",
+    "title": "Weekly SLA Report - Week of 2026-02-16",
+    "generated_at": "2026-02-23T14:01:41.510849+00:00",
+    "period_start": "2026-02-16T14:01:41.510801+00:00",
+    "period_end": "2026-02-23T14:01:41.510801+00:00"
+  },
+  "summary": {
+    "overall_uptime": 1.0,
+    "overall_compliance": 1.0,
+    "total_requests": 0,
+    "successful_requests": 0,
+    "success_rate": 0.0
+  },
+  "performance": {
+    "sla_violations": 0,
+    "critical_violations": 0,
+    "latency": {
+      "mean_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0
+    }
+  },
+  "daily_breakdown": [],
+  "incidents": [],
+  "recommendations": [
+    "All SLA targets met. Continue monitoring for any degradation."
+  ]
+}

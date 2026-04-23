@@ -1,0 +1,2 @@
+id,title_raw,title_normalized,company,salary_min,salary_max,currency,location_raw,province_code,skills,url,source,posted_date_iso,is_expired,processed_at,raw_reference
+topcv_12345,Senior Python Dev,senior python dev,Tech Corp,30000000,50000000,VND,Hồ Chí Minh,SG,"['Python', 'Django', 'AWS']",https://topcv.vn/job/...,topcv,2024-05-20T10:00:00,False,2024-06-01T08:00:00,12345

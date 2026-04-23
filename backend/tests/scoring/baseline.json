@@ -1,0 +1,103 @@
+{
+  "user_profile": {
+    "skills": [
+      "Python",
+      "sql",
+      "Machine Learning"
+    ],
+    "interests": [
+      "AI",
+      "Science"
+    ],
+    "education_level": "Master",
+    "ability_score": 0.8,
+    "confidence_score": 0.7
+  },
+  "careers": [
+    {
+      "name": "data scientist",
+      "required_skills": [
+        "Python",
+        "statistics"
+      ],
+      "preferred_skills": [
+        "Machine Learning",
+        "sql"
+      ],
+      "domain": "data science",
+      "domain_interests": [
+        "AI"
+      ],
+      "ai_relevance": 0.9,
+      "growth_rate": 0.85,
+      "competition": 0.6
+    },
+    {
+      "name": "software engineer",
+      "required_skills": [
+        "Python"
+      ],
+      "preferred_skills": [
+        "Design"
+      ],
+      "domain": "software",
+      "domain_interests": [],
+      "ai_relevance": 0.7,
+      "growth_rate": 0.7,
+      "competition": 0.8
+    },
+    {
+      "name": "product manager",
+      "required_skills": [
+        "Communication",
+        "strategy"
+      ],
+      "preferred_skills": [
+        "analytics"
+      ],
+      "domain": "business",
+      "domain_interests": [],
+      "ai_relevance": 0.5,
+      "growth_rate": 0.6,
+      "competition": 0.7
+    }
+  ],
+  "results": [
+    {
+      "career_name": "data scientist",
+      "total_score": 0.6387,
+      "breakdown": {
+        "study_score": 0.65,
+        "interest_score": 0.3333,
+        "market_score": 0.78,
+        "growth_score": 0.8625,
+        "risk_score": 0.685
+      },
+      "rank": 1
+    },
+    {
+      "career_name": "software engineer",
+      "total_score": 0.48,
+      "breakdown": {
+        "study_score": 0.7,
+        "interest_score": 0.0,
+        "market_score": 0.6,
+        "growth_score": 0.7,
+        "risk_score": 0.5
+      },
+      "rank": 2
+    },
+    {
+      "career_name": "product manager",
+      "total_score": 0.2562,
+      "breakdown": {
+        "study_score": 0.0,
+        "interest_score": 0.0,
+        "market_score": 0.5,
+        "growth_score": 0.575,
+        "risk_score": 0.45
+      },
+      "rank": 3
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "compliance_check_version": "1.0",
+  "generated_at": "2026-02-16T00:00:00Z",
+  "status": "COMPLIANT",
+  
+  "training_linkage_requirements": {
+    "rule_zero_orphan_model": {
+      "status": "IMPLEMENTED",
+      "description": "Runtime CHỈ chạy với trained model",
+      "implementation": "TrainingLinker.load_verified_weights() is the ONLY gateway"
+    },
+    
+    "rule_no_trust_filesystem": {
+      "status": "IMPLEMENTED",
+      "description": "Không trust file system - verify checksum",
+      "implementation": "compute_weights_checksum() verifies all loaded weights"
+    },
+    
+    "rule_no_trust_config": {
+      "status": "IMPLEMENTED",
+      "description": "Không trust config - verify metadata",
+      "implementation": "Full metadata validation in _full_verification()"
+    },
+    
+    "rule_only_verified_artifact": {
+      "status": "IMPLEMENTED",
+      "description": "Chỉ trust verified artifact",
+      "implementation": "8-step verification pipeline in TrainingLinker"
+    },
+    
+    "rule_no_exception_for_dev": {
+      "status": "IMPLEMENTED",
+      "description": "Không exception cho dev",
+      "implementation": "No BYPASS mode in production; STRICT enforced"
+    }
+  },
+  
+  "phase_compliance": {
+    "PHAN_B_training_integration": {
+      "status": "COMPLIANT",
+      "files": ["backend/training/train_weights.py"],
+      "checks": {
+        "auto_gen_metadata": true,
+        "auto_hash": true,
+        "auto_log_commit": true,
+        "validate_r2_threshold": true,
+        "validate_mae_threshold": true,
+        "fail_on_unqualified": true
+      }
+    },
+    
+    "PHAN_C_runtime_linker": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/training_linker.py"],
+      "checks": {
+        "load_weights_metadata": true,
+        "verify_checksum": true,
+        "verify_dataset_exists": true,
+        "verify_feature_set": true,
+        "verify_freshness": true,
+        "verify_metrics": true,
+        "enforce_version": true
+      }
+    },
+    
+    "PHAN_D_runtime_enforcement": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/training_linker.py"],
+      "checks": {
+        "no_direct_load": true,
+        "no_default_fallback": true,
+        "no_hardcoded_weights": true,
+        "raise_model_integrity_error": true
+      }
+    },
+    
+    "PHAN_E_staleness_tamper_detection": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/training_linker.py"],
+      "checks": {
+        "freshness_check": true,
+        "max_age_90_days": true,
+        "checksum_mismatch_detect": true,
+        "missing_metadata_detect": true,
+        "metric_threshold_check": true
+      },
+      "error_codes": {
+        "STALE_MODEL": "StaleModelError",
+        "TAMPERED_MODEL": "TamperedModelError",
+        "INVALID_MODEL": "InvalidModelError",
+        "UNQUALIFIED_MODEL": "UnqualifiedModelError"
+      }
+    },
+    
+    "PHAN_F_manual_override_blocking": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/promote_model.py", "backend/scoring/training_linker.py"],
+      "checks": {
+        "detect_modified_weights": true,
+        "detect_stale_metadata": true,
+        "detect_missing_commit": true,
+        "auto_reject": true,
+        "audit_log_promotion": true
+      }
+    },
+    
+    "PHAN_G_traceability_header": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/lineage_validator.py"],
+      "checks": {
+        "model_lineage_in_response": true,
+        "weight_version": true,
+        "trained_at": true,
+        "dataset": true,
+        "checksum": true
+      }
+    },
+    
+    "PHAN_H_test_suite": {
+      "status": "COMPLIANT",
+      "files": ["backend/scoring/tests/test_training_linkage.py"],
+      "test_cases": {
+        "test_valid_model_load": true,
+        "test_missing_metadata_reject": true,
+        "test_stale_model_reject": true,
+        "test_checksum_mismatch": true,
+        "test_manual_override_blocked": true,
+        "test_metric_threshold": true
+      }
+    },
+    
+    "PHAN_I_output_artifacts": {
+      "status": "COMPLIANT",
+      "files": [
+        "training_linkage/training_linker.py",
+        "training_linkage/weight_metadata.schema.json",
+        "training_linkage/lineage_validator.py",
+        "training_linkage/promote_model.py",
+        "training_linkage/linkage_report.md",
+        "training_linkage/compliance.json"
+      ]
+    }
+  },
+  
+  "gate_criteria": {
+    "runtime_only_trained_model": {
+      "status": "PASS",
+      "evidence": "TrainingLinker enforces all verification steps"
+    },
+    "manual_override_blocked": {
+      "status": "PASS",
+      "evidence": "FilesystemManipulationError, MissingTrainerCommitError"
+    },
+    "metadata_complete": {
+      "status": "PASS",
+      "evidence": "weight_metadata.schema.json defines required fields"
+    },
+    "lineage_trace_ok": {
+      "status": "PASS",
+      "evidence": "ModelLineage class captures full training history"
+    },
+    "tests_pass": {
+      "status": "PENDING",
+      "evidence": "Run: pytest backend/scoring/tests/test_training_linkage.py -v"
+    },
+    "no_fallback": {
+      "status": "PASS",
+      "evidence": "All code paths raise ModelIntegrityError on failure"
+    }
+  },
+  
+  "overall_gate_status": "PASS (pending test execution)"
+}

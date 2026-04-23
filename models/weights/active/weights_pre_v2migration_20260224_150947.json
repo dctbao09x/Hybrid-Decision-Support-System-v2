@@ -1,0 +1,25 @@
+{
+  "version": "v2_linear_regression_20260219_145802",
+  "method": "linear_regression",
+  "model_type": "linear_regression",
+  "trained_at": "2026-02-19T14:58:02.818780Z",
+  "dataset_hash": "ae7dd4e74089b92e",
+  "r2_score": 0.9160777589281592,
+  "weights": {
+    "study_score": 0.4247282684269163,
+    "interest_score": 0.13846267968157458,
+    "market_score": 0.0,
+    "growth_score": 0.43680905189150915,
+    "risk_score": 0.0
+  },
+  "metrics": {
+    "method": "linear_regression",
+    "r2_score": 0.9160777589281592,
+    "mae": 0.04907196073796549,
+    "samples": 50,
+    "train_loss": 0.003848553127527472,
+    "correlation": 0.9900878880707,
+    "formula_version": "v1.0"
+  },
+  "checksum": "7995c0683b509015177137cc4ea295c81d43bfef23660965e4c34c19997683da"
+}

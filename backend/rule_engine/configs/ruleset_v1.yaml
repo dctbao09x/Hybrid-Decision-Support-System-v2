@@ -1,0 +1,206 @@
+version: "1.0.0"
+conflict_strategy: "ACCUMULATE"  # ACCUMULATE | FAIL_FAST | PRIORITY_WINS
+
+conflict_groups:
+  confidence_conflict:
+    - high_confidence
+    - low_confidence
+  interest_conflict:
+    - strong_interest_match
+    - no_interest_match
+
+groups:
+  eligibility:
+    default_priority: 100
+    enabled: true
+    rules:
+      - id: "age_eligibility"
+        class: "AgeEligibilityRule"
+        priority: 100
+        params:
+          clamp_min: -1.0
+          clamp_max: 0.3
+          min_age_fallback: 18
+          age_penalty: -1.0
+      - id: "education_eligibility"
+        class: "EducationEligibilityRule"
+        priority: 95
+        params:
+          clamp_min: -1.0
+          clamp_max: 0.3
+          below_penalty: -0.5
+          above_bonus: 0.1
+
+  skill_matching:
+    default_priority: 80
+    enabled: true
+    rules:
+      - id: "required_skill"
+        class: "RequiredSkillRule"
+        priority: 90
+        params:
+          penalty_factor: 0.3
+          success_bonus: 0.2
+          max_missing_ratio: 1.0
+      - id: "preferred_skill"
+        class: "PreferredSkillRule"
+        priority: 70
+        params:
+          bonus_factor: 0.1
+          max_suggest: 3
+      - id: "skill_count"
+        class: "SkillCountRule"
+        priority: 50
+        params:
+          no_skill_penalty: -0.2
+          bonus_threshold: 5
+          bonus_value: 0.1
+
+  confidence:
+    default_priority: 60
+    enabled: true
+    rules:
+      - id: "confidence_level"
+        class: "ConfidenceLevelRule"
+        priority: 60
+        params:
+          high_threshold: 0.8
+          low_threshold: 0.4
+          high_bonus: 0.1
+          low_penalty: -0.1
+      - id: "data_completeness"
+        class: "DataCompletenessRule"
+        priority: 55
+        params:
+          required_fields:
+            - age
+            - education_level
+            - interest_tags
+            - skill_tags
+            - goal_cleaned
+          low_threshold: 0.4
+          high_threshold: 0.8
+          low_penalty: -0.15
+          high_bonus: 0.05
+
+  risk_detection:
+    default_priority: 65
+    enabled: true
+    rules:
+      - id: "interest_skill_gap"
+        class: "InterestSkillGapRule"
+        priority: 65
+        params:
+          gap_penalty: -0.1
+          alignment_bonus: 0.15
+      - id: "similarity_mismatch"
+        class: "SimilarityMismatchRule"
+        priority: 60
+        params:
+          high_similarity: 0.7
+          low_similarity: 0.4
+          mismatch_penalty: -0.15
+          hidden_potential_bonus: 0.1
+      - id: "difficulty_mismatch"
+        class: "DifficultyMismatchRule"
+        priority: 55
+        params:
+          high_competition: 0.8
+          low_competition: 0.6
+          min_skill_count: 2
+          high_competition_penalty: -0.2
+
+  priority:
+    default_priority: 75
+    enabled: true
+    rules:
+      - id: "intent_alignment"
+        class: "IntentAlignmentRule"
+        priority: 75
+        params:
+          learning_bonus: 0.05
+          quick_entry_bonus: 0.1
+          quick_entry_high_growth_bonus: 0.15
+          competition_threshold: 0.7
+          growth_threshold: 0.75
+      - id: "interest_match"
+        class: "InterestMatchRule"
+        priority: 80
+        params:
+          strong_match_threshold: 0.5
+          strong_bonus: 0.2
+          partial_bonus: 0.1
+          no_match_penalty: -0.05
+      - id: "similarity_boost"
+        class: "SimilarityBoostRule"
+        priority: 85
+        params:
+          high_threshold: 0.8
+          mid_threshold: 0.6
+          low_threshold: 0.3
+          very_high_bonus: 0.25
+          high_bonus: 0.15
+          low_penalty: -0.1
+
+  market:
+    default_priority: 65
+    enabled: true
+    rules:
+      - id: "competition"
+        class: "CompetitionRule"
+        priority: 65
+        params:
+          clamp_min: -0.3
+          clamp_max: 0.3
+          high_comp: 0.85
+          low_comp: 0.65
+          ready_skill_count: 4
+          ready_confidence: 0.7
+          high_comp_bonus: 0.05
+          high_comp_penalty: -0.1
+          low_comp_bonus: 0.05
+      - id: "growth_rate"
+        class: "GrowthRateRule"
+        priority: 60
+        params:
+          clamp_min: -0.3
+          clamp_max: 0.3
+          high_growth: 0.85
+          low_growth: 0.6
+          career_bonus: 0.15
+          default_bonus: 0.1
+          low_penalty: -0.05
+      - id: "ai_relevance"
+        class: "AIRelevanceRule"
+        priority: 70
+        params:
+          clamp_min: -0.3
+          clamp_max: 0.3
+          high_ai: 0.8
+          low_ai: 0.5
+          strong_bonus: 0.15
+          mismatch_penalty: -0.1
+          underutilized_penalty: -0.05
+          ai_interests:
+            - AI
+            - artificial intelligence
+            - it
+            - technology
+            - machine learning
+          ai_skills:
+            - python
+            - machine learning
+            - deep learning
+            - tensorflow
+            - pytorch
+            - AI
+      - id: "domain_match"
+        class: "DomainMatchRule"
+        priority: 75
+        params:
+          clamp_min: -0.3
+          clamp_max: 0.3
+          strong_match_threshold: 0.5
+          strong_bonus: 0.15
+          partial_bonus: 0.05
+          mismatch_penalty: -0.05

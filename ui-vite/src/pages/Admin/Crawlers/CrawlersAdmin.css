@@ -1,0 +1,204 @@
+/* src/pages/Admin/Crawlers/CrawlersAdmin.css */
+
+.crawlers-admin {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #05060f;
+  min-height: 100%;
+}
+
+.crawlers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(200, 165, 90, 0.12);
+}
+
+.crawlers-header-info h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ede8df;
+}
+
+.crawlers-header-info p {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: #6a6a7e;
+}
+
+.crawlers-refresh-btn {
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #b8914a, #c8a55a);
+  color: #05060f;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.crawlers-refresh-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 16px rgba(200, 165, 90, 0.3);
+}
+
+.crawlers-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.crawlers-error {
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: rgba(200, 60, 60, 0.08);
+  border: 1px solid rgba(200, 60, 60, 0.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 0.875rem;
+}
+
+.crawlers-loading {
+  text-align: center;
+  padding: 48px;
+  color: #6a6a7e;
+}
+
+.crawlers-table-container {
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 10px;
+  border: 1px solid rgba(200, 165, 90, 0.12);
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+
+.crawlers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crawlers-table th,
+.crawlers-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(200, 165, 90, 0.08);
+}
+
+.crawlers-table th {
+  background: rgba(200, 165, 90, 0.06);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c8a55a;
+  opacity: 0.8;
+}
+
+.crawlers-table tr:last-child td {
+  border-bottom: none;
+}
+
+.crawlers-table tr:hover {
+  background: rgba(200, 165, 90, 0.04);
+}
+
+.crawler-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.crawler-name strong {
+  color: #ede8df;
+}
+
+.crawler-id {
+  font-size: 0.75rem;
+  color: #4a4a5e;
+  font-family: monospace;
+}
+
+.crawler-status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-running  { background: rgba(110, 231, 183, 0.12); color: #6ee7b7; }
+.status-stopped  { background: rgba(255, 255, 255, 0.05);  color: #6a6a7e; }
+.status-error    { background: rgba(200, 60, 60, 0.1);     color: #fca5a5; }
+.status-pending  { background: rgba(251, 191, 36, 0.1);    color: #fbbf24; }
+.status-unknown  { background: rgba(255, 255, 255, 0.05);  color: #4a4a5e; }
+
+.crawler-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.crawler-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.crawler-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.crawler-btn-start {
+  background: rgba(110, 231, 183, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(110, 231, 183, 0.25);
+}
+
+.crawler-btn-start:hover:not(:disabled) {
+  background: rgba(110, 231, 183, 0.25);
+}
+
+.crawler-btn-stop {
+  background: rgba(200, 60, 60, 0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(200, 60, 60, 0.2);
+}
+
+.crawler-btn-stop:hover:not(:disabled) {
+  background: rgba(200, 60, 60, 0.2);
+}
+
+.crawlers-empty {
+  text-align: center;
+  padding: 48px;
+  color: #4a4a5e;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .crawlers-admin {
+    padding: 16px;
+  }
+  
+  .crawlers-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .crawlers-table-container {
+    overflow-x: auto;
+  }
+  
+  .crawlers-table {
+    min-width: 600px;
+  }
+}

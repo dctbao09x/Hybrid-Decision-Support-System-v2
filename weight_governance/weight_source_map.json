@@ -1,0 +1,232 @@
+{
+  "audit_timestamp": "2026-02-16",
+  "summary": {
+    "total_hardcoded": 10,
+    "by_type": {
+      "fallback": 5,
+      "default": 5
+    },
+    "by_component": {
+      "S": 2,
+      "I": 2,
+      "M": 2,
+      "G": 2,
+      "R": 2
+    },
+    "critical_files": []
+  },
+  "runtime_path": [
+    {
+      "step": 1,
+      "file": "backend/scoring/config.py",
+      "function": "SIMGRWeights.from_file()",
+      "note": "Primary weight loading"
+    },
+    {
+      "step": 2,
+      "file": "backend/scoring/config.py",
+      "function": "_load_default_config()",
+      "note": "DEFAULT_CONFIG initialization"
+    },
+    {
+      "step": 3,
+      "file": "backend/scoring/engine.py",
+      "function": "RankingEngine.__init__()",
+      "note": "Uses DEFAULT_CONFIG"
+    },
+    {
+      "step": 4,
+      "file": "backend/scoring/strategies.py",
+      "function": "WeightedScoringStrategy",
+      "note": "Applies weights to scores"
+    }
+  ],
+  "sources": [
+    {
+      "component": "S",
+      "file": "backend\\scoring\\scoring.py",
+      "line": 405,
+      "type": "fallback",
+      "pattern": "study_score fallback",
+      "code": "study = config_dict.get(\"study_score\", 0.25)",
+      "active": true
+    },
+    {
+      "component": "I",
+      "file": "backend\\scoring\\scoring.py",
+      "line": 406,
+      "type": "fallback",
+      "pattern": "interest_score fallback",
+      "code": "interest = config_dict.get(\"interest_score\", 0.25)",
+      "active": true
+    },
+    {
+      "component": "M",
+      "file": "backend\\scoring\\scoring.py",
+      "line": 407,
+      "type": "fallback",
+      "pattern": "market_score fallback",
+      "code": "market = config_dict.get(\"market_score\", 0.25)",
+      "active": true
+    },
+    {
+      "component": "G",
+      "file": "backend\\scoring\\scoring.py",
+      "line": 408,
+      "type": "fallback",
+      "pattern": "growth_score fallback",
+      "code": "growth = config_dict.get(\"growth_score\", 0.15)",
+      "active": true
+    },
+    {
+      "component": "R",
+      "file": "backend\\scoring\\scoring.py",
+      "line": 409,
+      "type": "fallback",
+      "pattern": "risk_score fallback",
+      "code": "risk = config_dict.get(\"risk_score\", 0.10)",
+      "active": true
+    },
+    {
+      "component": "S",
+      "file": "backend\\scoring\\tests\\test_weight_governance.py",
+      "line": 262,
+      "type": "default",
+      "pattern": "study_score default",
+      "code": "study_score=0.30,",
+      "active": true
+    },
+    {
+      "component": "I",
+      "file": "backend\\scoring\\tests\\test_weight_governance.py",
+      "line": 263,
+      "type": "default",
+      "pattern": "interest_score default",
+      "code": "interest_score=0.30,",
+      "active": true
+    },
+    {
+      "component": "M",
+      "file": "backend\\scoring\\tests\\test_weight_governance.py",
+      "line": 264,
+      "type": "default",
+      "pattern": "market_score default",
+      "code": "market_score=0.30,",
+      "active": true
+    },
+    {
+      "component": "G",
+      "file": "backend\\scoring\\tests\\test_weight_governance.py",
+      "line": 265,
+      "type": "default",
+      "pattern": "growth_score default",
+      "code": "growth_score=0.30,",
+      "active": true
+    },
+    {
+      "component": "R",
+      "file": "backend\\scoring\\tests\\test_weight_governance.py",
+      "line": 266,
+      "type": "default",
+      "pattern": "risk_score default",
+      "code": "risk_score=0.30,  # Sum = 1.5",
+      "active": true
+    }
+  ],
+  "by_file": {
+    "backend\\scoring\\scoring.py": [
+      {
+        "component": "S",
+        "file": "backend\\scoring\\scoring.py",
+        "line": 405,
+        "type": "fallback",
+        "pattern": "study_score fallback",
+        "code": "study = config_dict.get(\"study_score\", 0.25)",
+        "active": true
+      },
+      {
+        "component": "I",
+        "file": "backend\\scoring\\scoring.py",
+        "line": 406,
+        "type": "fallback",
+        "pattern": "interest_score fallback",
+        "code": "interest = config_dict.get(\"interest_score\", 0.25)",
+        "active": true
+      },
+      {
+        "component": "M",
+        "file": "backend\\scoring\\scoring.py",
+        "line": 407,
+        "type": "fallback",
+        "pattern": "market_score fallback",
+        "code": "market = config_dict.get(\"market_score\", 0.25)",
+        "active": true
+      },
+      {
+        "component": "G",
+        "file": "backend\\scoring\\scoring.py",
+        "line": 408,
+        "type": "fallback",
+        "pattern": "growth_score fallback",
+        "code": "growth = config_dict.get(\"growth_score\", 0.15)",
+        "active": true
+      },
+      {
+        "component": "R",
+        "file": "backend\\scoring\\scoring.py",
+        "line": 409,
+        "type": "fallback",
+        "pattern": "risk_score fallback",
+        "code": "risk = config_dict.get(\"risk_score\", 0.10)",
+        "active": true
+      }
+    ],
+    "backend\\scoring\\tests\\test_weight_governance.py": [
+      {
+        "component": "S",
+        "file": "backend\\scoring\\tests\\test_weight_governance.py",
+        "line": 262,
+        "type": "default",
+        "pattern": "study_score default",
+        "code": "study_score=0.30,",
+        "active": true
+      },
+      {
+        "component": "I",
+        "file": "backend\\scoring\\tests\\test_weight_governance.py",
+        "line": 263,
+        "type": "default",
+        "pattern": "interest_score default",
+        "code": "interest_score=0.30,",
+        "active": true
+      },
+      {
+        "component": "M",
+        "file": "backend\\scoring\\tests\\test_weight_governance.py",
+        "line": 264,
+        "type": "default",
+        "pattern": "market_score default",
+        "code": "market_score=0.30,",
+        "active": true
+      },
+      {
+        "component": "G",
+        "file": "backend\\scoring\\tests\\test_weight_governance.py",
+        "line": 265,
+        "type": "default",
+        "pattern": "growth_score default",
+        "code": "growth_score=0.30,",
+        "active": true
+      },
+      {
+        "component": "R",
+        "file": "backend\\scoring\\tests\\test_weight_governance.py",
+        "line": 266,
+        "type": "default",
+        "pattern": "risk_score default",
+        "code": "risk_score=0.30,  # Sum = 1.5",
+        "active": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "snapshot_id": "SNAP_2026W08",
+  "timestamp": "2026-02-21T08:01:42.571677",
+  "week_number": 8,
+  "year": 2026,
+  "feature_count": 200,
+  "feature_mean": 0.75,
+  "feature_std": 0.05012547071170859,
+  "feature_min": 0.7,
+  "feature_max": 0.8,
+  "feature_percentiles": {
+    "p25": 0.7,
+    "p50": 0.75,
+    "p75": 0.8,
+    "p90": 0.8,
+    "p95": 0.8
+  },
+  "confidence_average": 0.75,
+  "confidence_std": 0.0,
+  "confidence_min": 0.75,
+  "confidence_max": 0.75,
+  "low_confidence_ratio": 0.0,
+  "top3_stability": 1.0,
+  "rank_correlation": 1.0,
+  "rank_churn": 0.0,
+  "score_variance": 0.0,
+  "score_std": 0.0,
+  "score_range": 0.0,
+  "inter_career_variance": 0.0016333333333333315,
+  "sample_count": 100,
+  "data_hash": "a2113c5fe13fde58"
+}

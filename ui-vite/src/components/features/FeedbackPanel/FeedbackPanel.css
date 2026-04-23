@@ -1,0 +1,321 @@
+/**
+ * FeedbackPanel Styles — dark Đông Sơn theme
+ */
+
+/* Base panel */
+.feedback-panel {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(200, 165, 90, 0.14);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(200, 165, 90, 0.06);
+  max-width: 480px;
+  animation: feedbackSlideIn 0.3s ease-out;
+  backdrop-filter: blur(4px);
+}
+
+.feedback-panel.compact {
+  padding: 16px;
+  max-width: 360px;
+}
+
+.feedback-panel.visible {
+  display: block;
+}
+
+@keyframes feedbackSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.feedback-title h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ede8df;
+}
+
+.feedback-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #6a6a7e;
+}
+
+.feedback-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6a6a7e;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.feedback-close:hover {
+  color: #ede8df;
+}
+
+/* Form */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feedback-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6a6a7e;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.feedback-char-count {
+  font-size: 11px;
+  font-weight: 400;
+  color: #4a4a5e;
+}
+
+/* Star rating */
+.feedback-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.feedback-star {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: rgba(200, 165, 90, 0.2);
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.feedback-star:hover,
+.feedback-star.active {
+  color: #c8a55a;
+}
+
+.feedback-star:hover {
+  transform: scale(1.15);
+}
+
+.feedback-star:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.feedback-rating-text {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #6a6a7e;
+}
+
+/* Textarea */
+.feedback-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(200, 165, 90, 0.15);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ede8df;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.feedback-textarea:focus {
+  border-color: rgba(200, 165, 90, 0.45);
+  box-shadow: 0 0 0 3px rgba(200, 165, 90, 0.1);
+}
+
+.feedback-textarea.error {
+  border-color: #fca5a5;
+}
+
+.feedback-textarea:disabled {
+  background: rgba(255, 255, 255, 0.02);
+  cursor: not-allowed;
+}
+
+/* Error message */
+.feedback-error {
+  font-size: 12px;
+  color: #fca5a5;
+}
+
+.feedback-submit-error {
+  padding: 10px 12px;
+  background: rgba(200, 60, 60, 0.08);
+  border: 1px solid rgba(200, 60, 60, 0.2);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #fca5a5;
+}
+
+/* Submit button */
+.feedback-submit {
+  background: linear-gradient(135deg, #b8914a, #c8a55a);
+  color: #05060f;
+  border: none;
+  border-radius: 9999px;
+  padding: 11px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.1s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.feedback-submit:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 20px rgba(200, 165, 90, 0.35);
+  transform: translateY(-1px);
+}
+
+.feedback-submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.feedback-submit:disabled {
+  background: rgba(200, 165, 90, 0.2);
+  color: #6a6a7e;
+  cursor: not-allowed;
+}
+
+/* Trigger button */
+.feedback-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #b8914a 0%, #c8a55a 100%);
+  color: #05060f;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 16px rgba(200, 165, 90, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  font-family: inherit;
+}
+
+.feedback-trigger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(200, 165, 90, 0.45);
+  filter: brightness(1.08);
+}
+
+.feedback-trigger-icon {
+  font-size: 16px;
+}
+
+.feedback-trigger-text {
+  font-size: 13px;
+}
+
+/* Success state */
+.feedback-success {
+  text-align: center;
+  padding: 20px;
+}
+
+.feedback-success-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  background: rgba(110, 231, 183, 0.15);
+  color: #6ee7b7;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(110, 231, 183, 0.3);
+}
+
+.feedback-success h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #6ee7b7;
+}
+
+.feedback-success p {
+  margin: 0;
+  font-size: 14px;
+  color: #6a6a7e;
+}
+
+.feedback-id {
+  margin-top: 8px !important;
+  font-size: 12px !important;
+  color: #4a4a5e !important;
+  font-family: monospace;
+}
+
+/* Locked / submitted state */
+.feedback-panel.locked,
+.feedback-panel.submitted {
+  background: rgba(110, 231, 183, 0.04);
+  border-color: rgba(110, 231, 183, 0.2);
+}
+
+/* Confidence notice */
+.feedback-confidence-notice {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(200, 165, 90, 0.06);
+  border: 1px solid rgba(200, 165, 90, 0.18);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #c8a55a;
+}
+
+.notice-icon {
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .feedback-panel {
+    padding: 16px;
+  }
+
+  .feedback-star {
+    font-size: 24px;
+  }
+
+  .feedback-trigger {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}

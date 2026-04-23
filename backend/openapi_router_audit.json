@@ -1,0 +1,886 @@
+{
+  "_generated_by": "_generate_openapi.py",
+  "_note": "AST-based static analysis — prefix paths are approximate for routers with internal prefixes",
+  "router_count": 16,
+  "endpoint_count": 150,
+  "routers": [
+    {
+      "file": "chat_router.py",
+      "prefix": "/api/v1/chat",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "",
+          "summary": "Send chat message"
+        }
+      ]
+    },
+    {
+      "file": "crawler_router.py",
+      "prefix": "/api/v1/crawlers",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/start/{site_name}",
+          "summary": "Start crawl"
+        },
+        {
+          "method": "POST",
+          "path": "/stop/{site_name}",
+          "summary": "Stop crawl"
+        },
+        {
+          "method": "GET",
+          "path": "/status",
+          "summary": "All crawler status"
+        },
+        {
+          "method": "GET",
+          "path": "/status/{site_name}",
+          "summary": "Single crawler status"
+        }
+      ]
+    },
+    {
+      "file": "decision_router.py",
+      "prefix": "/api/v1/decision [prefix in router]",
+      "mounted_before": true,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/run",
+          "summary": "Execute Decision Pipeline"
+        },
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "Decision Service Health"
+        }
+      ]
+    },
+    {
+      "file": "eval_router.py",
+      "prefix": "/api/v1/eval",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "eval_health"
+        },
+        {
+          "method": "GET",
+          "path": "",
+          "summary": "list_eval_runs"
+        },
+        {
+          "method": "GET",
+          "path": "/baselines",
+          "summary": "get_baselines"
+        },
+        {
+          "method": "GET",
+          "path": "/{run_id}",
+          "summary": "get_eval_run"
+        },
+        {
+          "method": "GET",
+          "path": "/{run_id}/metrics",
+          "summary": "get_eval_metrics"
+        },
+        {
+          "method": "POST",
+          "path": "",
+          "summary": "create_eval_run"
+        },
+        {
+          "method": "DELETE",
+          "path": "/{run_id}",
+          "summary": "delete_eval_run"
+        }
+      ]
+    },
+    {
+      "file": "explain_router.py",
+      "prefix": "/api/v1/explain  [prefix in router]",
+      "mounted_before": true,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/explain",
+          "summary": "Run explanation pipeline"
+        },
+        {
+          "method": "GET",
+          "path": "/explain/{trace_id}",
+          "summary": "Get stored explanation"
+        },
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "Health check"
+        },
+        {
+          "method": "POST",
+          "path": "/explain",
+          "summary": "Run explanation pipeline (v2)"
+        }
+      ]
+    },
+    {
+      "file": "governance_router.py",
+      "prefix": "/api/v1/governance",
+      "mounted_before": true,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/dashboard",
+          "summary": "Governance dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/risk",
+          "summary": "Risk dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/risk/history",
+          "summary": "Risk history"
+        },
+        {
+          "method": "GET",
+          "path": "/risk/mitigations",
+          "summary": "Mitigation history"
+        },
+        {
+          "method": "POST",
+          "path": "/risk/weights",
+          "summary": "Update risk weights"
+        },
+        {
+          "method": "GET",
+          "path": "/sla",
+          "summary": "SLA dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/sla/violations",
+          "summary": "SLA violations"
+        },
+        {
+          "method": "GET",
+          "path": "/sla/compliance",
+          "summary": "SLA compliance summary"
+        },
+        {
+          "method": "GET",
+          "path": "/sla/contracts",
+          "summary": "List SLA contracts"
+        },
+        {
+          "method": "POST",
+          "path": "/sla/contracts",
+          "summary": "Register SLA contract"
+        },
+        {
+          "method": "GET",
+          "path": "/reports",
+          "summary": "List reports"
+        },
+        {
+          "method": "GET",
+          "path": "/reports/weekly",
+          "summary": "Weekly SLA report"
+        },
+        {
+          "method": "GET",
+          "path": "/reports/monthly",
+          "summary": "Monthly risk report"
+        },
+        {
+          "method": "POST",
+          "path": "/reports/generate",
+          "summary": "Generate report"
+        },
+        {
+          "method": "GET",
+          "path": "/cost",
+          "summary": "Cost dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/drift",
+          "summary": "Drift dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/score-distribution",
+          "summary": "Score distribution histogram"
+        },
+        {
+          "method": "GET",
+          "path": "/thresholds",
+          "summary": "Get alert thresholds"
+        },
+        {
+          "method": "PUT",
+          "path": "/thresholds",
+          "summary": "Update alert thresholds"
+        },
+        {
+          "method": "GET",
+          "path": "/rule-triggers",
+          "summary": "Rule trigger history"
+        },
+        {
+          "method": "GET",
+          "path": "/ranking-volatility",
+          "summary": "Ranking volatility metrics"
+        },
+        {
+          "method": "GET",
+          "path": "/ranking-frequency",
+          "summary": "Ranking frequency distribution"
+        },
+        {
+          "method": "GET",
+          "path": "/kl-divergence",
+          "summary": "KL divergence monitoring"
+        },
+        {
+          "method": "GET",
+          "path": "/audit",
+          "summary": "Audit log"
+        }
+      ]
+    },
+    {
+      "file": "health_router.py",
+      "prefix": "/api/v1/health",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/live",
+          "summary": "Liveness probe"
+        },
+        {
+          "method": "GET",
+          "path": "/full",
+          "summary": "Full readiness probe"
+        },
+        {
+          "method": "GET",
+          "path": "/ready",
+          "summary": "Readiness probe"
+        },
+        {
+          "method": "GET",
+          "path": "/scoring",
+          "summary": "Scoring engine health"
+        },
+        {
+          "method": "GET",
+          "path": "/llm",
+          "summary": "LLM health check"
+        },
+        {
+          "method": "GET",
+          "path": "/llm/anomaly-rate",
+          "summary": "LLM anomaly rate"
+        },
+        {
+          "method": "GET",
+          "path": "/warmup",
+          "summary": "Warmup status"
+        },
+        {
+          "method": "POST",
+          "path": "/warmup",
+          "summary": "Trigger LLM warmup"
+        }
+      ]
+    },
+    {
+      "file": "infer_router.py",
+      "prefix": "/api/v1/infer",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/predict",
+          "summary": "Get career prediction"
+        },
+        {
+          "method": "POST",
+          "path": "/feedback",
+          "summary": "Submit feedback"
+        },
+        {
+          "method": "GET",
+          "path": "/models",
+          "summary": "List models"
+        },
+        {
+          "method": "GET",
+          "path": "/metrics",
+          "summary": "Inference metrics"
+        },
+        {
+          "method": "POST",
+          "path": "/killswitch",
+          "summary": "Toggle kill switch"
+        },
+        {
+          "method": "GET",
+          "path": "/router/stats",
+          "summary": "Router statistics"
+        },
+        {
+          "method": "POST",
+          "path": "/analyze",
+          "summary": "Analyze profile"
+        },
+        {
+          "method": "POST",
+          "path": "/recommendations",
+          "summary": "Get recommendations"
+        },
+        {
+          "method": "GET",
+          "path": "/career-library",
+          "summary": "Get career library"
+        }
+      ]
+    },
+    {
+      "file": "liveops_router.py",
+      "prefix": "/api/v1/liveops",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "WS",
+          "path": "/ws",
+          "summary": "websocket_endpoint"
+        },
+        {
+          "method": "GET",
+          "path": "/sse",
+          "summary": "sse_endpoint"
+        },
+        {
+          "method": "GET",
+          "path": "/stream",
+          "summary": "LiveOps event stream"
+        },
+        {
+          "method": "GET",
+          "path": "/poll",
+          "summary": "poll_endpoint"
+        },
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "LiveOps health"
+        },
+        {
+          "method": "POST",
+          "path": "/crawler/kill",
+          "summary": "Kill crawler"
+        },
+        {
+          "method": "POST",
+          "path": "/job/pause",
+          "summary": "Pause job"
+        },
+        {
+          "method": "POST",
+          "path": "/job/resume",
+          "summary": "Resume job"
+        },
+        {
+          "method": "POST",
+          "path": "/kb/rollback",
+          "summary": "Rollback KB"
+        },
+        {
+          "method": "POST",
+          "path": "/mlops/freeze",
+          "summary": "Freeze model"
+        },
+        {
+          "method": "POST",
+          "path": "/mlops/retrain",
+          "summary": "Retrain model"
+        },
+        {
+          "method": "POST",
+          "path": "/simulate",
+          "summary": "Simulate operation"
+        },
+        {
+          "method": "GET",
+          "path": "/commands/{command_id}",
+          "summary": "Get command status"
+        },
+        {
+          "method": "GET",
+          "path": "/commands",
+          "summary": "List commands"
+        },
+        {
+          "method": "GET",
+          "path": "/command/list",
+          "summary": "List commands (alias)"
+        },
+        {
+          "method": "POST",
+          "path": "/commands/{command_id}/approve",
+          "summary": "Approve command"
+        },
+        {
+          "method": "GET",
+          "path": "/widget/{widget_type}",
+          "summary": "Get widget data"
+        },
+        {
+          "method": "POST",
+          "path": "/commands/{command_id}/cancel",
+          "summary": "Cancel command"
+        },
+        {
+          "method": "GET",
+          "path": "/stats",
+          "summary": "LiveOps statistics"
+        }
+      ]
+    },
+    {
+      "file": "ml_router.py",
+      "prefix": "/api/v1/ml",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/evaluation",
+          "summary": "Run ML evaluation"
+        },
+        {
+          "method": "GET",
+          "path": "/evaluation/results",
+          "summary": "Get ML evaluation results"
+        },
+        {
+          "method": "GET",
+          "path": "/inference/metrics",
+          "summary": "Inference metrics"
+        },
+        {
+          "method": "GET",
+          "path": "/models",
+          "summary": "List model versions"
+        },
+        {
+          "method": "GET",
+          "path": "/retrain/check",
+          "summary": "Check retrain trigger"
+        },
+        {
+          "method": "POST",
+          "path": "/retrain/run",
+          "summary": "Run retraining"
+        },
+        {
+          "method": "POST",
+          "path": "/deploy",
+          "summary": "Deploy model"
+        },
+        {
+          "method": "POST",
+          "path": "/deploy/promote",
+          "summary": "Promote canary"
+        },
+        {
+          "method": "POST",
+          "path": "/deploy/rollback",
+          "summary": "Rollback model"
+        },
+        {
+          "method": "POST",
+          "path": "/killswitch",
+          "summary": "Toggle kill switch"
+        },
+        {
+          "method": "GET",
+          "path": "/model/info",
+          "summary": "Get active model metadata"
+        },
+        {
+          "method": "POST",
+          "path": "/monitoring/cycle",
+          "summary": "Run monitoring cycle"
+        }
+      ]
+    },
+    {
+      "file": "mlops_router.py",
+      "prefix": "/api/v1/mlops",
+      "mounted_before": true,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/train",
+          "summary": "mlops_train"
+        },
+        {
+          "method": "POST",
+          "path": "/validate",
+          "summary": "mlops_validate"
+        },
+        {
+          "method": "POST",
+          "path": "/deploy",
+          "summary": "mlops_deploy"
+        },
+        {
+          "method": "POST",
+          "path": "/rollback",
+          "summary": "mlops_rollback"
+        },
+        {
+          "method": "GET",
+          "path": "/models",
+          "summary": "mlops_models"
+        },
+        {
+          "method": "GET",
+          "path": "/runs",
+          "summary": "mlops_runs"
+        },
+        {
+          "method": "GET",
+          "path": "/monitor",
+          "summary": "mlops_monitor"
+        },
+        {
+          "method": "GET",
+          "path": "/retrain/status",
+          "summary": "mlops_retrain_status"
+        },
+        {
+          "method": "POST",
+          "path": "/shadow/enable",
+          "summary": "mlops_shadow_enable"
+        },
+        {
+          "method": "POST",
+          "path": "/shadow/disable",
+          "summary": "mlops_shadow_disable"
+        },
+        {
+          "method": "GET",
+          "path": "/shadow/status",
+          "summary": "mlops_shadow_status"
+        },
+        {
+          "method": "GET",
+          "path": "/shadow/evaluate",
+          "summary": "mlops_shadow_evaluate"
+        },
+        {
+          "method": "POST",
+          "path": "/compat/model/retrain",
+          "summary": "compat_model_retrain"
+        },
+        {
+          "method": "POST",
+          "path": "/compat/validation/run",
+          "summary": "compat_validation_run"
+        },
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "mlops_health"
+        },
+        {
+          "method": "GET",
+          "path": "/compare",
+          "summary": "mlops_compare"
+        }
+      ]
+    },
+    {
+      "file": "ops_router.py",
+      "prefix": "/api/v1/ops",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/sla",
+          "summary": "SLA dashboard"
+        },
+        {
+          "method": "GET",
+          "path": "/alerts",
+          "summary": "Recent alerts"
+        },
+        {
+          "method": "GET",
+          "path": "/status",
+          "summary": "Pipeline status"
+        },
+        {
+          "method": "GET",
+          "path": "/explanation",
+          "summary": "Explanation quality"
+        },
+        {
+          "method": "POST",
+          "path": "/backup",
+          "summary": "Create backup"
+        },
+        {
+          "method": "POST",
+          "path": "/retention",
+          "summary": "Enforce retention"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/status",
+          "summary": "Recovery status"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/report",
+          "summary": "Failure report"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/catalog",
+          "summary": "Failure catalog"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/history",
+          "summary": "Failure history"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/log",
+          "summary": "Recovery log"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/retry-stats",
+          "summary": "Retry statistics"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/rollback-history",
+          "summary": "Rollback history"
+        },
+        {
+          "method": "GET",
+          "path": "/recovery/checkpoint/{run_id}",
+          "summary": "Checkpoint status"
+        },
+        {
+          "method": "GET",
+          "path": "/metrics",
+          "summary": "Metrics JSON"
+        },
+        {
+          "method": "GET",
+          "path": "/metrics/prometheus",
+          "summary": "Prometheus metrics"
+        },
+        {
+          "method": "GET",
+          "path": "/metrics/series/{metric_name}",
+          "summary": "Metric time series"
+        }
+      ]
+    },
+    {
+      "file": "pipeline_router.py",
+      "prefix": "/api/v1/pipeline",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/run",
+          "summary": "Run data pipeline"
+        },
+        {
+          "method": "POST",
+          "path": "/recommendations",
+          "summary": "Get recommendations"
+        }
+      ]
+    },
+    {
+      "file": "rules_router.py",
+      "prefix": "/api/v1/rules",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "rules_health"
+        },
+        {
+          "method": "GET",
+          "path": "/categories",
+          "summary": "list_categories"
+        },
+        {
+          "method": "GET",
+          "path": "",
+          "summary": "list_rules"
+        },
+        {
+          "method": "GET",
+          "path": "/{rule_name}",
+          "summary": "get_rule"
+        },
+        {
+          "method": "POST",
+          "path": "/evaluate",
+          "summary": "evaluate_profile"
+        },
+        {
+          "method": "POST",
+          "path": "/evaluate-job",
+          "summary": "evaluate_job"
+        },
+        {
+          "method": "POST",
+          "path": "/reload",
+          "summary": "reload_rules"
+        }
+      ]
+    },
+    {
+      "file": "scoring_router.py",
+      "prefix": "/api/v1/scoring",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "scoring_health"
+        },
+        {
+          "method": "GET",
+          "path": "",
+          "summary": "get_config"
+        },
+        {
+          "method": "GET",
+          "path": "/strategies",
+          "summary": "list_strategies"
+        },
+        {
+          "method": "GET",
+          "path": "/weights",
+          "summary": "get_weights"
+        },
+        {
+          "method": "PUT",
+          "path": "/weights",
+          "summary": "update_weights"
+        },
+        {
+          "method": "POST",
+          "path": "/rank",
+          "summary": "rank_careers"
+        },
+        {
+          "method": "POST",
+          "path": "/score",
+          "summary": "score_careers"
+        },
+        {
+          "method": "POST",
+          "path": "/reset",
+          "summary": "reset_config"
+        },
+        {
+          "method": "POST",
+          "path": "/simulate",
+          "summary": "simulate_ranking"
+        }
+      ]
+    },
+    {
+      "file": "taxonomy_router.py",
+      "prefix": "/api/v1/taxonomy",
+      "mounted_before": false,
+      "mounted_after": true,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/health",
+          "summary": "taxonomy_health"
+        },
+        {
+          "method": "GET",
+          "path": "/coverage",
+          "summary": "get_coverage"
+        },
+        {
+          "method": "GET",
+          "path": "",
+          "summary": "list_datasets"
+        },
+        {
+          "method": "GET",
+          "path": "/{dataset}",
+          "summary": "list_entries"
+        },
+        {
+          "method": "GET",
+          "path": "/{dataset}/{entry_id}",
+          "summary": "get_entry"
+        },
+        {
+          "method": "POST",
+          "path": "/resolve",
+          "summary": "resolve_text"
+        },
+        {
+          "method": "POST",
+          "path": "/resolve-many",
+          "summary": "resolve_many"
+        },
+        {
+          "method": "POST",
+          "path": "/detect-intent",
+          "summary": "detect_intent"
+        },
+        {
+          "method": "POST",
+          "path": "/reload",
+          "summary": "reload_taxonomy"
+        }
+      ]
+    }
+  ]
+}

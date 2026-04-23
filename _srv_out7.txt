@@ -1,0 +1,214 @@
+2026-02-28 11:51:44,640 | INFO | backend.crawlers.crawler_service | CrawlerService initialized. Max parallel jobs: 5, Task timeout: 3600s
+2026-02-28 11:51:58,617 | INFO | backend.main | RouteTelemetryMiddleware registered — logging route/method/payload/duration/status
+2026-02-28 11:51:59,434 | INFO | api.explain.controller | ExplainController config: timeout=60s, enable_llm=True
+2026-02-28 11:51:59,460 | INFO | backend.main | Explain API registered: /api/v1/explain
+2026-02-28 11:51:59,508 | INFO | backend.scoring.weights_registry | [SCORING] Loaded weights version=v2_full_SIMGR_20260224_150947 method=linear_regression trained_at=2026-02-24T15:09:47.051786+00:00
+2026-02-28 11:51:59,522 | INFO | backend.scoring.weights_registry | [REGISTRY] Loaded weights vv2_full_SIMGR_20260224_150947 (status: valid)
+2026-02-28 11:51:59,524 | INFO | backend.scoring.config | [WEIGHT_LOAD] Loaded weights version=v2_full_SIMGR_20260224_150947 method=linear_regression trained_at=2026-02-24T15:09:47.051786+00:00
+2026-02-28 11:51:59,558 | INFO | scoring.import_monitor | [IMPORT_MONITOR] Direct import: SIMGRCalculator
+2026-02-28 11:51:59,646 | INFO | api.controllers.decision | MainController injected into DecisionController
+2026-02-28 11:51:59,647 | INFO | api.controllers.decision | OpsHub injected into DecisionController
+2026-02-28 11:51:59,647 | INFO | api.routers.decision | DecisionController injected into decision router
+2026-02-28 11:51:59,650 | INFO | backend.main | Decision API registered: /api/v1/decision
+2026-02-28 11:51:59,659 | INFO | api.routers.one_button | DecisionController injected into one_button_router
+2026-02-28 11:51:59,662 | INFO | backend.main | One-Button API registered: /api/v1/one-button/run
+2026-02-28 11:51:59,685 | INFO | backend.main | MLOps API registered: /api/v1/mlops/*
+2026-02-28 11:51:59,714 | INFO | backend.main | Governance API registered: /api/v1/governance/*
+2026-02-28 11:51:59,731 | INFO | backend.main | Audit API registered: /api/v1/audit/*
+2026-02-28 11:51:59,805 | INFO | backend.main | Admin Auth/Gateway + Feedback API registered
+2026-02-28 11:51:59,814 | INFO | backend.main | Health API registered: /api/v1/health/*
+2026-02-28 11:51:59,829 | INFO | backend.main | Ops API registered: /api/v1/ops/*
+2026-02-28 11:51:59,835 | INFO | backend.main | Crawler API registered: /api/v1/crawlers/*
+2026-02-28 11:51:59,836 | INFO | backend.main | Chat API registered: /api/v1/chat/*
+2026-02-28 11:51:59,840 | INFO | backend.main | Pipeline API registered: /api/v1/pipeline/*
+2026-02-28 11:51:59,867 | INFO | api.routers.scoring | MainController injected into scoring router
+2026-02-28 11:51:59,875 | INFO | backend.main | Scoring API registered: /api/v1/scoring/*
+2026-02-28 11:51:59,885 | INFO | backend.main | ML API registered: /api/v1/ml/*
+2026-02-28 11:51:59,907 | INFO | api.routers.eval | Main controller injected for eval
+2026-02-28 11:51:59,915 | INFO | backend.main | Eval API registered: /api/v1/eval/*
+2026-02-28 11:51:59,930 | INFO | backend.main | Rules API registered: /api/v1/rules/*
+2026-02-28 11:51:59,949 | INFO | backend.main | Taxonomy API registered: /api/v1/taxonomy/*
+2026-02-28 11:52:00,040 | INFO | ml_inference.api | Stage 5 Explain API routes registered
+2026-02-28 11:52:00,043 | INFO | backend.main | InferenceAPI injected into infer_router
+2026-02-28 11:52:00,055 | INFO | backend.main | Infer API registered: /api/v1/infer/*
+2026-02-28 11:52:00,131 | INFO | ops.command_engine.audit | Rotated to new audit log: logs\admin_ops\audit_20260228_045200.jsonl
+2026-02-28 11:52:00,132 | INFO | ops.command_engine.notifier | Added notification rule: Command Failure Alert
+2026-02-28 11:52:00,132 | INFO | ops.command_engine.notifier | Added notification rule: Critical Command Notification
+2026-02-28 11:52:00,133 | INFO | ops.governance.safety_policy | Added policy: Production Crawler Kill Approval
+2026-02-28 11:52:00,133 | INFO | ops.governance.safety_policy | Added policy: Model Freeze Approval
+2026-02-28 11:52:00,134 | INFO | ops.governance.safety_policy | Added policy: KB Rollback Approval
+2026-02-28 11:52:00,135 | INFO | ops.governance.safety_policy | Added policy: Dev Job Controls
+2026-02-28 11:52:00,136 | INFO | ops.governance.safety_policy | Added policy: Retrain Rate Limit
+2026-02-28 11:52:00,136 | INFO | ops.governance.safety_policy | Added policy: Viewer Restrictions
+2026-02-28 11:52:00,137 | INFO | backend.main | CommandEngine injected into liveops_router
+2026-02-28 11:52:00,160 | INFO | backend.main | LiveOps API registered: /api/v1/liveops/*
+2026-02-28 11:52:00,277 | INFO | backend.main | KB API registered: /api/v1/kb/*
+2026-02-28 11:52:00,284 | INFO | backend.main | Kill-Switch API registered: /api/v1/kill-switch/*
+2026-02-28 11:52:00,290 | INFO | backend.main | Errors API registered: /api/v1/errors/*
+2026-02-28 11:52:00,309 | INFO | backend.main | HDSS Backend starting...
+2026-02-28 11:52:00,317 | INFO | ops.integration | OpsHub starting up...
+2026-02-28 11:52:00,325 | INFO | ops.monitoring.health | Health check registered: disk_space
+2026-02-28 11:52:00,327 | INFO | ops.monitoring.health | Health check registered: memory
+2026-02-28 11:52:00,327 | INFO | ops.monitoring.health | Health check registered: data_dir
+2026-02-28 11:52:00,328 | INFO | ops.monitoring.health | Health check registered: scoring_engine
+2026-02-28 11:52:00,328 | INFO | ops.monitoring.health | Health check registered: llm_service
+2026-02-28 11:52:00,363 | INFO | ops.integration | OpsHub ready (metrics + 5 health checks + recovery)
+2026-02-28 11:52:00,364 | INFO | backend.main | Starting system warmup (scoring engine + LLM)...
+2026-02-28 11:52:00,369 | INFO | ops.warmup | WarmupManager: Starting system warmup (budget=5000ms)
+2026-02-28 11:52:00,370 | INFO | ops.warmup | Warming up scoring engine: loading config...
+2026-02-28 11:52:00,371 | INFO | ops.warmup | Scoring config loaded
+2026-02-28 11:52:00,372 | INFO | ops.warmup | Warming up scoring engine: initializing scorer...
+2026-02-28 11:52:00,373 | INFO | ops.warmup | SIMGRScorer initialized
+2026-02-28 11:52:00,375 | INFO | ops.warmup | RankingEngine initialized
+2026-02-28 11:52:00,376 | INFO | ops.warmup | Warming up scoring engine: loading normalization...
+2026-02-28 11:52:00,377 | INFO | ops.warmup | Normalizer initialized
+2026-02-28 11:52:00,380 | INFO | ops.warmup | Warming up scoring engine: loading rule base...
+2026-02-28 11:52:00,382 | INFO | ops.warmup | RuleEngine initialized
+2026-02-28 11:52:00,382 | INFO | ops.warmup | Warming up scoring engine: cache warmup...
+2026-02-28 11:52:00,385 | ERROR | ops.warmup | Scoring engine warmup failed: Scoring operation 'score' requires execution context. Direct invocation is blocked. Use DecisionController.run_pipeline() instead.
+2026-02-28 11:52:00,387 | INFO | ops.warmup | Warming up LLM: model=llama3.2:1b, url=http://localhost:11434
+2026-02-28 11:52:01,053 | INFO | httpx | HTTP Request: GET http://localhost:11434/api/version "HTTP/1.1 200 OK"
+2026-02-28 11:52:01,061 | INFO | ops.warmup | Warming up LLM: pre-loading model...
+2026-02-28 11:52:02,131 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-02-28 11:52:02,136 | INFO | ops.warmup | LLM model pre-warmed successfully
+2026-02-28 11:52:02,136 | INFO | ops.warmup | LLM warmup complete in 1749.5ms (status=ready, retries=1)
+2026-02-28 11:52:02,137 | INFO | ops.warmup | WarmupManager: Startup complete in 1768.0ms (budget=5000ms)
+2026-02-28 11:52:02,138 | INFO | backend.main | Warmup complete: scoring=unhealthy, llm=ready, time=1768.0ms
+2026-02-28 11:52:02,138 | INFO | backend.main | Metrics background collector started (15s interval)
+2026-02-28 11:52:02,143 | INFO | backend.mlops.scheduler.retrain_scheduler | Retrain scheduler started
+2026-02-28 11:52:02,144 | INFO | backend.main | Retrain scheduler started with cooldown enforcement
+2026-02-28 11:52:02,152 | INFO | backend.mlops.router.shadow_dispatcher | Shadow dispatcher started
+2026-02-28 11:52:02,153 | INFO | backend.main | Shadow dispatcher started
+2026-02-28 11:52:02,995 | WARNING | backend.main | Failed to export OpenAPI schema: 'charmap' codec can't encode character '\u2192' in position 17955: character maps to <undefined>
+2026-02-28 11:52:02,997 | INFO | backend.main | HDSS Backend ready to accept traffic
+2026-02-28 11:52:03,095 | INFO | backend.mlops.scheduler.retrain_scheduler | Retrain scheduler started. Poll interval: 300s
+2026-02-28 11:52:03,097 | INFO | backend.mlops.scheduler.retrain_scheduler | Retrain blocked by cooldown: Cooldown active: 23.31h remaining
+2026-02-28 11:52:30,903 | INFO | backend.main | Request started POST /api/admin/login
+2026-02-28 11:52:31,396 | INFO | api.telemetry | TELEMETRY | req=02943783 | POST /api/admin/login | status=200 | dur=490.8ms | body=53B | payload={"username":"admin","password":"trongdongdongson"}
+2026-02-28 11:52:31,398 | INFO | backend.main | Request started GET /api/v1/health/ready
+2026-02-28 11:52:31,837 | INFO | api.registry | All router imports successful
+2026-02-28 11:52:31,839 | INFO | rule_engine.rule_service | RuleEngine initialised by RuleService
+2026-02-28 11:52:31,859 | INFO | api.telemetry | TELEMETRY | req=12bb75af | GET /api/v1/health/ready | status=200 | dur=460.1ms | body=0B
+2026-02-28 11:52:31,877 | INFO | backend.main | Request started GET /api/v1/health/live
+2026-02-28 11:52:31,880 | INFO | api.telemetry | TELEMETRY | req=5158d11c | GET /api/v1/health/live | status=200 | dur=1.0ms | body=0B
+2026-02-28 11:52:31,883 | INFO | backend.main | Request started GET /api/v1/health/startup
+2026-02-28 11:52:31,887 | INFO | api.telemetry | TELEMETRY | req=84a8205b | GET /api/v1/health/startup | status=200 | dur=1.2ms | body=0B
+2026-02-28 11:52:31,891 | INFO | backend.main | Request started GET /api/v1/scoring
+2026-02-28 11:52:31,895 | INFO | career-api.controller | Dispatch completed: scoring.config
+2026-02-28 11:52:31,896 | INFO | api.telemetry | TELEMETRY | req=af703173 | GET /api/v1/scoring | status=200 | dur=3.3ms | body=0B
+2026-02-28 11:52:31,897 | INFO | backend.main | Request started GET /api/v1/scoring/weights
+2026-02-28 11:52:31,900 | INFO | career-api.controller | Dispatch completed: scoring.weights
+2026-02-28 11:52:31,901 | INFO | api.telemetry | TELEMETRY | req=d0a4db04 | GET /api/v1/scoring/weights | status=200 | dur=2.6ms | body=0B
+2026-02-28 11:52:31,905 | INFO | backend.main | Request started GET /api/v1/mlops/health
+2026-02-28 11:52:31,908 | INFO | api.telemetry | TELEMETRY | req=bf75e732 | GET /api/v1/mlops/health | status=200 | dur=1.4ms | body=0B
+2026-02-28 11:52:31,912 | INFO | backend.main | Request started GET /api/v1/mlops/models
+2026-02-28 11:52:31,917 | INFO | api.telemetry | TELEMETRY | req=6aac9588 | GET /api/v1/mlops/models | status=200 | dur=3.9ms | body=0B
+2026-02-28 11:52:31,919 | INFO | backend.main | Request started GET /api/v1/audit/rule-events
+2026-02-28 11:52:31,929 | INFO | api.telemetry | TELEMETRY | req=19a952e1 | GET /api/v1/audit/rule-events | status=200 | dur=8.1ms | body=0B
+2026-02-28 11:52:31,931 | INFO | backend.main | Request started GET /api/v1/governance/dashboard
+2026-02-28 11:52:31,934 | INFO | ops.governance.aggregator | OpsAggregator initialized
+2026-02-28 11:52:31,937 | INFO | ops.governance.risk | RiskManager initialized with weights: RiskWeights(drift=0.3, latency=0.25, error_rate=0.3, cost_overrun=0.15)
+2026-02-28 11:52:31,947 | INFO | ops.sla.evaluator | Registered SLA contract: Production API (1b420b4d9c47)
+2026-02-28 11:52:31,948 | INFO | ops.sla.evaluator | SLAEvaluator initialized
+2026-02-28 11:52:31,949 | INFO | api.telemetry | TELEMETRY | req=742e9702 | GET /api/v1/governance/dashboard | status=200 | dur=16.1ms | body=0B
+2026-02-28 11:52:31,951 | INFO | backend.main | Request started GET /api/v1/eval/health
+2026-02-28 11:52:31,954 | INFO | ml_evaluation.event_bus | Registered publisher: ScoringEngine
+2026-02-28 11:52:31,954 | INFO | ml_evaluation.event_bus | Registered publisher: ExplanationLayer
+2026-02-28 11:52:31,955 | INFO | ml_evaluation.event_bus | Registered publisher: LoggingSystem
+2026-02-28 11:52:31,963 | INFO | ml_evaluation.service | Loaded config from F:\Hybrid Decision Support System\config\system.yaml: ['data_path', 'model_type', 'kfold', 'random_state', 'output_path', 'enable_publish', 'model_params', 'quality_gate', 'log_level', 'stability']
+2026-02-28 11:52:31,965 | INFO | api.telemetry | TELEMETRY | req=39ca4541 | GET /api/v1/eval/health | status=200 | dur=12.2ms | body=0B
+2026-02-28 11:52:31,966 | INFO | backend.main | Request started GET /api/v1/eval
+2026-02-28 11:52:31,971 | INFO | api.telemetry | TELEMETRY | req=5412aaef | GET /api/v1/eval | status=200 | dur=2.0ms | body=0B
+2026-02-28 11:52:31,972 | INFO | backend.main | Request started GET /api/v1/taxonomy/list
+2026-02-28 11:52:31,975 | INFO | api.telemetry | TELEMETRY | req=941fc1bf | GET /api/v1/taxonomy/list | status=200 | dur=1.9ms | body=0B
+2026-02-28 11:52:31,994 | INFO | backend.main | Request started GET /api/v1/rules
+2026-02-28 11:52:31,998 | INFO | api.telemetry | TELEMETRY | req=8a877fa9 | GET /api/v1/rules | status=200 | dur=2.0ms | body=0B
+2026-02-28 11:52:31,999 | INFO | backend.main | Request started GET /api/v1/ops/status
+2026-02-28 11:52:32,132 | INFO | api.telemetry | TELEMETRY | req=35f13515 | GET /api/v1/ops/status | status=200 | dur=131.9ms | body=0B
+2026-02-28 11:52:32,134 | INFO | backend.main | Request started GET /api/v1/ops/alerts
+2026-02-28 11:52:32,136 | INFO | api.telemetry | TELEMETRY | req=7a60ac7e | GET /api/v1/ops/alerts | status=200 | dur=0.9ms | body=0B
+2026-02-28 11:52:32,138 | INFO | backend.main | Request started GET /api/v1/kb/domains
+2026-02-28 11:52:32,182 | INFO | api.telemetry | TELEMETRY | req=0e13c93d | GET /api/v1/kb/domains | status=200 | dur=41.4ms | body=0B
+2026-02-28 11:52:32,183 | INFO | backend.main | Request started GET /api/v1/kb/careers
+2026-02-28 11:52:32,250 | INFO | api.telemetry | TELEMETRY | req=e1e2f638 | GET /api/v1/kb/careers | status=200 | dur=64.1ms | body=0B
+2026-02-28 11:52:32,251 | INFO | backend.main | Request started GET /api/admin/me
+2026-02-28 11:52:32,256 | INFO | api.telemetry | TELEMETRY | req=5bb903c2 | GET /api/admin/me | status=200 | dur=3.1ms | body=0B
+2026-02-28 11:52:32,258 | INFO | backend.main | Request started GET /api/admin/users
+2026-02-28 11:52:32,263 | INFO | api.telemetry | TELEMETRY | req=a1c07120 | GET /api/admin/users | status=200 | dur=2.1ms | body=0B
+2026-02-28 11:52:32,266 | INFO | backend.main | Request started GET /api/admin/crawlers/status
+2026-02-28 11:52:32,271 | INFO | api.telemetry | TELEMETRY | req=79804dd0 | GET /api/admin/crawlers/status | status=200 | dur=2.5ms | body=0B
+2026-02-28 11:52:32,275 | INFO | backend.main | Request started GET /api/admin/crawlers/jobs
+2026-02-28 11:52:32,281 | INFO | api.telemetry | TELEMETRY | req=9525943d | GET /api/admin/crawlers/jobs | status=200 | dur=4.7ms | body=0B
+2026-02-28 11:52:32,292 | INFO | backend.main | Request started GET /api/admin/governance/policies
+2026-02-28 11:52:32,296 | INFO | api.telemetry | TELEMETRY | req=44c9e304 | GET /api/admin/governance/policies | status=200 | dur=2.8ms | body=0B
+2026-02-28 11:52:32,298 | INFO | backend.main | Request started GET /api/admin/kb/indexes
+2026-02-28 11:52:32,301 | INFO | api.telemetry | TELEMETRY | req=ba1dd7c3 | GET /api/admin/kb/indexes | status=200 | dur=1.7ms | body=0B
+2026-02-28 11:52:32,302 | INFO | backend.main | Request started GET /api/admin/mlops/models
+2026-02-28 11:52:32,307 | INFO | api.telemetry | TELEMETRY | req=568d1c08 | GET /api/admin/mlops/models | status=200 | dur=3.8ms | body=0B
+2026-02-28 11:52:32,311 | INFO | backend.main | Request started GET /api/admin/ops/health
+2026-02-28 11:52:32,313 | INFO | api.telemetry | TELEMETRY | req=fca1d512 | GET /api/admin/ops/health | status=200 | dur=1.5ms | body=0B
+2026-02-28 11:52:32,315 | INFO | backend.main | Request started GET /api/admin/ops/status
+2026-02-28 11:52:32,449 | INFO | api.telemetry | TELEMETRY | req=89a74f2b | GET /api/admin/ops/status | status=200 | dur=132.9ms | body=0B
+2026-02-28 11:52:32,451 | INFO | backend.main | Request started GET /api/admin/settings/profile
+2026-02-28 11:52:32,454 | INFO | api.telemetry | TELEMETRY | req=6a6bdd6e | GET /api/admin/settings/profile | status=200 | dur=1.4ms | body=0B
+2026-02-28 11:52:32,457 | INFO | backend.main | Request started GET /api/v1/ml/models
+2026-02-28 11:52:32,464 | INFO | api.telemetry | TELEMETRY | req=328c0fcb | GET /api/v1/ml/models | status=200 | dur=4.4ms | body=0B
+2026-02-28 11:52:32,466 | INFO | backend.main | Request started GET /api/v1/ml/retrain/jobs
+2026-02-28 11:52:32,471 | INFO | api.telemetry | TELEMETRY | req=c936e980 | GET /api/v1/ml/retrain/jobs | status=200 | dur=2.2ms | body=0B
+2026-02-28 11:52:32,473 | INFO | backend.main | Request started GET /api/v1/crawlers/status
+2026-02-28 11:52:32,478 | INFO | api.telemetry | TELEMETRY | req=de9251ff | GET /api/v1/crawlers/status | status=200 | dur=2.6ms | body=0B
+2026-02-28 11:52:32,479 | INFO | backend.main | Request started GET /api/v1/chat/history
+2026-02-28 11:52:32,482 | INFO | api.telemetry | TELEMETRY | req=288e320c | GET /api/v1/chat/history | status=404 | dur=1.2ms | body=0B
+2026-02-28 11:53:01,451 | INFO | backend.main | Request started GET /api/v1/taxonomy/list
+2026-02-28 11:53:01,454 | INFO | api.telemetry | TELEMETRY | req=629f81af | GET /api/v1/taxonomy/list | status=200 | dur=1.2ms | body=0B
+2026-02-28 11:53:29,065 | INFO | backend.main | Request started POST /api/admin/login
+2026-02-28 11:53:29,529 | INFO | api.telemetry | TELEMETRY | req=de662d0a | POST /api/admin/login | status=200 | dur=462.5ms | body=50B | payload={"username":"admin","password":"trongdongdongson"}
+2026-02-28 11:53:29,580 | INFO | backend.main | Request started GET /api/admin/ops/status
+2026-02-28 11:54:11,746 | INFO | api.telemetry | TELEMETRY | req=eab12db8 | GET /api/admin/ops/status | status=200 | dur=42165.2ms | body=0B
+2026-02-28 11:54:11,748 | INFO | backend.main | Request started GET /api/v1/live/widget/health
+2026-02-28 11:54:11,750 | INFO | backend.main | Request started GET /api/v1/live/widget/queue
+2026-02-28 11:54:11,753 | INFO | backend.main | Request started GET /api/v1/live/widget/drift
+2026-02-28 11:54:11,755 | INFO | backend.main | Request started GET /api/v1/live/widget/cost
+2026-02-28 11:54:11,759 | INFO | backend.main | Request started GET /api/v1/live/widget/sla
+2026-02-28 11:54:11,761 | INFO | backend.main | Request started GET /api/v1/live/widget/errors
+2026-02-28 11:54:11,763 | INFO | backend.main | Request started GET /api/v1/live/widget/health
+2026-02-28 11:54:11,767 | INFO | backend.main | Request started GET /api/v1/live/widget/queue
+2026-02-28 11:54:11,770 | INFO | backend.main | Request started GET /api/v1/live/widget/drift
+2026-02-28 11:54:11,773 | INFO | backend.main | Request started GET /api/v1/live/widget/cost
+2026-02-28 11:54:11,776 | INFO | backend.main | Request started GET /api/v1/live/widget/sla
+2026-02-28 11:54:11,779 | INFO | backend.main | Request started GET /api/v1/live/widget/errors
+2026-02-28 11:54:11,781 | INFO | api.telemetry | TELEMETRY | req=79414376 | GET /api/v1/live/widget/health | status=404 | dur=15.3ms | body=0B
+2026-02-28 11:54:11,783 | INFO | backend.main | Request started GET /api/v1/health/llm
+2026-02-28 11:54:11,785 | INFO | api.telemetry | TELEMETRY | req=67939c95 | GET /api/v1/live/widget/queue | status=404 | dur=16.1ms | body=0B
+2026-02-28 11:54:11,787 | INFO | backend.main | Request started GET /api/v1/health/llm/anomaly-rate
+2026-02-28 11:54:11,789 | INFO | api.telemetry | TELEMETRY | req=f8f4fda7 | GET /api/v1/live/widget/drift | status=404 | dur=16.8ms | body=0B
+2026-02-28 11:54:11,810 | INFO | backend.main | Request started GET /api/v1/live/poll
+2026-02-28 11:54:11,811 | INFO | api.telemetry | TELEMETRY | req=fe6cffbd | GET /api/v1/live/widget/cost | status=404 | dur=36.5ms | body=0B
+2026-02-28 11:54:11,813 | INFO | backend.main | Request started GET /api/admin/ops/status
+2026-02-28 11:54:11,814 | INFO | api.telemetry | TELEMETRY | req=13ee62dd | GET /api/v1/live/widget/sla | status=404 | dur=36.6ms | body=0B
+2026-02-28 11:54:11,819 | INFO | backend.main | Request started GET /api/v1/live/widget/queue
+2026-02-28 11:54:11,820 | INFO | api.telemetry | TELEMETRY | req=14bc5721 | GET /api/v1/live/widget/errors | status=404 | dur=38.5ms | body=0B
+2026-02-28 11:54:11,823 | INFO | backend.main | Request started GET /api/v1/crawlers/status
+2026-02-28 11:54:11,824 | INFO | api.telemetry | TELEMETRY | req=854ce647 | GET /api/v1/live/widget/health | status=404 | dur=38.5ms | body=0B
+2026-02-28 11:54:11,828 | INFO | api.telemetry | TELEMETRY | req=ca963b8c | GET /api/v1/live/widget/queue | status=404 | dur=19.4ms | body=0B
+2026-02-28 11:54:12,244 | INFO | api.telemetry | TELEMETRY | req=e5b4e359 | GET /api/v1/live/widget/drift | status=404 | dur=431.4ms | body=0B
+2026-02-28 11:54:12,248 | INFO | api.telemetry | TELEMETRY | req=29ac93cf | GET /api/v1/live/widget/cost | status=404 | dur=431.8ms | body=0B
+2026-02-28 11:54:12,252 | INFO | api.telemetry | TELEMETRY | req=e4c40fda | GET /api/v1/live/widget/sla | status=404 | dur=430.4ms | body=0B
+2026-02-28 11:54:12,254 | INFO | api.telemetry | TELEMETRY | req=fe690c9c | GET /api/v1/live/widget/errors | status=404 | dur=427.8ms | body=0B
+2026-02-28 11:54:12,257 | INFO | backend.main | Request started GET /api/admin/feedback
+2026-02-28 11:54:12,260 | INFO | api.telemetry | TELEMETRY | req=a2d0a48c | GET /api/v1/health/llm/anomaly-rate | status=200 | dur=12.9ms | body=0B
+2026-02-28 11:54:12,263 | INFO | api.telemetry | TELEMETRY | req=0f05e2b0 | GET /api/v1/live/poll | status=404 | dur=13.8ms | body=0B
+2026-02-28 11:54:34,381 | INFO | api.telemetry | TELEMETRY | req=fc7493e6 | GET /api/v1/live/widget/queue | status=404 | dur=22126.1ms | body=0B
+2026-02-28 11:54:57,527 | INFO | api.telemetry | TELEMETRY | req=d234ab87 | GET /api/admin/ops/status | status=200 | dur=45273.9ms | body=0B
+2026-02-28 11:54:57,529 | INFO | backend.main | Request started GET /api/v1/governance/dashboard
+2026-02-28 11:54:57,533 | INFO | backend.main | Request started GET /api/v1/kb/careers
+2026-02-28 11:54:57,535 | INFO | api.telemetry | TELEMETRY | req=a31325dd | GET /api/v1/crawlers/status | status=200 | dur=45278.2ms | body=0B
+2026-02-28 11:54:57,537 | INFO | backend.main | Request started GET /api/v1/kb/domains
+2026-02-28 11:54:57,538 | INFO | backend.main | Request started GET /api/admin/feedback
+2026-02-28 11:54:57,540 | INFO | backend.main | Request started GET /api/admin/feedback
+2026-02-28 11:54:57,542 | INFO | api.telemetry | TELEMETRY | req=12139acf | GET /api/v1/health/llm | status=200 | dur=45712.1ms | body=0B
+2026-02-28 11:54:57,543 | INFO | backend.main | Request started GET /api/v1/ops/status
+2026-02-28 11:54:57,546 | INFO | backend.main | Request started GET /api/v1/ops/sla
+2026-02-28 11:54:57,550 | INFO | backend.main | Request started GET /api/v1/ops/alerts
+2026-02-28 11:54:57,555 | INFO | backend.main | Request started GET /api/v1/ops/system/resources
+2026-02-28 11:54:57,557 | INFO | backend.main | Request started GET /api/v1/ops/services

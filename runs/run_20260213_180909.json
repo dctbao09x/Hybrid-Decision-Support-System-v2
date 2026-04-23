@@ -1,0 +1,53 @@
+{
+  "run_id": "test_stability_run",
+  "timestamp": "2026-02-13T11:09:06.946473+00:00",
+  "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+  "model_type": "random_forest",
+  "model_config": {
+    "n_estimators": 200,
+    "max_depth": 12,
+    "min_samples_split": 4,
+    "min_samples_leaf": 2,
+    "class_weight": "balanced"
+  },
+  "kfold": 5,
+  "random_state": 42,
+  "metrics": {
+    "accuracy": {
+      "mean": 0.953488,
+      "std": 0.014708
+    },
+    "precision": {
+      "mean": 0.945771,
+      "std": 0.023789
+    },
+    "recall": {
+      "mean": 0.950124,
+      "std": 0.019134
+    },
+    "f1": {
+      "mean": 0.939514,
+      "std": 0.020869
+    }
+  },
+  "quality_passed": true,
+  "regression_status": "WARN",
+  "drift_status": "LOW",
+  "environment": {
+    "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows",
+    "platform_version": "10.0.19045",
+    "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "libraries": {
+      "scikit-learn": "1.8.0",
+      "pandas": "3.0.0",
+      "numpy": "2.4.2",
+      "pyyaml": "6.0.3"
+    },
+    "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+    "git_branch": "master",
+    "working_directory": "F:\\Hybrid Decision Support System",
+    "timestamp": "2026-02-13T11:09:09.255828+00:00"
+  },
+  "system_version": "1.0.0"
+}

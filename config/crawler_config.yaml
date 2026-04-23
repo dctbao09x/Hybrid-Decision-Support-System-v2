@@ -1,0 +1,67 @@
+# Crawler Configuration for VietnamWorks and TopCV
+# Externalized settings - no hard-coded URLs or values
+
+# Base URLs for job sites
+sites:
+  vietnamworks:
+    base_url: "https://www.vietnamworks.com"
+    search_url: "https://www.vietnamworks.com/viec-lam"
+    job_detail_pattern: "https://www.vietnamworks.com/job/.*"
+  topcv:
+    base_url: "https://www.topcv.vn"
+    search_url: "https://www.topcv.vn/viec-lam"
+    job_detail_pattern: "https://www.topcv.vn/viec-lam/.*"
+
+# Browser settings
+browser:
+  headless: true
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    - "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  session_dir: "./data/browser_sessions"  # Persistent context storage
+
+# Timing and delays
+delays:
+  page_load: 3  # seconds to wait for page load
+  random_min: 2  # minimum random delay
+  random_max: 6  # maximum random delay
+  scroll_pause: 1  # pause between scrolls
+
+# Timeouts
+timeouts:
+  page_load: 30000  # milliseconds
+  element_wait: 10000  # milliseconds
+  job_detail_load: 20000  # milliseconds
+
+# Performance settings
+performance:
+  concurrency_limit: 3  # max concurrent pages
+  max_retries: 3  # retry attempts per page
+  memory_check_interval: 100  # pages between memory checks
+
+# Output settings
+output:
+  base_dir: "/data/market/raw"
+  html_dir: "raw_html"
+  csv_dir: "raw_csv"
+  csv_filename_pattern: "jobs_{year}_{month:02d}.csv"
+  log_dir: "./logs"
+  error_log: "crawler_errors.log"
+  resume_state_file: "./data/crawler_state.json"
+
+# Resume settings
+resume:
+  save_interval: 10  # save state every N jobs
+  max_resume_attempts: 5  # max attempts to resume from state
+
+# Categories and filters (if needed for search)
+categories:
+  vietnamworks:
+    - "it-software"
+    - "marketing"
+    - "finance"
+  topcv:
+    - "cong-nghe-thong-tin"
+    - "marketing-pr"
+    - "tai-chinh-ngan-hang"

@@ -1,0 +1,212 @@
+# ============================================================
+#  ML Evaluation Service — Configuration
+# ============================================================
+#  All parameters for the ML evaluation pipeline.
+#  No hardcoded values — every tunable knob lives here.
+# ============================================================
+
+ml_evaluation:
+  # Path to training data (relative to project root)
+  data_path: "data/training.csv"
+
+  # Model type: "random_forest" | "logistic_regression"
+  model_type: "random_forest"
+
+  # Cross-validation folds
+  kfold: 5
+
+  # Reproducibility seed
+  random_state: 42
+
+  # Where to persist CV results
+  output_path: "outputs/cv_results.json"
+
+  # Publish results to downstream layers (scoring, explanation, logging)
+  enable_publish: true
+
+  # ── Model hyper-parameters (per model type) ──
+  model_params:
+    random_forest:
+      n_estimators: 200
+      max_depth: 12
+      min_samples_split: 4
+      min_samples_leaf: 2
+      class_weight: "balanced"
+
+    logistic_regression:
+      C: 1.0
+      max_iter: 1000
+      solver: "lbfgs"
+      multi_class: "multinomial"
+      class_weight: "balanced"
+
+  # ── Quality gates ──
+  quality_gate:
+    min_accuracy: 0.90
+    min_f1: 0.88
+
+  # ── Logging ──
+  log_level: "INFO"
+
+  # ══════════════════════════════════════════════════════════════
+  #  STABILITY LAYER (Phase 2)
+  # ══════════════════════════════════════════════════════════════
+  stability:
+    # Enable stability checks
+    enabled: true
+
+    # Regression guard threshold (max allowed drop from baseline)
+    regression_threshold: 0.03
+
+    # Block publishing if regression detected
+    block_on_regression: true
+
+    # Block publishing if critical drift detected
+    block_on_critical_drift: true
+
+    # Baseline update policy: "any_improvement" | "both_improvement" | "f1_improvement"
+    baseline_update_policy: "any_improvement"
+
+    # Paths (relative to project root)
+    paths:
+      runs_dir: "runs"
+      baseline_dir: "baseline"
+      output_dir: "outputs"
+
+    # Drift thresholds (PSI-based)
+    drift_thresholds:
+      low: 0.1
+      medium: 0.25
+      high: 0.5
+
+    # Alerts
+    alerts:
+      on_regression: true
+      on_high_drift: true
+      on_schema_change: true
+
+
+# ══════════════════════════════════════════════════════════════
+#  ONLINE INFERENCE (Phase 3C)
+# ══════════════════════════════════════════════════════════════
+inference:
+  # Server settings
+  host: "0.0.0.0"
+  port: 8001  # Separate from main API
+
+  # A/B testing
+  ab_ratio: 0.05  # 5% to canary by default
+
+  # Rate limiting
+  max_qps: 100
+
+  # Timeout
+  timeout_ms: 5000
+
+  # Model loading
+  models_dir: "models"
+  active_link: "active"
+  rollback_link: "rollback"
+
+  # Feedback collection
+  feedback_logs_dir: "feedback_logs"
+  max_pending_hours: 168  # 7 days
+
+  # Metrics
+  metrics_window_seconds: 300  # 5 minutes
+
+  # Alerts
+  alert_latency_p95_ms: 500
+  alert_error_rate: 0.05
+
+
+# ══════════════════════════════════════════════════════════════
+#  AUTO-RETRAIN (Phase 3A)
+# ══════════════════════════════════════════════════════════════
+retrain:
+  # Trigger thresholds
+  drift_threshold: 0.25  # PSI threshold for triggering retrain
+  dataset_change_threshold: 0.10  # 10% change in dataset
+  feedback_accuracy_threshold: 0.85  # Minimum online accuracy
+  min_feedback_samples: 50  # Minimum feedback before triggering
+
+  # Block on regression
+  block_on_regression: true
+
+  # Retrain window (hours)
+  retrain_window_hours: 24
+
+  # Dataset building
+  use_verified_feedback_only: true  # Only use feedback with actual_career
+  deduplicate: true
+
+  # Paths
+  combined_data_path: "data/training_combined.csv"
+  retrain_runs_dir: "retrain_runs"
+
+
+# ══════════════════════════════════════════════════════════════
+#  DEPLOYMENT (Phase 3)
+# ══════════════════════════════════════════════════════════════
+deploy:
+  # Canary settings
+  canary_ratio: 0.05  # 5% traffic to new model
+  observation_minutes: 30  # Time to observe before promoting
+
+  # Auto-rollback
+  auto_rollback: true
+  f1_threshold: 0.01  # F1_new >= F1_old - 0.01
+
+  # Kill switch
+  kill_switch_enabled: false
+
+  # Validation for deployment
+  regression_threshold: 0.01  # Stricter than training
+  allow_drift_high: false
+
+  # Logs
+  deploy_logs_dir: "deploy_logs"
+
+
+# ══════════════════════════════════════════════════════════════
+#  EXPLAINABLE AI (XAI) - Phase 2 XAI
+# ══════════════════════════════════════════════════════════════
+xai:
+  # Number of top features to include in explanation
+  top_k: 3
+
+  # Minimum importance threshold (0-1) for including feature
+  min_importance: 0.15
+
+  # Enable SHAP computation (disable for faster but less accurate)
+  enable_shap: true
+
+  # Language for reason generation: "vi" | "en"
+  language: "vi"
+
+  # Enable audit logging
+  enable_logging: true
+
+  # Logs directory
+  logs_dir: "outputs/xai_logs"
+
+  # Quality control
+  quality:
+    # Block response if no reasons generated
+    require_reasons: true
+    # Minimum reason count
+    min_reasons: 1
+    # Maximum reason count
+    max_reasons: 5
+    # Block on quality issues
+    block_on_quality_fail: false
+
+  # Custom feature mappings (extend default mappings)
+  # feature_mappings:
+  #   custom_feature:
+  #     name: "Custom Feature"
+  #     thresholds:
+  #       - min: 0.7
+  #         reason: "High custom ({value:.2f})"
+  #       - min: 0.0
+  #         reason: "Low custom ({value:.2f})"

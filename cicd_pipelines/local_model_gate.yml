@@ -1,0 +1,38 @@
+name: Local Model Promotion Gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/monitoring/drift/**'
+      - 'backend/monitoring/rollback/**'
+      - 'backend/core/telemetry/**'
+
+jobs:
+  local-model-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate policies
+        run: |
+          python - <<'PY'
+          import yaml
+          for path in [
+              'backend/monitoring/drift/drift_policy.yaml',
+              'backend/monitoring/rollback/rollback_policy.yaml',
+          ]:
+              with open(path, 'r', encoding='utf-8') as f:
+                  yaml.safe_load(f)
+          print('Policy YAML validation OK')
+          PY
+
+      - name: Drift gate (placeholder)
+        run: |
+          echo "Run drift evaluation suite here"
+
+      - name: Rollback gate (placeholder)
+        run: |
+          echo "Run rollback simulation tests here"

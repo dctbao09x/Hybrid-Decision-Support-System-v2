@@ -1,0 +1,35 @@
+{
+  "version": "v2_linear_regression_20260219_145802",
+  "baseline_metrics": {
+    "rmse": 0.10123240587875013,
+    "mae": 0.08856000000000001,
+    "r2": 0.7765302704664079
+  },
+  "trained_metrics": {
+    "rmse": 0.06451879886040239,
+    "mae": 0.054842577780420614,
+    "r2": 0.909227952068511
+  },
+  "improvement": {
+    "r2_delta": 0.13269768160210316,
+    "r2_improvement_pct": 17.088539449003175,
+    "rmse_delta": -0.036713607018347735,
+    "mae_delta": -0.0337174222195794
+  },
+  "weights": {
+    "study": 0.4247282684269163,
+    "interest": 0.13846267968157458,
+    "market": 0.0,
+    "growth": 0.43680905189150915,
+    "risk": 0.0
+  },
+  "sanity_checks_passed": true,
+  "governance_approved": true,
+  "config": {
+    "min_r2": 0.6,
+    "improvement_threshold": 0.05,
+    "max_single_weight": 0.5,
+    "max_risk_weight": 0.3
+  },
+  "validated_at": "2026-02-19T15:14:04.753259Z"
+}

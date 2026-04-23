@@ -1,0 +1,42 @@
+[
+  {
+    "id": "learning_intent",
+    "canonical_label": "Learning",
+    "aliases": {
+      "vi": ["học", "hoc", "đào tạo", "dao tao", "khóa học", "khoa hoc", "tìm hiểu", "tim hieu"],
+      "en": ["learning", "training", "course", "study"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "career_intent",
+    "canonical_label": "Career",
+    "aliases": {
+      "vi": ["làm việc", "lam viec", "nghề", "nghe", "công việc", "cong viec", "tuyển dụng", "tuyen dung", "việc làm", "viec lam"],
+      "en": ["career", "job", "work"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "switching_intent",
+    "canonical_label": "Switching",
+    "aliases": {
+      "vi": ["chuyển ngành", "chuyen nganh", "đổi ngành", "doi nganh", "chuyển hướng", "chuyen huong", "thay đổi", "thay doi"],
+      "en": ["switch", "change", "transition", "switching"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "general",
+    "canonical_label": "General",
+    "aliases": {
+      "vi": ["chung chung", "không rõ", "khong ro", "general", "unknown"],
+      "en": ["general", "unclear", "unknown"]
+    },
+    "priority": 0,
+    "deprecated": false
+  }
+]

@@ -1,0 +1,21 @@
+================================================================================
+BASELINE GIT STATE - SCORING_BASELINE_FAIL
+================================================================================
+Captured: 2026-02-16
+
+COMMIT INFORMATION
+------------------
+Commit Hash: 156b70eeb9a116a1d7efe7edb23cecf31abf4bcd
+Branch: master
+Tag: scoring_baseline_fail
+
+DIRTY STATUS
+------------
+Dirty: YES
+Dirty Files Count: 325
+
+VERIFICATION COMMAND
+--------------------
+git show scoring_baseline_fail --oneline
+
+================================================================================

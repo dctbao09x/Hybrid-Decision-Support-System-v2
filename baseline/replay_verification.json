@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-02-16T18:55:17.201584",
+  "weights_match": true,
+  "coverage_match": true,
+  "formula_verified": true,
+  "coverage_tolerance": true,
+  "replay_passed": true,
+  "replay_failed": 3,
+  "baseline_passed": 99,
+  "baseline_failed": 3,
+  "verdict": "PASS"
+}

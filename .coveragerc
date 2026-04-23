@@ -1,0 +1,33 @@
+[run]
+source =
+    backend/scoring/calculator.py
+    backend/scoring/engine.py
+    backend/scoring/scoring.py
+    backend/scoring/strategies.py
+    backend/scoring/components/risk.py
+    backend/scoring/components/interest.py
+    backend/scoring/components/market.py
+    backend/scoring/components/study.py
+    backend/scoring/components/growth.py
+
+omit =
+    */examples.py
+    */baseline_capture.py
+    */models.py
+    */taxonomy_adapter.py
+    */explain/*
+    */security/*
+    */validation/*
+    */__pycache__/*
+    */tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if TYPE_CHECKING:
+    if __name__ == .__main__.:
+
+precision = 1
+show_missing = True

@@ -1,0 +1,10 @@
+# ENV dependencies affecting one-button scoring path
+
+active_weight_version=v2_linear_regression_20260219_145802
+validation_mode=WARN
+
+SIMGR_WEIGHT_VALIDATION_MODE=<UNSET>
+SIMGR_WEIGHTS_VERSION=<UNSET>
+SIMGR_ENVIRONMENT=<UNSET>
+SCORING_ENV=<UNSET>
+SCORING_TEST_MODE=<UNSET>

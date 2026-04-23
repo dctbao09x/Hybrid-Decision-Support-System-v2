@@ -1,0 +1,103 @@
+====================================================
+WEIGHT GOVERNANCE TEST REPORT - GĐ1 PHẦN G
+====================================================
+Generated: 2026-02-17T10:35:00Z
+Phase: GĐ1 - WEIGHT SANITIZATION & GOVERNANCE
+
+Test Suite: backend/scoring/tests/test_weight_governance.py
+----------------------------------------------------
+
+SUMMARY
+-------
+Total Tests: 12
+Passed: 12 (100%)
+Failed: 0
+Skipped: 0
+
+EXECUTION
+---------
+Platform: Windows
+Python: 3.13.7
+pytest: 9.0.2
+Duration: 0.72s
+
+TEST RESULTS BY CATEGORY
+------------------------
+
+[1] TestNoFallbackOnMissingWeights (3 tests)
+    ✓ test_from_file_raises_on_missing - PASSED
+    ✓ test_weight_loader_raises_on_missing - PASSED
+    ✓ test_no_silent_fallback - PASSED
+    
+    Enforces: Missing weight file must raise FileNotFoundError,
+              NOT return defaults.
+
+[2] TestChecksumVerification (2 tests)
+    ✓ test_checksum_mismatch_raises - PASSED
+    ✓ test_checksum_valid_accepted - PASSED
+    
+    Enforces: SHA256 checksum must be verified before weights
+              are accepted. Mismatch = WeightChecksumError.
+
+[3] TestRegistryLookup (2 tests)
+    ✓ test_registry_required - PASSED
+    ✓ test_registry_active_lookup - PASSED
+    
+    Enforces: Version resolution must use registry.json.
+              Missing registry = WeightRegistryError.
+
+[4] TestRejectDefaultWeights (3 tests)
+    ✓ test_require_trained_weights_rejects_defaults - PASSED
+    ✓ test_non_default_accepted - PASSED
+    ✓ test_config_requires_weights_file - PASSED
+    
+    Enforces: Default weight pattern (S=0.25, I=0.25, M=0.25,
+              G=0.15, R=0.10) must be detectable and rejectable.
+
+[5] TestNoGetFallbacks (1 test)
+    ✓ test_missing_key_raises - PASSED
+    
+    Enforces: Missing weight keys must raise ValueError,
+              NOT use .get() fallback defaults.
+
+[6] TestWeightSumValidation (1 test)
+    ✓ test_invalid_sum_raises - PASSED
+    
+    Enforces: Weights must sum to 1.0 (±0.001 tolerance).
+
+GOVERNANCE RULES VERIFIED
+-------------------------
+Rule                                    Status
+----                                    ------
+NO_FALLBACK_ON_MISSING                  ✓ ENFORCED
+CHECKSUM_REQUIRED                       ✓ ENFORCED
+REGISTRY_LOOKUP                         ✓ ENFORCED
+REJECT_DEFAULTS                         ✓ ENFORCED
+NO_GET_FALLBACKS                        ✓ ENFORCED
+SUM_VALIDATION                          ✓ ENFORCED
+
+COVERAGE ESTIMATE
+-----------------
+Weight loading code coverage: ~85%
+- config.py:SIMGRWeights.from_file() - COVERED
+- weight_loader.py:WeightLoader.load() - COVERED
+- weight_loader.py:verify_checksum() - COVERED
+- config_loader.py:_parse_config() - PARTIAL
+
+VERDICT
+-------
+✅ ALL GOVERNANCE TESTS PASSED
+
+Weight loading pipeline is now hardened against:
+- Silent fallback to defaults
+- Checksum tampering
+- Missing registry
+- Incomplete weight artifacts
+- Invalid weight sums
+
+NEXT STEPS
+----------
+- PHẦN H: Migration & Rollout
+- PHẦN I: Re-Audit
+- PHẦN J: Output Generation
+- PHẦN K: Final Verdict

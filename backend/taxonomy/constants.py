@@ -1,0 +1,19 @@
+"""
+Taxonomy constants and shared identifiers.
+"""
+
+DATASET_SKILLS = "skills"
+DATASET_INTERESTS = "interests"
+DATASET_EDUCATION = "education"
+DATASET_INTENTS = "intents"
+
+SUPPORTED_LANGS = ("vi", "en")
+
+DEFAULT_INTENT_ID = "general"
+UNKNOWN_EDUCATION_ID = "unknown"
+
+MATCH_WEIGHT_EXACT = 3
+MATCH_WEIGHT_ALIAS = 2
+MATCH_WEIGHT_SUBSTRING = 1
+
+ENV_COMPAT_MODE = "TAXONOMY_COMPAT_MODE"

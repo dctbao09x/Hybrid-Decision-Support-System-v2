@@ -1,0 +1,39 @@
+flowchart TD
+    A[run_api.py\napp = create_inference_api(...)] --> B[InferenceAPI\nrouter_registry setup]
+    B --> C[/api/v1/scoring/*\nscoring_router]
+    C --> D[MainController.dispatch\nservice=scoring]
+
+    D --> E1[_handle_scoring_rank]
+    D --> E2[_handle_scoring_score]
+
+    E1 --> F[RankingEngine.rank]
+    E2 --> F
+
+    F --> G[StrategyFactory\nweighted | personalized]
+    G --> H[ScoringStrategy.rank]
+    H --> I[SIMGRCalculator.calculate]
+
+    I --> J1[study.score]
+    I --> J2[interest.score]
+    I --> J3[market.score]
+    I --> J4[growth.score]
+    I --> J5[risk.score]
+
+    J5 --> R1[backend.risk.RiskModel.compute_all]
+    J5 --> R2[RiskPenaltyEngine.compute]
+
+    I --> K[Aggregate\nScore = wS*S + wI*I + wM*M + wG*G - wR*R]
+    K --> L[Sort + Rank]
+    L --> M[Router response\nranked_careers | scored_careers]
+
+    subgraph Validation_Hardening_GD3
+        V1[ScoreInputSchema.validate_score_input]
+        V2[preflight_validation + ValidationTrace]
+        V3[RiskLoader.verify_* + healthcheck]
+        V1 --> V2 --> V3
+    end
+
+    D -. decision dependency .-> N[Local Decision Layer\nRuleEngine.process_profile]
+    D -. matching dependency .-> O[match_careers embedding]
+    N --> P[recommendations pipeline]
+    O --> P

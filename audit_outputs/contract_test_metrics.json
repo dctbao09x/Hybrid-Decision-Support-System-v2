@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "contract_total": 6,
+    "contract_passed": 6,
+    "startup_parity_total": 0,
+    "startup_parity_passed": 0,
+    "schema_regression_total": 3,
+    "schema_regression_failures": 0
+  },
+  "metrics": {
+    "contract_test_pass_rate": 1.0,
+    "startup_parity_pass_rate": 0.0,
+    "schema_regression_rate": 0.0
+  }
+}

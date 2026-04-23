@@ -1,0 +1,27 @@
+{
+  "user_id": "test_user_p11",
+  "scoring_input": {
+    "personal_profile": {
+      "ability_score": 0.7,
+      "confidence_score": 0.65,
+      "interests": ["technology", "science"]
+    },
+    "experience": {
+      "years": 3,
+      "domains": ["software development"]
+    },
+    "goals": {
+      "career_aspirations": ["software engineer"],
+      "timeline_years": 5
+    },
+    "skills": ["python", "sql"],
+    "education": {
+      "level": "Bachelor",
+      "field_of_study": "Computer Science"
+    },
+    "preferences": {
+      "preferred_domains": ["technology"],
+      "work_style": "remote"
+    }
+  }
+}

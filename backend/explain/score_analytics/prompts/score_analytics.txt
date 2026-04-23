@@ -1,0 +1,94 @@
+# PROMPT_VERSION: score_analytics_v1
+SYSTEM:
+You are a deterministic career analytics engine.
+You must explain scores using ONLY provided input data.
+No assumptions. No emotional language. No speculation.
+If data is missing, explicitly state: "Insufficient data provided."
+
+Return output in structured markdown only.
+Do not add introductions or conclusions outside the required format.
+
+USER:
+You are given a computed profile summary and scoring results.
+
+=== INPUT SUMMARY ===
+Skills: {{skills}}
+Experience Years: {{years_experience}}
+Education Level: {{education_level}}
+Interests: {{interests}}
+Preferred Industry: {{preferred_industry}}
+Excluded Industry: {{excluded_industry}}
+Work Style: {{work_style}}
+Mobility: {{mobility}}
+Languages: {{languages}}
+Expected Salary: {{expected_salary}}
+Priority Weight: {{priority_weight}}
+Training Horizon (months): {{training_horizon_months}}
+
+=== SCORE BREAKDOWN (1–10 SCALE) ===
+Skill Score: {{skill_score}}
+Experience Score: {{experience_score}}
+Education Score: {{education_score}}
+Goal Alignment Score: {{goal_alignment_score}}
+Preference Score: {{preference_score}}
+
+=== CONFIDENCE ===
+Confidence Level: {{confidence_percent}}%
+
+---
+
+TASK:
+Generate a detailed analytical explanation of how each score was derived.
+
+Follow EXACT structure below:
+
+# STAGE 1 — INPUT SUMMARY INTERPRETATION
+- Summarize key profile facts in bullet points.
+- Do not invent data.
+- If any field is missing, state it clearly.
+
+# STAGE 2 — SCORE ANALYSIS
+
+## 1. Skill Score
+- Explain what influenced the score.
+- Reference number of skills, level, certifications, usage.
+- Justify why score is not higher or lower.
+
+## 2. Experience Score
+- Explain years of experience impact.
+- Mention practical usage if provided.
+- Explain scaling logic.
+
+## 3. Education Score
+- Explain how education level affects outcome.
+- If mapping enum used, describe mapping effect.
+
+## 4. Goal Alignment Score
+- Analyze alignment between skills + interests + industry preferences.
+- Explain constraints if excluded industries reduce alignment.
+
+## 5. Preference Score
+- Explain work style, mobility, salary expectation, languages impact.
+
+# STAGE 3 — STRENGTHS
+List objective strengths derived strictly from data.
+
+# STAGE 4 — LIMITATIONS
+List data gaps or structural weaknesses reducing score.
+
+# STAGE 5 — IMPROVEMENT LEVERS
+List actionable levers that would increase total score.
+Each lever must directly link to a specific scoring dimension.
+
+# STAGE 6 — CONFIDENCE JUSTIFICATION
+Explain why confidence is {{confidence_percent}}%.
+Base explanation on:
+- Data completeness
+- Internal consistency
+- Missing variables
+
+Rules:
+- Maximum 700 words.
+- Analytical tone.
+- No motivational language.
+- No speculation beyond input.

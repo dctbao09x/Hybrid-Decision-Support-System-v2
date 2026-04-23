@@ -1,0 +1,30 @@
+{
+  "version": "v2_full_SIMGR_20260224_150947",
+  "trained_at": "2026-02-24T15:09:47.005728Z",
+  "dataset": "F:\\Hybrid Decision Support System\\backend\\data\\scoring\\train.csv",
+  "dataset_hash": "sha256:ae7dd4e74089b92eb6609c39777e773f353d1d8562f517a1ff34ad5038ceb09c",
+  "features": [
+    "study_score",
+    "interest_score",
+    "market_score",
+    "growth_score",
+    "risk_score"
+  ],
+  "checksum": "sha256:440608b402fbdcfc7ee1b436ba3bc7647f0194d3be0ef9c99906bce8f5166152",
+  "trainer_commit": "156b70eeb9a1",
+  "pipeline_version": "train_v2.1",
+  "metrics": {
+    "r2": 0.9933700895849514,
+    "mae": 0.013694857181077866,
+    "rmse": 0.0,
+    "train_loss": 0.00030403814456313215,
+    "val_loss": 0.0,
+    "correlation": 0.996695034706759,
+    "n_samples": 50,
+    "n_folds": 5
+  },
+  "approved_by": "",
+  "approved_at": "",
+  "promotion_reason": "",
+  "metadata_version": "1.0"
+}

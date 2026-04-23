@@ -1,0 +1,20 @@
+{
+  "trained_at": "2026-02-19T14:58:02.818780Z",
+  "training_dataset_hash": "bb0cd921446aa064c2b76a490fe6535981d7e9fc2306a3126e80c6158403eb60",
+  "feature_schema_hash": "2d000d81c647d0ae2617de43591b57df600871c52a0830194e7dd94a279b2fed",
+  "model_type": "linear_regression",
+  "model_version": "v2_linear_regression_20260219_145802",
+  "g5_compliant": true,
+  "dataset_source": "ae7dd4e74089b92e",
+  "feature_columns": [
+    "study_score",
+    "interest_score",
+    "market_score",
+    "growth_score",
+    "risk_score"
+  ],
+  "r2_score": 0.9160777589281592,
+  "samples": 50,
+  "governance_phase": "GD5",
+  "created_at": "2026-02-22T00:00:00Z"
+}

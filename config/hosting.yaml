@@ -1,0 +1,377 @@
+# Hosting & Deployment Optimization
+# ==================================
+#
+# Production deployment configuration for HDSS API
+# Optimized for high availability and low latency
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# UVICORN PRODUCTION CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  
+  # Worker configuration
+  workers: 4                    # 2-4x CPU cores
+  worker_class: "uvicorn.workers.UvicornWorker"
+  
+  # Keep-alive settings (prevent connection reestablishment overhead)
+  keepalive: 120               # Seconds to keep idle connections open
+  
+  # Timeouts
+  timeout: 30                  # Worker timeout (seconds)
+  graceful_timeout: 30         # Graceful shutdown timeout
+  
+  # Limits
+  limit_concurrency: 100       # Max concurrent connections per worker
+  limit_max_requests: 10000    # Recycle workers after N requests (memory leak prevention)
+  
+  # Backlog
+  backlog: 2048               # TCP backlog queue size
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GUNICORN PRODUCTION CONFIGURATION (alternative)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Use this if deploying with Gunicorn instead of bare Uvicorn
+
+gunicorn:
+  bind: "0.0.0.0:8000"
+  workers: 4
+  worker_class: "uvicorn.workers.UvicornWorker"
+  
+  # Pre-fork configuration
+  preload_app: true           # Load app before forking workers
+  
+  # Timeouts
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 120
+  
+  # Memory management
+  max_requests: 10000
+  max_requests_jitter: 1000   # Add randomness to prevent thundering herd
+  
+  # Process naming
+  proc_name: "hdss-api"
+  
+  # Logging
+  accesslog: "-"
+  errorlog: "-"
+  loglevel: "info"
+  access_log_format: '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" %(D)s'
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DOCKER COMPOSE PRODUCTION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+docker_compose:
+  version: "3.8"
+  
+  services:
+    hdss-api:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      
+      restart: always
+      
+      # Resource limits
+      deploy:
+        resources:
+          limits:
+            cpus: "2"
+            memory: "1G"
+          reservations:
+            cpus: "0.5"
+            memory: "512M"
+        
+        # Replicas for load balancing
+        replicas: 2
+        
+        # Update strategy
+        update_config:
+          parallelism: 1
+          delay: 10s
+          failure_action: rollback
+          order: start-first
+        
+        # Rollback strategy
+        rollback_config:
+          parallelism: 1
+          delay: 10s
+      
+      # Health check
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health/ready"]
+        interval: 15s
+        timeout: 5s
+        retries: 3
+        start_period: 30s
+      
+      # Environment
+      environment:
+        - PYTHONUNBUFFERED=1
+        - LOG_LEVEL=INFO
+        - WORKERS=4
+        - REQUEST_TIMEOUT_SECONDS=10
+      
+      # Port mapping
+      ports:
+        - "8000:8000"
+      
+      # Volumes
+      volumes:
+        - ./data:/app/data
+        - ./logs:/app/logs
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# KUBERNETES DEPLOYMENT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+kubernetes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: hdss-api
+    labels:
+      app: hdss-api
+  spec:
+    replicas: 3
+    
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+    
+    selector:
+      matchLabels:
+        app: hdss-api
+    
+    template:
+      metadata:
+        labels:
+          app: hdss-api
+      spec:
+        containers:
+          - name: hdss-api
+            image: hdss-api:latest
+            
+            ports:
+              - containerPort: 8000
+            
+            # Resource management
+            resources:
+              requests:
+                cpu: "500m"
+                memory: "512Mi"
+              limits:
+                cpu: "2000m"
+                memory: "1Gi"
+            
+            # Probes
+            livenessProbe:
+              httpGet:
+                path: /api/v1/health/live
+                port: 8000
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 2
+              failureThreshold: 3
+            
+            readinessProbe:
+              httpGet:
+                path: /api/v1/health/ready
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              timeoutSeconds: 5
+              failureThreshold: 2
+            
+            startupProbe:
+              httpGet:
+                path: /api/v1/health/startup
+                port: 8000
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              timeoutSeconds: 10
+              failureThreshold: 30
+            
+            # Environment
+            env:
+              - name: PYTHONUNBUFFERED
+                value: "1"
+              - name: WORKERS
+                value: "4"
+        
+        # Termination grace period
+        terminationGracePeriodSeconds: 30
+
+---
+# Horizontal Pod Autoscaler
+  apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: hdss-api-hpa
+  spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: hdss-api
+    
+    minReplicas: 2
+    maxReplicas: 10
+    
+    metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 70
+      
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 80
+    
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Percent
+            value: 10
+            periodSeconds: 60
+      scaleUp:
+        stabilizationWindowSeconds: 0
+        policies:
+          - type: Percent
+            value: 100
+            periodSeconds: 15
+          - type: Pods
+            value: 4
+            periodSeconds: 15
+        selectPolicy: Max
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# WARMUP CRON JOB
+# ═══════════════════════════════════════════════════════════════════════════════
+
+warmup_cron:
+  # Keep service warm when idle (prevents cold start)
+  # Run every 5 minutes
+  schedule: "*/5 * * * *"
+  
+  script: |
+    #!/bin/bash
+    # Warmup endpoints to prevent cold start
+    ENDPOINTS=(
+      "/api/v1/health/warmup"
+      "/api/v1/health/ready"
+    )
+    
+    API_URL="${API_URL:-http://localhost:8000}"
+    
+    for endpoint in "${ENDPOINTS[@]}"; do
+      curl -sf "${API_URL}${endpoint}" > /dev/null 2>&1 || true
+    done
+    
+    echo "[$(date)] Warmup complete"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NGINX REVERSE PROXY CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+nginx:
+  upstream:
+    name: hdss_api
+    servers:
+      - "localhost:8000 weight=5"
+    
+    # Keep-alive to backend
+    keepalive: 32
+    keepalive_requests: 1000
+    keepalive_timeout: 120s
+  
+  server:
+    listen: 80
+    server_name: api.hdss.example.com
+    
+    # Proxy settings
+    location:
+      path: /api/
+      proxy_pass: http://hdss_api
+      
+      # Timeouts
+      proxy_connect_timeout: 5s
+      proxy_send_timeout: 30s
+      proxy_read_timeout: 30s
+      
+      # Keep-alive
+      proxy_http_version: "1.1"
+      proxy_set_header:
+        Connection: ""
+        Host: $host
+        X-Real-IP: $remote_addr
+        X-Forwarded-For: $proxy_add_x_forwarded_for
+        X-Forwarded-Proto: $scheme
+      
+      # Buffer settings
+      proxy_buffering: "on"
+      proxy_buffer_size: "4k"
+      proxy_buffers: "8 4k"
+    
+    # Health check for load balancer
+    location_health:
+      path: /api/v1/health/live
+      proxy_pass: http://hdss_api
+      proxy_connect_timeout: 2s
+      proxy_read_timeout: 2s
+      access_log: "off"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PLATFORM-SPECIFIC OPTIMIZATIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+platforms:
+  # Railway / Render / Fly.io free tier optimizations
+  free_tier:
+    # These platforms sleep after inactivity
+    recommendations:
+      - "Use warmup cron job every 5 minutes"
+      - "Configure min instances = 1 if available"
+      - "Use startup probe to handle cold start gracefully"
+      - "Set REQUEST_TIMEOUT to 10s (not 30s) for faster failure"
+      - "Frontend should implement warmup-on-load"
+    
+    environment:
+      WORKERS: 2              # Reduce for memory
+      REQUEST_TIMEOUT_SECONDS: 10
+      SLOW_REQUEST_THRESHOLD_SECONDS: 2
+  
+  # AWS ECS / Azure Container Apps
+  managed_container:
+    recommendations:
+      - "Enable autoscaling: min=2, max=10"
+      - "Configure ALB health checks on /api/v1/health/ready"
+      - "Set deregistration delay to 30s"
+      - "Enable cross-zone load balancing"
+    
+    environment:
+      WORKERS: 4
+      REQUEST_TIMEOUT_SECONDS: 30
+  
+  # Self-hosted / VPS
+  self_hosted:
+    recommendations:
+      - "Use Gunicorn with Uvicorn workers"
+      - "Configure systemd for auto-restart"
+      - "Set up Nginx reverse proxy with keepalive"
+      - "Use process manager (PM2, Supervisor)"
+    
+    environment:
+      WORKERS: "$(nproc)"     # Number of CPU cores
+      REQUEST_TIMEOUT_SECONDS: 30

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "programming",
+    "canonical_label": "Programming",
+    "aliases": {
+      "vi": ["lập trình", "lap trinh"],
+      "en": ["programming"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "python",
+    "canonical_label": "Python",
+    "aliases": {
+      "vi": ["python"],
+      "en": ["python"]
+    },
+    "priority": 95,
+    "deprecated": false
+  },
+  {
+    "id": "java",
+    "canonical_label": "Java",
+    "aliases": {
+      "vi": ["java"],
+      "en": ["java"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "javascript",
+    "canonical_label": "JavaScript",
+    "aliases": {
+      "vi": ["javascript"],
+      "en": ["javascript"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "web_development",
+    "canonical_label": "Web Development",
+    "aliases": {
+      "vi": ["web", "phát triển web", "phat trien web"],
+      "en": ["web development", "web"]
+    },
+    "priority": 85,
+    "deprecated": false
+  },
+  {
+    "id": "artificial_intelligence",
+    "canonical_label": "Artificial Intelligence",
+    "aliases": {
+      "vi": ["AI", "trí tuệ nhân tạo", "tri tue nhan tao"],
+      "en": ["artificial intelligence", "AI"]
+    },
+    "priority": 95,
+    "deprecated": false
+  },
+  {
+    "id": "machine_learning",
+    "canonical_label": "Machine Learning",
+    "aliases": {
+      "vi": ["máy học", "may hoc"],
+      "en": ["machine learning"]
+    },
+    "priority": 94,
+    "deprecated": false
+  },
+  {
+    "id": "data_analysis",
+    "canonical_label": "Data Analysis",
+    "aliases": {
+      "vi": ["dữ liệu", "du lieu", "phân tích dữ liệu", "phan tich du lieu"],
+      "en": ["data analysis", "data"]
+    },
+    "priority": 90,
+    "deprecated": false
+  },
+  {
+    "id": "design",
+    "canonical_label": "Design",
+    "aliases": {
+      "vi": ["thiết kế", "thiet ke", "design"],
+      "en": ["design"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "ui_design",
+    "canonical_label": "UI Design",
+    "aliases": {
+      "vi": ["ui"],
+      "en": ["ui"]
+    },
+    "priority": 85,
+    "deprecated": false
+  },
+  {
+    "id": "ux_design",
+    "canonical_label": "UX Design",
+    "aliases": {
+      "vi": ["ux"],
+      "en": ["ux"]
+    },
+    "priority": 85,
+    "deprecated": false
+  },
+  {
+    "id": "graphic_design",
+    "canonical_label": "Graphic Design",
+    "aliases": {
+      "vi": ["photoshop"],
+      "en": ["photoshop"]
+    },
+    "priority": 82,
+    "deprecated": false
+  },
+  {
+    "id": "management",
+    "canonical_label": "Management",
+    "aliases": {
+      "vi": ["quản lý", "quan ly"],
+      "en": ["management"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "leadership",
+    "canonical_label": "Leadership",
+    "aliases": {
+      "vi": ["lãnh đạo", "lanh dao"],
+      "en": ["leadership"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "communication",
+    "canonical_label": "Communication",
+    "aliases": {
+      "vi": ["giao tiếp", "giao tiep"],
+      "en": ["communication"]
+    },
+    "priority": 75,
+    "deprecated": false
+  },
+  {
+    "id": "english",
+    "canonical_label": "English",
+    "aliases": {
+      "vi": ["tiếng anh", "tieng anh"],
+      "en": ["english"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "logical_thinking",
+    "canonical_label": "Logical Thinking",
+    "aliases": {
+      "vi": ["tư duy logic", "tu duy logic", "logic"],
+      "en": ["logical thinking", "logic"]
+    },
+    "priority": 75,
+    "deprecated": false
+  },
+  {
+    "id": "problem_solving",
+    "canonical_label": "Problem Solving",
+    "aliases": {
+      "vi": ["giải quyết vấn đề", "giai quyet van de"],
+      "en": ["problem solving"]
+    },
+    "priority": 78,
+    "deprecated": false
+  },
+  {
+    "id": "creativity",
+    "canonical_label": "Creativity",
+    "aliases": {
+      "vi": ["sáng tạo", "sang tao"],
+      "en": ["creativity"]
+    },
+    "priority": 72,
+    "deprecated": false
+  },
+  {
+    "id": "teamwork",
+    "canonical_label": "Teamwork",
+    "aliases": {
+      "vi": ["làm việc nhóm", "lam viec nhom"],
+      "en": ["teamwork"]
+    },
+    "priority": 72,
+    "deprecated": false
+  }
+]

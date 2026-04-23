@@ -1,0 +1,72 @@
+[
+  {
+    "name": "full_20260222_230345",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260222_230345.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-22T23:03:46.025715"
+  },
+  {
+    "name": "full_20260223_102816",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_102816.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T10:28:17.213865"
+  },
+  {
+    "name": "full_20260223_104421",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_104421.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T10:44:21.917927"
+  },
+  {
+    "name": "full_20260223_110344",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_110344.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T11:03:44.763574"
+  },
+  {
+    "name": "full_20260223_110940",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_110940.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T11:09:40.495495"
+  },
+  {
+    "name": "full_20260223_111338",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_111338.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T11:13:38.416707"
+  },
+  {
+    "name": "full_20260223_111754",
+    "type": "full",
+    "path": "backend\\data\\backups\\full_20260223_111754.tar.gz",
+    "files": 41,
+    "original_size_bytes": 346228,
+    "backup_size_bytes": 97018,
+    "compressed": true,
+    "created_at": "2026-02-23T11:17:54.671563"
+  }
+]

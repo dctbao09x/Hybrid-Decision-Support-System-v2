@@ -1,0 +1,6 @@
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T05:30:52.305497+00:00", "details": {"enabled": true}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T05:30:52.306445+00:00", "details": {"enabled": false}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T06:02:29.594503+00:00", "details": {"enabled": true}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T06:02:29.594974+00:00", "details": {"enabled": false}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T06:02:56.688999+00:00", "details": {"enabled": true}}
+{"event": "kill_switch_changed", "version": "", "timestamp": "2026-02-16T06:02:56.689465+00:00", "details": {"enabled": false}}

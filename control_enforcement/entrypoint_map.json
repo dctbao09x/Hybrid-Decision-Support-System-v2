@@ -1,0 +1,194 @@
+{
+  "$schema": "entrypoint-map/v1",
+  "description": "GĐ2 PHẦN A - Bypass Surface Discovery",
+  "generated_at": "2026-02-17T11:00:00Z",
+  
+  "scoring_core_classes": [
+    "SIMGRCalculator",
+    "RankingEngine", 
+    "SIMGRScorer",
+    "WeightedScoringStrategy"
+  ],
+  
+  "entrypoints": [
+    {
+      "path": "backend/api/routers/scoring_router.py",
+      "type": "api_router",
+      "endpoints": [
+        {"route": "/api/v1/scoring", "method": "GET"},
+        {"route": "/api/v1/scoring/rank", "method": "POST"},
+        {"route": "/api/v1/scoring/score", "method": "POST"},
+        {"route": "/api/v1/scoring/weights", "method": "GET/PUT"}
+      ],
+      "controller_enforced": true,
+      "auth_required": true,
+      "direct_import": false,
+      "status": "COMPLIANT"
+    },
+    {
+      "path": "backend/api_legacy.py",
+      "type": "legacy_api",
+      "endpoints": [
+        {"route": "/recommendations", "method": "POST"}
+      ],
+      "controller_enforced": false,
+      "auth_required": false,
+      "direct_import": true,
+      "status": "BYPASS_RISK"
+    },
+    {
+      "path": "backend/main_controller.py",
+      "type": "controller",
+      "caller": "api_routers",
+      "direct_import": true,
+      "import_lines": [370, 436, 1604],
+      "status": "AUTHORIZED",
+      "note": "Controller IS the authorized scoring entry point"
+    }
+  ],
+  
+  "bypass_vectors": [
+    {
+      "path": "tests/scoring/test_formula.py",
+      "type": "test",
+      "import": "from backend.scoring.calculator import SIMGRCalculator",
+      "line": 18,
+      "risk": "LOW",
+      "note": "Test file - acceptable with proper mocking"
+    },
+    {
+      "path": "tests/test_formula.py",
+      "type": "test",
+      "imports": [
+        {"module": "backend.scoring.scoring.SIMGRScorer", "line": 16},
+        {"module": "backend.scoring.calculator.SIMGRCalculator", "line": 17}
+      ],
+      "risk": "LOW"
+    },
+    {
+      "path": "scripts/replay_verification.py",
+      "type": "script",
+      "import": "from backend.scoring.engine import RankingEngine",
+      "line": 75,
+      "risk": "MEDIUM",
+      "note": "Verification script - needs controller enforcement"
+    },
+    {
+      "path": "scripts/runtime_capture.py",
+      "type": "script",
+      "imports": [
+        {"module": "backend.scoring.scorer.SIMGRScorer", "line": 71},
+        {"module": "backend.scoring.engine.RankingEngine", "line": 80}
+      ],
+      "risk": "HIGH",
+      "note": "Captures runtime data - potential bypass"
+    },
+    {
+      "path": ".tmp_trace_audit.py",
+      "type": "temp_file",
+      "imports": [
+        {"module": "backend.scoring.engine.RankingEngine", "line": 4},
+        {"module": "backend.scoring.calculator.SIMGRCalculator", "line": 6}
+      ],
+      "risk": "HIGH",
+      "action": "DELETE"
+    },
+    {
+      "path": ".tmp_independent_audit.py",
+      "type": "temp_file",
+      "imports": [
+        {"module": "backend.scoring.scoring.SIMGRScorer", "line": 3},
+        {"module": "backend.scoring.engine.RankingEngine", "line": 4}
+      ],
+      "risk": "HIGH",
+      "action": "DELETE"
+    },
+    {
+      "path": "backend/scoring/examples.py",
+      "type": "example",
+      "import": "from backend.scoring import SIMGRScorer",
+      "line": 5,
+      "risk": "MEDIUM",
+      "note": "Documentation example - should be removed or restricted"
+    },
+    {
+      "path": "backend/tests/test_scoring_pipeline.py",
+      "type": "test",
+      "import": "from backend.scoring.calculator import SIMGRCalculator",
+      "line": 27,
+      "risk": "LOW"
+    },
+    {
+      "path": "backend/tests/test_system_validation.py",
+      "type": "test",
+      "imports": [
+        {"module": "backend.scoring.engine.RankingEngine", "line": 402},
+        {"module": "backend.scoring.scoring.SIMGRScorer", "line": 403}
+      ],
+      "risk": "LOW"
+    },
+    {
+      "path": "backend/tests/test_regression_scoring.py",
+      "type": "test",
+      "imports": [
+        {"module": "backend.scoring.scoring.SIMGRScorer", "line": 21},
+        {"module": "backend.scoring.scoring.SIMGRScorer", "line": 166}
+      ],
+      "risk": "LOW"
+    },
+    {
+      "path": "backend/tests/scoring/test_scoring_unit.py",
+      "type": "test",
+      "import": "from backend.scoring import SIMGRScorer",
+      "line": 9,
+      "risk": "LOW"
+    },
+    {
+      "path": "backend/tests/scoring/test_integration.py",
+      "type": "test",
+      "import": "from backend.scoring import SIMGRScorer",
+      "line": 289,
+      "risk": "LOW"
+    },
+    {
+      "path": "backend/tests/test_e2e_crawl.py",
+      "type": "test",
+      "import": "from backend.scoring.scoring import SIMGRScorer",
+      "line": 151,
+      "risk": "LOW"
+    }
+  ],
+  
+  "summary": {
+    "total_entrypoints": 3,
+    "compliant": 2,
+    "bypass_risk": 1,
+    "total_bypass_vectors": 12,
+    "high_risk": 3,
+    "medium_risk": 2,
+    "low_risk": 7
+  },
+  
+  "remediation_required": [
+    {
+      "item": "api_legacy.py",
+      "action": "Add controller enforcement or deprecate",
+      "priority": "HIGH"
+    },
+    {
+      "item": ".tmp_*.py files",
+      "action": "Delete temporary audit files",
+      "priority": "HIGH"
+    },
+    {
+      "item": "scripts/runtime_capture.py",
+      "action": "Refactor to use controller or restrict access",
+      "priority": "MEDIUM"
+    },
+    {
+      "item": "backend/scoring/examples.py",
+      "action": "Move to docs or restrict import",
+      "priority": "LOW"
+    }
+  ]
+}

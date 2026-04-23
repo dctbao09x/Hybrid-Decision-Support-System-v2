@@ -1,0 +1,10 @@
+[
+  {
+    "activated_version": "v2_linear_regression_20260219_151434",
+    "previous_version": "v2_linear_regression_20260219_151434",
+    "activated_at": "2026-02-19T15:28:56.402171Z",
+    "activated_by": "phase4_test",
+    "r2_score": 0.9160777589281592,
+    "source_file": "models/weights/archive/v2_linear_regression_20260219_151434.json"
+  }
+]

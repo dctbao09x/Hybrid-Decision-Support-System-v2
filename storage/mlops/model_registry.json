@@ -1,0 +1,178 @@
+{
+  "models": [
+    {
+      "model_id": "model_v2_d14776e0",
+      "version": "v2",
+      "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+      "code_hash": "6f253e39cb43606b8420c08c19b12ad4003ec775a9a59b6698c66f60a0d31875",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "status": "staging",
+      "created_at": "2026-02-28T03:35:36.398292+00:00",
+      "artifact_path": "F:\\Hybrid Decision Support System\\models\\v2",
+      "reproducibility": {
+        "docker_image": "hdss-mlops:latest",
+        "requirements": "F:\\Hybrid Decision Support System\\requirements_data_pipeline.txt",
+        "env_vars": {
+          "PYTHONHASHSEED": "0",
+          "MLOPS_DOCKER_IMAGE": "hdss-mlops:latest"
+        },
+        "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+        "seed": 42
+      },
+      "validation": {
+        "passed": false,
+        "checks": {
+          "accuracy_gte_baseline": false,
+          "f1_gte_baseline": true,
+          "drift_lte_threshold": true,
+          "latency_lte_sla": true
+        },
+        "blocking_reasons": [
+          "accuracy_gte_baseline"
+        ],
+        "validated_at": "2026-02-28T03:36:26.594414+00:00"
+      }
+    },
+    {
+      "model_id": "model_v3_d14776e0",
+      "version": "v3",
+      "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+      "code_hash": "6f253e39cb43606b8420c08c19b12ad4003ec775a9a59b6698c66f60a0d31875",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "status": "staging",
+      "created_at": "2026-02-28T03:36:28.650082+00:00",
+      "artifact_path": "F:\\Hybrid Decision Support System\\models\\v3",
+      "reproducibility": {
+        "docker_image": "hdss-mlops:latest",
+        "requirements": "F:\\Hybrid Decision Support System\\requirements_data_pipeline.txt",
+        "env_vars": {
+          "PYTHONHASHSEED": "0",
+          "MLOPS_DOCKER_IMAGE": "hdss-mlops:latest"
+        },
+        "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+        "seed": 42
+      },
+      "validation": {
+        "passed": false,
+        "checks": {}
+      }
+    },
+    {
+      "model_id": "model_v4_d14776e0",
+      "version": "v4",
+      "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+      "code_hash": "6f253e39cb43606b8420c08c19b12ad4003ec775a9a59b6698c66f60a0d31875",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "status": "staging",
+      "created_at": "2026-02-28T03:36:30.018330+00:00",
+      "artifact_path": "F:\\Hybrid Decision Support System\\models\\v4",
+      "reproducibility": {
+        "docker_image": "hdss-mlops:latest",
+        "requirements": "F:\\Hybrid Decision Support System\\requirements_data_pipeline.txt",
+        "env_vars": {
+          "PYTHONHASHSEED": "0",
+          "MLOPS_DOCKER_IMAGE": "hdss-mlops:latest"
+        },
+        "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+        "seed": 42
+      },
+      "validation": {
+        "passed": false,
+        "checks": {}
+      }
+    },
+    {
+      "model_id": "model_v5_d14776e0",
+      "version": "v5",
+      "dataset_hash": "d14776e0a98036119ed58fd626431497beea68f149545b1a56442cb9d3c5d905",
+      "code_hash": "9d2e7cd98bf761cd0ba93e42f37de88412e4621970ca9326e2af509340f74283",
+      "metrics": {
+        "accuracy": {
+          "mean": 0.9488372093023256,
+          "std": 0.009302325581395366
+        },
+        "f1": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "precision": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      },
+      "status": "staging",
+      "created_at": "2026-02-28T04:10:39.507644+00:00",
+      "artifact_path": "F:\\Hybrid Decision Support System\\models\\v5",
+      "reproducibility": {
+        "docker_image": "hdss-mlops:latest",
+        "requirements": "F:\\Hybrid Decision Support System\\requirements_data_pipeline.txt",
+        "env_vars": {
+          "PYTHONHASHSEED": "0",
+          "MLOPS_DOCKER_IMAGE": "hdss-mlops:latest"
+        },
+        "git_commit": "156b70eeb9a116a1d7efe7edb23cecf31abf4bcd",
+        "seed": 42
+      },
+      "validation": {
+        "passed": false,
+        "checks": {}
+      }
+    }
+  ],
+  "updated_at": "2026-02-28T04:10:39.508019+00:00"
+}

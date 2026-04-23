@@ -1,0 +1,138 @@
+# config/api.yaml
+#
+# Configuration for API Layer (Stage 5)
+#
+# This file controls:
+#   - Explain API settings
+#   - Authentication
+#   - Rate limiting
+#   - Storage
+
+api:
+  # Explain API settings
+  explain:
+    # Request timeout in seconds (increased for slow LLM)
+    timeout: 60
+    
+    # Maximum payload size in bytes (64KB)
+    max_payload: 65536
+    
+    # Enable LLM formatting (Stage 4) by default
+    enable_llm: true
+    
+    # Enable audit logging
+    audit: true
+    
+    # Log level: "full" | "minimal" | "off"
+    log_level: full
+    
+    # Log directory (relative to project root)
+    log_dir: logs
+
+# Authentication settings
+auth:
+  # Enable authentication (currently disabled)
+  enabled: false
+  
+  # Token header name
+  token_header: Authorization
+  
+  # API key header name
+  api_key_header: X-API-Key
+  
+  # JWT settings (for future use)
+  jwt:
+    secret: ""  # Set via environment variable
+    algorithm: HS256
+    expiry_minutes: 60
+  
+  # Allowed API keys (for development/testing)
+  allowed_api_keys: []
+
+# Rate limiting settings
+rate_limit:
+  # Enable rate limiting (currently disabled)
+  enabled: false
+  
+  # Requests per minute per user/IP
+  requests_per_minute: 60
+  
+  # Requests per hour per user/IP
+  requests_per_hour: 1000
+  
+  # Burst limit (requests per second)
+  burst_limit: 10
+  
+  # Sliding window size in seconds
+  window_seconds: 60
+  
+  # Rate limit by user_id
+  by_user: true
+  
+  # Rate limit by IP address
+  by_ip: true
+  
+  # Paths excluded from rate limiting
+  excluded_paths:
+    - /health
+    - /healthz
+    - /ready
+    - /api/v1/health
+
+# Storage settings
+storage:
+  # History storage backend: "sqlite" | "s3"
+  backend: sqlite
+  
+  # SQLite settings
+  sqlite:
+    # Database file path
+    path: storage/explain_history.db
+    
+    # Maximum entries to keep
+    max_entries: 100000
+  
+  # S3/MinIO settings (for future use)
+  s3:
+    bucket: explain-history
+    endpoint: ""  # Set for MinIO
+    access_key: ""
+    secret_key: ""
+    region: us-east-1
+
+# CORS settings
+cors:
+  # Allowed origins (empty = deny all)
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+    - "http://localhost:5174"
+  
+  # Allowed methods
+  allowed_methods:
+    - GET
+    - POST
+    - OPTIONS
+  
+  # Allowed headers
+  allowed_headers:
+    - Content-Type
+    - Authorization
+    - X-API-Key
+    - X-Request-ID
+
+# Versioning
+versioning:
+  # Current API version
+  current: v1
+  
+  # Supported versions
+  supported:
+    - v1
+    - v2
+  
+  # Deprecated versions (still working)
+  deprecated: []
+  
+  # Sunset versions (will be removed)
+  sunset: []

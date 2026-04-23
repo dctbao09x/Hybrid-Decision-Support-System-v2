@@ -1,0 +1,152 @@
+[
+  {
+    "id": "it",
+    "canonical_label": "IT",
+    "aliases": {
+      "vi": ["cntt", "công nghệ thông tin", "cong nghe thong tin", "it"],
+      "en": ["information technology", "technology", "it"]
+    },
+    "priority": 95,
+    "deprecated": false
+  },
+  {
+    "id": "design",
+    "canonical_label": "Design",
+    "aliases": {
+      "vi": ["thiết kế", "thiet ke", "design"],
+      "en": ["design"]
+    },
+    "priority": 85,
+    "deprecated": false
+  },
+  {
+    "id": "art",
+    "canonical_label": "Art",
+    "aliases": {
+      "vi": ["mỹ thuật", "my thuat", "nghệ thuật", "nghe thuat", "art"],
+      "en": ["art"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "business",
+    "canonical_label": "Business",
+    "aliases": {
+      "vi": ["kinh doanh", "business"],
+      "en": ["business"]
+    },
+    "priority": 80,
+    "deprecated": false
+  },
+  {
+    "id": "economics",
+    "canonical_label": "Economics",
+    "aliases": {
+      "vi": ["kinh tế", "kinh te"],
+      "en": ["economics"]
+    },
+    "priority": 75,
+    "deprecated": false
+  },
+  {
+    "id": "science",
+    "canonical_label": "Science",
+    "aliases": {
+      "vi": ["khoa học", "khoa hoc"],
+      "en": ["science"]
+    },
+    "priority": 75,
+    "deprecated": false
+  },
+  {
+    "id": "social",
+    "canonical_label": "Social",
+    "aliases": {
+      "vi": ["xã hội", "xa hoi"],
+      "en": ["social"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "sports",
+    "canonical_label": "Sports",
+    "aliases": {
+      "vi": ["thể thao", "the thao"],
+      "en": ["sports"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "healthcare",
+    "canonical_label": "Healthcare",
+    "aliases": {
+      "vi": ["y tế", "y te"],
+      "en": ["healthcare"]
+    },
+    "priority": 72,
+    "deprecated": false
+  },
+  {
+    "id": "education",
+    "canonical_label": "Education",
+    "aliases": {
+      "vi": ["giáo dục", "giao duc"],
+      "en": ["education"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "law",
+    "canonical_label": "Law",
+    "aliases": {
+      "vi": ["luật", "luat"],
+      "en": ["law"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "marketing",
+    "canonical_label": "Marketing",
+    "aliases": {
+      "vi": ["marketing"],
+      "en": ["marketing"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "media",
+    "canonical_label": "Media",
+    "aliases": {
+      "vi": ["truyền thông", "truyen thong"],
+      "en": ["media"]
+    },
+    "priority": 70,
+    "deprecated": false
+  },
+  {
+    "id": "music",
+    "canonical_label": "Music",
+    "aliases": {
+      "vi": ["âm nhạc", "am nhac"],
+      "en": ["music"]
+    },
+    "priority": 68,
+    "deprecated": false
+  },
+  {
+    "id": "tourism",
+    "canonical_label": "Tourism",
+    "aliases": {
+      "vi": ["du lịch", "du lich"],
+      "en": ["tourism"]
+    },
+    "priority": 68,
+    "deprecated": false
+  }
+]

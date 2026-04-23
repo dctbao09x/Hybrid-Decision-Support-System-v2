@@ -1,0 +1,169 @@
+{
+  "$schema": "control-graph/v1",
+  "description": "GĐ2 PHẦN J - Control Flow Architecture",
+  "generated_at": "2026-02-17T11:30:00Z",
+  "governance_phase": "GD2",
+  
+  "architecture": {
+    "layers": [
+      {
+        "name": "API Layer",
+        "components": [
+          "backend/api/routers/scoring_router.py",
+          "backend/api/routers/*_router.py"
+        ],
+        "access": "PUBLIC",
+        "auth_required": true
+      },
+      {
+        "name": "Firewall Layer",
+        "components": [
+          "backend/api/middleware/firewall.py"
+        ],
+        "access": "INTERNAL",
+        "blocks": ["/_internal/*", "/debug/*", "/test/*"]
+      },
+      {
+        "name": "Controller Layer",
+        "components": [
+          "backend/main_controller.py"
+        ],
+        "access": "AUTHORIZED_ONLY",
+        "token_issuer": true
+      },
+      {
+        "name": "Security Layer",
+        "components": [
+          "backend/scoring/security/guards.py",
+          "backend/scoring/security/token.py",
+          "backend/scoring/security/audit.py"
+        ],
+        "access": "INTERNAL",
+        "enforces": ["token_validation", "caller_inspection", "audit_logging"]
+      },
+      {
+        "name": "Scoring Core",
+        "components": [
+          "backend/scoring/engine.py",
+          "backend/scoring/calculator.py",
+          "backend/scoring/scoring.py",
+          "backend/scoring/_core/*"
+        ],
+        "access": "CONTROLLER_ONLY",
+        "protected_by": ["enforce_controller_only", "token_verification"]
+      }
+    ],
+    
+    "allowed_paths": [
+      {
+        "from": "API Layer",
+        "to": "Controller Layer",
+        "via": "MainController.dispatch()"
+      },
+      {
+        "from": "Controller Layer",
+        "to": "Scoring Core",
+        "via": "control_token"
+      }
+    ],
+    
+    "blocked_paths": [
+      {
+        "from": "API Layer",
+        "to": "Scoring Core",
+        "reason": "Direct import blocked"
+      },
+      {
+        "from": "Scripts",
+        "to": "Scoring Core",
+        "reason": "No controller context"
+      },
+      {
+        "from": "Background Jobs",
+        "to": "Scoring Core",
+        "reason": "No auth context"
+      }
+    ]
+  },
+  
+  "trust_boundaries": [
+    {
+      "name": "Public Internet",
+      "trust_level": 0,
+      "entry_point": "API Routers"
+    },
+    {
+      "name": "Authenticated Session",
+      "trust_level": 1,
+      "entry_point": "RBAC Middleware"
+    },
+    {
+      "name": "Controller Context",
+      "trust_level": 2,
+      "entry_point": "MainController.dispatch()"
+    },
+    {
+      "name": "Scoring Core",
+      "trust_level": 3,
+      "entry_point": "Token Verified"
+    }
+  ],
+  
+  "validation": {
+    "cyclic_trust": false,
+    "shadow_entry": false,
+    "backdoor": false,
+    "direct_scoring_import_from_api": false,
+    "controller_bypass_possible": false
+  },
+  
+  "dependency_graph": {
+    "scoring_router.py": {
+      "imports": ["main_controller"],
+      "direct_scoring_import": false
+    },
+    "main_controller.py": {
+      "imports": ["backend.scoring.engine"],
+      "authorized": true,
+      "issues_token": true
+    },
+    "backend/scoring/engine.py": {
+      "protected_by": ["enforce_controller_only"],
+      "requires_token": true
+    }
+  },
+  
+  "security_controls": {
+    "authentication": {
+      "enabled": true,
+      "layer": "API Middleware"
+    },
+    "authorization": {
+      "enabled": true,
+      "method": "RBAC"
+    },
+    "caller_validation": {
+      "enabled": true,
+      "method": "stack_inspection"
+    },
+    "token_validation": {
+      "enabled": true,
+      "algorithm": "HMAC-SHA256"
+    },
+    "audit_logging": {
+      "enabled": true,
+      "format": "CONTROL_TRACE"
+    },
+    "firewall": {
+      "enabled": true,
+      "blocked_patterns": 6
+    }
+  },
+  
+  "verdict": {
+    "no_cyclic_trust": true,
+    "no_shadow_entry": true,
+    "no_backdoor": true,
+    "architecture_valid": true
+  }
+}

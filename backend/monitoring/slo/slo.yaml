@@ -1,0 +1,26 @@
+service: career-api
+version: 1
+slos:
+  - id: availability
+    target: 0.999
+    window: 30d
+    error_budget: 0.001
+    burn_rate_alerts: [2.0, 5.0]
+  - id: latency_p90
+    target_ms: 2000
+    window: 30d
+  - id: ttft_p90
+    target_ms: 1200
+    window: 30d
+  - id: schema_validity
+    target: 0.999
+    window: 30d
+  - id: hitl_queue_delay
+    target_ms: 30000
+    window: 30d
+  - id: monthly_error_budget
+    target: 0.001
+    window: 30d
+error_budget_policy:
+  release_freeze_on_burn: true
+  burn_rate_threshold: 2.0

@@ -1,0 +1,37 @@
+.container {
+  margin: 48px auto;
+  max-width: 520px;
+  text-align: center;
+  padding: 32px;
+  border: 1px solid rgba(200, 165, 90, 0.15);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(4px);
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: #ede8df;
+}
+
+.message {
+  color: #6a6a7e;
+  margin-bottom: 20px;
+}
+
+.button {
+  border: 1px solid rgba(200, 165, 90, 0.35);
+  background: rgba(200, 165, 90, 0.1);
+  color: #c8a55a;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+
+.button:hover {
+  background: rgba(200, 165, 90, 0.18);
+  border-color: rgba(200, 165, 90, 0.6);
+}

@@ -1,0 +1,286 @@
+# SIMGR Scoring Configuration Schema
+# JSON Schema for validating scoring.yaml
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "SIMGR Scoring Configuration"
+description: "Schema for validating SIMGR scoring configuration"
+type: object
+
+required:
+  - version
+  - sub_score_weights
+  - simgr_weights
+  - study_factors
+  - interest_factors
+  - market_factors
+  - growth_factors
+  - risk_factors
+
+properties:
+  version:
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+$"
+    description: "Configuration version"
+
+  # -----------------------------------------------------------------------
+  # Stage 9 sub-score weights (canonical — drives assemble_breakdown())
+  # Invariant: every component >= 0, sum == 1.0 (± 1e-6)
+  # -----------------------------------------------------------------------
+  sub_score_weights:
+    type: object
+    description: >
+      Weights for the five sub-score components used by the Stage 9
+      scoring pipeline.  All five are mandatory.  sum(values) must
+      equal 1.0 within a tolerance of 1e-6.
+    required:
+      - skill
+      - experience
+      - education
+      - goal_alignment
+      - preference
+    properties:
+      skill:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        description: "Breadth and depth of declared skills"
+      experience:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        description: "Years of experience x domain spread"
+      education:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        description: "Ordinal mapping of highest education level"
+      goal_alignment:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        description: "Aspiration count x timeline reasonableness"
+      preference:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+        description: "Preferred-domain breadth x work-style clarity"
+    additionalProperties: false
+
+  simgr_weights:
+    type: object
+    required:
+      - study_score
+      - interest_score
+      - market_score
+      - growth_score
+      - risk_score
+    properties:
+      study_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      interest_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      market_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      growth_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      risk_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  study_factors:
+    type: object
+    required:
+      - ability_weight
+      - background_weight
+      - confidence_weight
+    properties:
+      ability_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      background_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      confidence_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      required_skill_match:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      preferred_skill_match:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  interest_factors:
+    type: object
+    required:
+      - nlp_weight
+      - survey_weight
+      - stability_weight
+    properties:
+      nlp_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      survey_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      stability_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  market_factors:
+    type: object
+    required:
+      - ai_relevance_weight
+      - growth_rate_weight
+      - salary_weight
+      - inverse_competition_weight
+    properties:
+      ai_relevance_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      growth_rate_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      salary_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      inverse_competition_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  growth_factors:
+    type: object
+    required:
+      - lifecycle_weight
+      - demand_weight
+      - salary_growth_weight
+    properties:
+      lifecycle_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      demand_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      salary_growth_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  risk_factors:
+    type: object
+    required:
+      - saturation_weight
+      - obsolescence_weight
+      - competition_weight
+      - dropout_weight
+      - unemployment_weight
+      - cost_weight
+    properties:
+      saturation_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      obsolescence_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      competition_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      dropout_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      unemployment_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      cost_weight:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+    additionalProperties: false
+
+  thresholds:
+    type: object
+    properties:
+      min_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      max_score:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+      relevance_threshold:
+        type: number
+        minimum: 0.0
+        maximum: 1.0
+
+  data_freshness:
+    type: object
+    properties:
+      max_age_days:
+        type: integer
+        minimum: 1
+        maximum: 365
+      auto_refresh:
+        type: boolean
+      refresh_interval_hours:
+        type: integer
+        minimum: 1
+
+  features:
+    type: object
+    properties:
+      debug_mode:
+        type: boolean
+      personalization:
+        type: boolean
+      deterministic:
+        type: boolean
+      cache_enabled:
+        type: boolean
+      drift_detection:
+        type: boolean
+
+  validation:
+    type: object
+    properties:
+      weight_sum_tolerance:
+        type: number
+        minimum: 0.0001
+        maximum: 0.1
+      score_precision:
+        type: integer
+        minimum: 1
+        maximum: 8
