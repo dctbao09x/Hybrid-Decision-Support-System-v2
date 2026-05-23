@@ -140,7 +140,7 @@ pip install -r requirements_crawler.txt
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/dctbao09x/hybrid-decision-support-system.git
+git clone https://github.com/dctbao09x/Hybrid-Decision-Support-System-v2.git
 cd hybrid-decision-support-system
 ```
 
