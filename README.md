@@ -1,3 +1,6 @@
+<img width="1371" height="792" alt="image" src="https://github.com/user-attachments/assets/932da947-6484-4c39-bb6a-1dbdb9031321" />
+
+
 # DongSon Nexus
 ### Hybrid Deterministic Career Decision Support System
 
